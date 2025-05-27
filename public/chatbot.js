@@ -127,12 +127,12 @@ class Chatbot {
     }
 
     setupSuggestionListeners() {
-        const suggestionsContainer = document.querySelector('.chat-suggestions');
+        const suggestionsContainer = document.querySelector('.chat-suggestions-bar');
         if (suggestionsContainer) {
             suggestionsContainer.addEventListener('click', (e) => {
-                const suggestion = e.target.closest('.suggestion-item');
-                if (suggestion) {
-                    const text = suggestion.textContent.trim();
+                const suggestionButton = e.target.closest('.suggestion-item');
+                if (suggestionButton) {
+                    const text = suggestionButton.textContent.trim();
                     this.sendMessage(text);
                 }
             });
