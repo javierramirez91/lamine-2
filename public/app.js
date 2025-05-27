@@ -1,12 +1,3 @@
-// Configuració global de l'aplicació
-const CONFIG = {
-    API_KEY: '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',
-    API_URL: 'https://openrouter.ai/api/v1/chat/completions',
-    MODEL: 'google/gemma-3n-e4b-it:free',
-    MAX_TOKENS: 1000,
-    TEMPERATURE: 0.7
-};
-
 console.log('app.js carregat');
 
 // Gestió del tema
@@ -676,5 +667,4 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 // Exportar per a ús global
-window.CONFIG = CONFIG;
 window.ErrorHandler = ErrorHandler;

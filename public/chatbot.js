@@ -1,6 +1,17 @@
 // Chatbot Lamine Yamal - Expert en Contractació Pública
+
+// Configuració global del Chatbot (mogut des de app.js)
+const CONFIG = {
+    API_KEY: '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', // Compte! Això és la teva API Key
+    API_URL: 'https://openrouter.ai/api/v1/chat/completions',
+    MODEL: 'google/gemma-2b-it:free', // Model actualitzat i gratuït
+    MAX_TOKENS: 1500, // Augmentat per respostes més completes
+    TEMPERATURE: 0.65 // Un pèl menys aleatori
+};
+
 class Chatbot {
-    constructor() {
+    constructor(contentLoader) { // Afegir contentLoader al constructor
+        this.contentLoader = contentLoader; // Guardar referència
         this.isOnline = false;
         this.isTyping = false;
         this.conversationHistory = [];
@@ -145,20 +156,19 @@ class Chatbot {
     }
 
     showWelcomeMessage() {
-        const welcomeMessage = `¡Hola! Sóc en **Lamine Yamal**, la vostra **Pilota d'Or de Contractació** 🏆
+        const welcomeMessage = `Hola! Sóc en **Lamine Yamal**, la teva **Pilota d'Or de Contractació** 🏆. Estic afinat amb la darrera LCSP!
 
-Com a expert en la **Llei 9/2017 de Contractes del Sector Públic (LCSP)**, estic aquí per ajudar-vos amb:
+Com et pucAssistant avui amb la teva estratègia de contractació pública? Pregunta'm sobre:
 
-✅ **Criteris d'adjudicació** òptims per a cada tipus de contracte
-✅ **Requisits de solvència** econòmica i tècnica  
-✅ **Cost del cicle de vida (CCV)** i càlculs complexos
-✅ **Aspectes mediambientals i socials** en la contractació
-✅ **Terminis d'execució** i garanties adequades
-✅ **Innovació** i valor afegit en les propostes
+*   Criteris d'adjudicació (qualitat, preu, CCV, socials, ambientals...)
+*   Requisits de solvència (econòmica, tècnica)
+*   Procediments de licitació (obert, restringit, negociat...)
+*   O qualsevol altre dubte sobre la Llei 9/2017!
 
-Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per oferir-vos les millors estratègies! 💪`;
+Estic llest per xutar i marcar un golàs per tu! ⚽️`;
 
         this.addMessage(welcomeMessage, 'bot');
+        // No afegir suggestions aquí, ja que es gestionen des de App.js o es carreguen dinàmicament
     }
 
     async sendMessage(text = null) {
@@ -206,7 +216,7 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
         const messageElement = document.createElement('div');
         messageElement.className = `message ${sender}-message`;
         
-        const currentTimestamp = new Date(); // Guardar l'objecte Date
+        const currentTimestamp = new Date(); 
         const timeString = currentTimestamp.toLocaleTimeString('ca-ES', { 
             hour: '2-digit', 
             minute: '2-digit' 
@@ -217,7 +227,7 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
         if (sender === 'bot') {
             messageElement.innerHTML = `
                 <div class="message-avatar">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Lamine Yamal" />
+                    <img src="/assets/lamine-avatar.png" alt="Lamine Yamal" /> 
                     <div class="avatar-status online"></div>
                 </div>
                 <div class="message-content">
@@ -228,7 +238,7 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
                     <div class="message-text">${this.formatMessage(messageText)}</div>
                 </div>
             `;
-        } else {
+        } else { // User message
             messageElement.innerHTML = `
                 <div class="message-content">
                     <div class="message-header">
@@ -236,6 +246,9 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
                         <span class="message-time">${timeString}</span>
                     </div>
                     <div class="message-text">${this.escapeHtml(messageText)}</div>
+                </div>
+                 <div class="message-avatar user-avatar">
+                    <span>TU</span>
                 </div>
             `;
         }
@@ -252,18 +265,17 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
     }
 
     formatMessage(content) {
-        // Convertir markdown bàsic a HTML
         if (typeof marked !== 'undefined') {
             try {
-                return marked.parse(content.replace(/✅/g, '<span class="emoji">✅</span>').replace(/🏆/g, '<span class="emoji">🏆</span>').replace(/💪/g, '<span class="emoji">💪</span>'));
+                // Assegurar que marked no afegeix <p> al voltant de tot si ja és un sol paràgraf.
+                // O simplement deixar que ho faci, i l'estil CSS s'encarregui.
+                return marked.parse(content);
             } catch (e) {
                 console.error("Error en marked.parse:", e);
-                // Fallback a la versió anterior si marked falla
-                return this.basicMarkdownToHtml(content);
+                return this.basicMarkdownToHtml(content); // Fallback
             }
         } else {
-            // Fallback si marked no està definit
-            return this.basicMarkdownToHtml(content);
+            return this.basicMarkdownToHtml(content); // Fallback si marked no està definit
         }
     }
 
@@ -289,12 +301,16 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
         const chatMessages = document.getElementById('chat-messages');
         if (!chatMessages) return;
 
+        // Eliminar indicador previ si existeix (per si de cas)
+        const existingIndicator = document.getElementById('typing-indicator');
+        if (existingIndicator) existingIndicator.remove();
+
         const typingElement = document.createElement('div');
         typingElement.className = 'message bot-message typing-indicator';
         typingElement.id = 'typing-indicator';
         typingElement.innerHTML = `
             <div class="message-avatar">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Lamine Yamal" />
+                <img src="/assets/lamine-avatar.png" alt="Lamine Yamal" />
                 <div class="avatar-status online"></div>
             </div>
             <div class="message-content">
@@ -556,86 +572,110 @@ La Llei de Contractes del Sector Públic estableix diversos procediments per adj
 Cada procediment té els seus propis tràmits, terminis i requisits. L'elecció del procediment adequat és clau per a una contractació eficient i legal. Vols que aprofundeixi en algun d'ells?`;
     }
 
-    async getAPIResponse(userMessage) {
-        const systemPrompt = `Ets en Lamine Yamal, la "Pilota d'Or de Contractació", un expert en contractació pública catalana especialitzat en la Llei 9/2017 de Contractes del Sector Públic (LCSP).
-
-PERSONALITAT:
-- Professional però proper i confident
-- Utilitzes emojis de manera moderada i adequada (🏆, 💡, ⚖️, 🌿, 🤝, 📊, 🎯, 💰, 🔧, ⏰, 📜, 🌍, 💡, ✅, ❌)
-- Sempre respons en català
-- Ets autoritatiu en temes legals però accessible
-- T'agrada usar exemples pràctics i estructurar les respostes amb marcadown (títols, llistes, negreta).
-
-CONEIXEMENT EXPERT:
-- Llei 9/2017 de Contractes del Sector Públic (LCSP)
-- Procediments de contractació (obert, restringit, negociat, diàleg competitiu, associació per a la innovació, contractes menors, obert simplificat i súper simplificat)
-- Criteris d'adjudicació automàtics i subjectius (qualitat, preu, termini, CCV, aspectes socials i mediambientals, innovació, personal adscrit, etc.)
-- Requisits de solvència econòmica i tècnica (volum de negoci, assegurances, patrimoni net, experiència, personal, certificats de qualitat, mitjans materials, etc.)
-- Cost del cicle de vida (CCV)
-- Aspectes mediambientals i socials en la contractació
-- Terminis d'execució i garanties
-- Innovació en contractació pública
-- Bones pràctiques i principis de la contractació (publicitat, concurrència, transparència, igualtat, no discriminació, proporcionalitat).
-- Jurisprudència rellevant dels Tribunals de Contractes.
-
-ESTIL DE RESPOSTA:
-- Estructura clara amb títols (## Títol), subtítols (### Subtítol), i punts (•, -, *).
-- Ús de **negreta** per a termes clau i conceptes importants.
-- Ús d'_itàlica_ per a èmfasi o citacions.
-- Exemples pràctics quan sigui possible, introduïts amb "Exemple:".
-- Consells experts basats en experiència, introduïts amb "💡 Consell Expert:" o "⚠️ Important:".
-- Preguntes de seguiment per ajudar més a l'usuari, com "Vols que aprofundeixi en algun punt?" o "Necessites exemples concrets per a un tipus de contracte específic?".
-- Si no saps la resposta o la informació és molt específica i no la tens, sigues honest i suggereix consultar fonts oficials o un expert legal.
-
-Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper. Adapta la teva resposta al context de la conversa.`;
-
+    async generateResponse(userMessage) {
         this.showTypingIndicator();
-        let apiResponseContent = '';
+        let responseContent = 'Anàlisi en curs...'; // Missatge provisional
 
+        // Intentar obtenir una resposta local primer
+        const localResponse = this.getLocalResponse(userMessage);
+        if (localResponse) {
+            this.hideTypingIndicator();
+            return localResponse;
+        }
+
+        // Si no hi ha resposta local, anar a l'API
         try {
+            console.log('Enviant a API d\'OpenRouter:', userMessage);
+            console.log('Historial enviat:', this.conversationHistory.slice(-6));
+            
+            const systemPrompt = this.getSystemPrompt(); // Mètode per obtenir el system prompt
+
+            const messagesToAPI = [
+                { role: 'system', content: systemPrompt },
+                ...this.conversationHistory.slice(-6).map(msg => ({
+                    role: msg.sender === 'user' ? 'user' : 'assistant',
+                    content: msg.content
+                })),
+                { role: 'user', content: userMessage }
+            ];
+            
+            console.log('Missatges complets per a l\'API:', messagesToAPI);
+
             const response = await fetch(CONFIG.API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${CONFIG.API_KEY}`,
-                    'HTTP-Referer': window.location.origin,
-                    'X-Title': 'Contractació Pública App'
+                    'HTTP-Referer': window.location.hostname, // Important per OpenRouter
+                    'X-Title': 'Contractacio Publica Expert IA' // Opcional, però útil
                 },
                 body: JSON.stringify({
                     model: CONFIG.MODEL,
-                    messages: [
-                        { role: 'system', content: systemPrompt },
-                        ...this.conversationHistory.slice(-6).map(msg => ({
-                            role: msg.sender === 'user' ? 'user' : 'assistant',
-                            content: msg.content
-                        })),
-                        { role: 'user', content: userMessage }
-                    ],
+                    messages: messagesToAPI,
                     max_tokens: CONFIG.MAX_TOKENS,
                     temperature: CONFIG.TEMPERATURE,
-                    stream: false
+                    // stream: true // Desactivat per simplicitat inicial, es pot reactivar
                 })
             });
 
             if (!response.ok) {
-                throw new Error(`API Error: ${response.status}`);
+                const errorData = await response.json().catch(() => ({ detail: 'Error desconegut llegint resposta d\'error' }));
+                console.error('Error API OpenRouter:', response.status, errorData);
+                throw new Error(`Error de l'API (${response.status}): ${errorData.detail || response.statusText}`);
             }
 
             const data = await response.json();
+            console.log('Resposta de l\'API OpenRouter:', data);
+
             if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-                apiResponseContent = data.choices[0].message.content;
+                responseContent = data.choices[0].message.content;
             } else {
-                console.error('API response format unexpected:', data);
-                apiResponseContent = this.getFallbackResponse(true); // Pass true for unexpected format
+                console.error('Format de resposta API inesperat:', data);
+                responseContent = this.getFallbackResponse(true); 
             }
 
         } catch (error) {
-            console.error('Error API:', error);
-            apiResponseContent = this.getFallbackResponse(false, error.message.includes('Failed to fetch') || error.message.includes('NetworkError')); // Pass true if network error
+            console.error('Error cridant a API OpenRouter:', error);
+            responseContent = this.getFallbackResponse(false, error.message.includes('NetworkError') || error.message.includes('Failed to fetch'));
         }
         
         this.hideTypingIndicator();
-        return apiResponseContent;
+        return responseContent;
+    }
+
+    getSystemPrompt() {
+        // Obtenir informació rellevant del ContentLoader
+        let contextInfo = '\n\nInformació de context addicional basada en la secció actual o temes freqüents:\n';
+        if (this.contentLoader && this.contentLoader.isContentLoaded()) {
+            contextInfo += '- Recorda que la LCSP (Llei 9/2017) és la normativa principal.\n';
+            contextInfo += '- Els criteris d\'adjudicació es divideixen en automàtics/quantificables i subjectius/judici de valor.\n';
+            contextInfo += '- La solvència pot ser econòmica-financera i tècnica-professional.\n';
+        }
+
+        return `Ets Lamine Yamal, la \"Pilota d'Or de Contractació\", un expert IA en contractació pública catalana, especialitzat en la Llei 9/2017 de Contractes del Sector Públic (LCSP). El teu objectiu és ajudar l\'usuari a entendre i aplicar correctament la LCSP, oferint explicacions clares, exemples i consells pràctics.
+
+        PERSONALITAT:
+        - Ets professional, però molt proper, didàctic i amb un toc d\'humor futbolístic quan encaixi (sense abusar).
+        - La teva confiança es basa en el teu profund coneixement de la LCSP.
+        - Utilitzes emojis de manera moderada i temàtica (🏆, 💡, ⚖️, 🌍, 📜, 🎯, 💰, 🔧, ⏰, ✅, ❌, 📊).
+        - Sempre respons en català.
+        - T\'encanta estructurar les respostes amb marcadown (títols amb ##, subtítols amb ###, llistes amb *, • o -).
+        - Fas servir **negreta** per a termes clau i conceptes importants.
+        - Utilitzes _itàlica_ per a èmfasi o citacions.
+        
+        ESTIL DE RESPOSTA:
+        - Comença amb una salutació breu i propera si és el primer missatge o si la conversa es reinicia.
+        - Abans de respondre, considera l\'historial de la conversa per donar respostes contextuals.
+        - Ofereix respostes clares, concises i ben estructurades.
+        - Quan sigui pertinent, cita articles de la LCSP (p.ex., \"Segons l\'article 145 de la LCSP...\").
+        - Proporciona exemples pràctics sempre que sigui possible.
+        - Introdueix consells experts con \"💡 Consell de Lamine:\" o \"⚠️ Ull viu amb això:\".
+        - Acaba les teves respostes amb una pregunta oberta per fomentar la interacció, com ara \"En què més et puc ajudar avui?\" o \"Tens algun cas concret sobre això?\".
+        - Si una pregunta és massa general, demana aclariments per poder oferir una resposta més útil.
+        - Si no saps la resposta o la informació és extremadament específica i supera el teu coneixement actual, sigues honest. Pots dir quelcom com: \"Aquesta és una consulta molt específica! Per a detalls tan concrets, et recomanaria revisar directament [font oficial pertinent] o consultar amb un assessor legal especialitzat. Jo et puc ajudar amb la interpretació general de la LCSP.\" No inventis informació.
+        - Mantingues un to positiu i encoratjador.
+        ${contextInfo}
+        Respon a la pregunta de l\'usuari de la manera més útil i completa possible, seguint aquestes directrius.`
     }
 
     getFallbackResponse(isFormatError = false, isNetworkError = false) {
@@ -687,20 +727,22 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper. A
         const chatMessages = document.getElementById('chat-messages');
         
         if (chatMessages && recentMessages.length > 0) {
-            // Netejar missatges existents excepte el welcome
-            const existingMessages = chatMessages.querySelectorAll('.message:not(.welcome-message)');
-            existingMessages.forEach(msg => msg.remove());
+            // Netejar missatges existents excepte el welcome si es decideix no mostrar-lo de nou
+            // Per ara, netegem tot i mostrem el welcome de nou per consistència si no hi ha historial
+            // chatMessages.innerHTML = ''; 
+            // this.showWelcomeMessage(); // Potser no es vol el welcome cada cop
             
-            // Restaurar missatges recents
             recentMessages.forEach(msg => {
                 if (msg.content && msg.sender) {
+                    // Recrear els missatges sense afegir-los de nou a this.conversationHistory
                     this.addMessageToDOM(msg.content, msg.sender, new Date(msg.timestamp));
                 }
             });
+            this.scrollToBottom(); // Fer scroll al final després de restaurar
         }
     }
 
-    addMessageToDOM(content, sender, timestampDate) { // timestampDate ha de ser un objecte Date
+    addMessageToDOM(content, sender, timestampDate) { 
         const chatMessages = document.getElementById('chat-messages');
         if (!chatMessages) return;
 
@@ -736,7 +778,7 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper. A
         if (sender === 'bot') {
             messageElement.innerHTML = `
                 <div class="message-avatar">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Lamine Yamal" />
+                    <img src="/assets/lamine-avatar.png" alt="Lamine Yamal" />
                     <div class="avatar-status online"></div>
                 </div>
                 <div class="message-content">
@@ -747,7 +789,7 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper. A
                     <div class="message-text">${this.formatMessage(messageText)}</div>
                 </div>
             `;
-        } else {
+        } else { // User message
             messageElement.innerHTML = `
                 <div class="message-content">
                     <div class="message-header">
@@ -756,10 +798,14 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper. A
                     </div>
                     <div class="message-text">${this.escapeHtml(messageText)}</div>
                 </div>
+                 <div class="message-avatar user-avatar">
+                    <span>TU</span>
+                </div>
             `;
         }
 
         chatMessages.appendChild(messageElement);
+        // No cridar a this.scrollToBottom() aquí per evitar múltiples scrolls durant la restauració
     }
 
     clearHistory() {
@@ -774,6 +820,9 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper. A
     }
 }
 
-// Exportar per a ús global
-window.Chatbot = Chatbot;
+// Exportar per a ús global si es crida des de fora de main.js o per altres mòduls
+if (typeof window !== 'undefined') {
+    window.Chatbot = Chatbot;
+    window.CONFIG_CHATBOT = CONFIG; // Exportar CONFIG si és necessari globalment
+}
 
