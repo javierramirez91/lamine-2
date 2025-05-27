@@ -230,31 +230,27 @@ class App {
         try {
             LoadingManager.show();
             
-            // Inicialitzar ContentLoader primer per tenir les dades disponibles
             await this.contentLoader.init();
 
-            // Inicialitzar components UI
             NavigationManager.init();
             SmoothScroll.init();
-            AnimationManager.init();
+            // AnimationManager.init(); // Aquesta línia ja hauria d'estar comentada o eliminada.
+                                    // La inicialització d'AOS es fa a main.js.
 
-            // Carregar contingut dinàmic a les seccions
             this.populateSubjectiveCriteria();
             this.populatePracticalExamples();
+            this.populateCCVComponents();
             this.populateSolvencyDetails();
 
-            // Inicialitzar chatbot
             if (typeof Chatbot !== 'undefined') {
                 this.chatbot = new Chatbot(this.contentLoader);
                 await this.chatbot.init();
+            } else {
+                console.warn("La classe Chatbot no està definida globalment. El chatbot no s'inicialitzarà.");
             }
 
-            // Event listeners
             this.setupEventListeners();
-
-            // Activar la secció inicial (home per defecte)
             this.showSection('home'); 
-
             LoadingManager.hide();
             
         } catch (error) {
@@ -346,101 +342,125 @@ class App {
         });
     }
 
-    populateSolvencyDetails() {
-        const container = document.querySelector('.solvency-details-content');
-        if (!container || !this.contentLoader.isContentLoaded()) return;
-
-        const solvencyData = this.contentLoader.getSolvencyInfo();
-        if (!solvencyData) {
-            container.innerHTML = '<p>Informació de solvència no disponible actualment.</p>';
+    populateCCVComponents() {
+        const container = document.getElementById('ccv-components-list');
+        if (!container) {
+            console.warn('Element ccv-components-list no trobat.');
+            return;
+        }
+        if (!this.contentLoader || !this.contentLoader.isContentLoaded()) {
+            console.warn('ContentLoader no està llest per a populateCCVComponents');
+            container.innerHTML = '<p>Informació de components CCV no disponible (ContentLoader no llest).</p>';
             return;
         }
 
-        let html = `<p class="intro-text">${solvencyData.introduccio}</p>`;
-
-        // Solvència Econòmica
-        if (solvencyData.economica) {
-            html += `<div class="solvency-category" data-aos="fade-up">
-                        <h3>${solvencyData.economica.titol}</h3>
-                        <p>${solvencyData.economica.descripcio}</p>
-                        <ul>`;
-            solvencyData.economica.consideracionsVolumNegoci.forEach(cons => html += `<li>${cons}</li>`);
-            html += `</ul>
-                    <div class="example-box">
-                        <strong>Exemple (Volum de Negoci):</strong> ${solvencyData.economica.exempleCalculVolumNegoci}
-                    </div>
-                    <h4>Altres Mitjans de Solvència Econòmica:</h4>
-                    <ul>`;
-            solvencyData.economica.altresMitjansEconomica.forEach(mig => {
-                html += `<li><strong>${mig.nom}:</strong> ${mig.detall}</li>`;
-            });
-            html += '</ul></div>';
+        const ccvData = this.contentLoader.getCostCicloVidaInfo();
+        if (!ccvData || !ccvData.components || ccvData.components.length === 0) {
+            container.innerHTML = '<p>No hi ha informació detallada sobre els components del CCV disponible actualment.</p>';
+            return;
         }
 
-        // Solvència Tècnica
-        if (solvencyData.tecnica) {
-            html += `<div class="solvency-category" data-aos="fade-up">
-                        <h3>${solvencyData.tecnica.titol}</h3>
-                        <p>${solvencyData.tecnica.descripcio}</p>
-                        <h4>Mitjans per Tipus de Contracte:</h4>
-                        <ul>`;
-            solvencyData.tecnica.mitjansPerTipusContracte.forEach(item => html += `<li>${item}</li>`);
-            html += '</ul>';
-            
-            const techSubSections = ['experienciaEmpresa', 'empresesNovaCreacio', 'personalAdscritSolvencia', 'certificatsQualitatSolvencia', 'mostresProducte', 'mitjansMaterialsMinims'];
-            techSubSections.forEach(subKey => {
-                const subSection = solvencyData.tecnica[subKey];
-                if(subSection) {
-                    html += `<div class="solvency-subsection">
-                                <h5>${subSection.titol}</h5>
-                                <p>${subSection.detall || subSection.descripcio}</p>`;
-                    if (subKey === 'certificatsQualitatSolvencia') {
-                        html += `<p><em>Regulació LCSP:</em> ${subSection.regulacioLCSP}</p>
-                                 <p><em>Exposició Motius LCSP:</em> ${subSection.exposicioMotiusLCSP}</p>
-                                 <p><em>Regla General vs. Excepció:</em> ${subSection.reglaGeneralVsExcepcio}</p>
-                                 <div class="additional-info-box">
-                                     <h6>Article Recomanat: ${subSection.articleFJVazquezMatilla.titol}</h6>
-                                     <p><strong>Autor:</strong> ${subSection.articleFJVazquezMatilla.autor}</p>
-                                     <p><em>${subSection.articleFJVazquezMatilla.resum.substring(0,150)}...</em></p>
-                                     <button class="btn-text" onclick="app.showFullTextModal('solvencia.tecnica.certificatsQualitatSolvencia.articleFJVazquezMatilla', null, true)">Llegir Punts Clau →</button>
-                                 </div>`;
-                    }
-                    html += '</div>';
-                }
-            });
-             html += '</div>';
-        }
-        
-        // Foment PYMEs
-        if (solvencyData.fomentPYMES) {
-            html += `<div class="solvency-category" data-aos="fade-up">
-                        <h3>${solvencyData.fomentPYMES.titol}</h3>
-                        <p><strong>Importància PYMEs:</strong> ${solvencyData.fomentPYMES.importanciaPYMES}</p>
-                        <p><strong>LCSP Art. 1:</strong> ${solvencyData.fomentPYMES.lcspArt1}</p>
-                        <p><strong>Llei Foment Empreses Emergents:</strong> ${solvencyData.fomentPYMES.lleiFomentEmpresesEmergents}</p>
-                        <h5>Barreres i Reptes per a PYMEs:</h5>
-                        <p>${solvencyData.fomentPYMES.barreresPYMES}</p>
-                        <h5>Factors de Decisió Clau per a Empreses:</h5>
-                        <ul>`;
-            solvencyData.fomentPYMES.factorsDecisionEmpreses.forEach(factor => html += `<li>${factor}</li>`);
-            html += `    </ul>
-                        <p><strong>Impacte Certificats de Qualitat en PYMEs:</strong> ${solvencyData.fomentPYMES.impacteCertificatsQualitatEnPYMES}</p>
-                    </div>`;
-        }
-
-        // Bones Pràctiques (Si no hi ha una secció específica per a elles)
-        const bonesPractiques = this.contentLoader.getBonesPractiques();
-        if (bonesPractiques) {
-             html += `<div class="solvency-category" data-aos="fade-up">
-                        <h3>${bonesPractiques.titol}</h3>
-                        <ul>`;
-            bonesPractiques.punts.forEach(punt => html += `<li>${punt}</li>`);
-            html += '</ul></div>';
-        }
-
+        let html = '<div class="criteria-grid">'; 
+        ccvData.components.forEach(component => {
+            html += `
+                <div class="criteria-card">
+                    <h4>${component.nom || 'Component CCV'}</h4>
+                    <p>${component.detall || 'Detalls no disponibles.'}</p>
+                </div>
+            `;
+        });
+        html += '</div>';
         container.innerHTML = html;
     }
+
+    async populateSolvencyDetails() {
+        if (!this.contentLoader || !this.contentLoader.isContentLoaded()) {
+            console.warn('ContentLoader no està llest per a populateSolvencyDetails');
+            return;
+        }
+        console.log("Populando detalls de solvència...");
+
+        this.populateSolvencyEconomic();
+        this.populateSolvencyTechnical();
+        this.populateSolvencyGeneralNotes();
+
+        // Assegurar que la primera sub-pestanya estigui activa si la pestanya de solvència es mostra per defecte
+        // Això es gestiona millor quan es fa clic a la pestanya principal de Solvència
+        // No obstant, si és la pestanya per defecte de tota la secció, es podria inicialitzar aquí.
+        // De moment, la lògica de showCriteriaTab i showSolvencySubTab hauria de gestionar l'estat actiu inicial.
+    }
+
+    populateSolvencyEconomic() {
+        const economicList = document.getElementById('solvency-economic-list');
+        if (!economicList) {
+            console.warn('Element solvency-economic-list no trobat.');
+            return;
+        }
+        economicList.innerHTML = ''; // Netejar abans de popular
+
+        const solvencyData = this.contentLoader.getSolvencyInfo('economic'); // Esperem que això retorni un array
+        
+        if (solvencyData && solvencyData.length > 0) {
+            solvencyData.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${item.nom || 'Mitjà d\'acreditació'}:</strong> ${item.descripcio || 'Detalls no disponibles.'}`;
+                if (item.articles) {
+                    listItem.innerHTML += ` <small class="text-muted"><em>(Ref. LCSP: ${item.articles})</em></small>`;
+                }
+                economicList.appendChild(listItem);
+            });
+        } else {
+            economicList.innerHTML = '<li>No hi ha informació disponible sobre solvència econòmica.</li>';
+        }
+    }
+
+    populateSolvencyTechnical() {
+        const technicalList = document.getElementById('solvency-technical-list');
+        if (!technicalList) {
+            console.warn('Element solvency-technical-list no trobat.');
+            return;
+        }
+        technicalList.innerHTML = ''; // Netejar abans de popular
+
+        const solvencyData = this.contentLoader.getSolvencyInfo('technical'); // Esperem que això retorni un array
+
+        if (solvencyData && solvencyData.length > 0) {
+            solvencyData.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${item.nom || 'Mitjà d\'acreditació'}:</strong> ${item.descripcio || 'Detalls no disponibles.'}`;
+                if (item.articles) {
+                    listItem.innerHTML += ` <small class="text-muted"><em>(Ref. LCSP: ${item.articles})</em></small>`;
+                }
+                technicalList.appendChild(listItem);
+            });
+        } else {
+            technicalList.innerHTML = '<li>No hi ha informació disponible sobre solvència tècnica o professional.</li>';
+        }
+    }
     
+    populateSolvencyGeneralNotes() {
+        const notesContainer = document.getElementById('solvency-general-notes');
+        if (!notesContainer) {
+            console.warn('Element solvency-general-notes no trobat.');
+            return;
+        }
+        notesContainer.innerHTML = ''; // Netejar
+
+        const generalNotes = this.contentLoader.getSolvencyInfo('generalNotes'); // Esperem un array de notes o strings
+        if (generalNotes && generalNotes.length > 0) {
+            const list = document.createElement('ul');
+            list.className = 'solvency-notes-list';
+            generalNotes.forEach(note => {
+                const listItem = document.createElement('li');
+                listItem.textContent = note.text || note; // Si 'note' és un objecte amb propietat 'text' o un string directe
+                list.appendChild(listItem);
+            });
+            notesContainer.appendChild(list);
+        } else {
+            // Opcional: notesContainer.innerHTML = '<p>No hi ha notes generals addicionals.</p>';
+        }
+    }
+
     showFullTextModal(contentPath, subPath = null, isArticle = false) {
         let contentToShow = "";
         let title = "Informació Detallada";
@@ -552,18 +572,20 @@ class App {
     }
 
     showSection(sectionId) {
-        document.querySelectorAll('main > section').forEach(section => {
+        console.log(`Mostrant secció: ${sectionId}`);
+        document.querySelectorAll('.main-content > section').forEach(section => {
             section.classList.remove('active-section');
         });
-        
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
             targetSection.classList.add('active-section');
+            // Opcional: scroll a la secció
+            // targetSection.scrollIntoView({ behavior: 'smooth' }); 
         } else {
-            const firstSection = document.querySelector('main > section');
-            if (firstSection) firstSection.classList.add('active-section');
+            console.warn(`Secció ${sectionId} no trobada.`);
         }
-        
+
+        // Actualitzar enllaç actiu a la navegació
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('data-section') === sectionId) {
@@ -572,22 +594,79 @@ class App {
         });
     }
 
-    showCriteriaTab(tabName) {
-        document.querySelectorAll('.criteria-section .tab-content').forEach(content => {
+    showCriteriaTab(tabName, group = 'criteria') { // group per a futura expansió
+        console.log(`Mostrant pestanya: ${tabName} del grup ${group}`);
+        const wrapperId = `${group}-content-wrapper`; // e.g., criteria-content-wrapper
+        const contentWrapper = document.querySelector(`.${wrapperId}`);
+
+        if (!contentWrapper) {
+            console.error(`Wrapper de contingut de pestanyes '${wrapperId}' no trobat.`);
+            return;
+        }
+
+        // Amagar tots els continguts de pestanyes dins d'aquest wrapper
+        contentWrapper.querySelectorAll('.tab-content').forEach(content => {
             content.classList.remove('active');
         });
-        document.querySelectorAll('.criteria-section .tab-button').forEach(button => {
-            button.classList.remove('active');
-        });
-        
-        const tabContent = document.getElementById(`${tabName}-criteria`);
-        if (tabContent) {
-            tabContent.classList.add('active');
+
+        // Mostrar el contingut de la pestanya seleccionada
+        const targetContentId = `${tabName}-criteria`; // e.g., automatic-criteria, solvency-criteria
+        const targetContent = document.getElementById(targetContentId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        } else {
+            console.warn(`Contingut de pestanya ${targetContentId} no trobat.`);
         }
-        
-        const clickedButton = event.target.closest('.tab-button');
-        if(clickedButton) {
-            clickedButton.classList.add('active');
+
+        // Actualitzar botó actiu dins del grup de pestanyes correcte
+        const tabButtonsContainer = document.querySelector(`.${group}-tabs`); 
+        if (tabButtonsContainer) {
+            tabButtonsContainer.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+                // Comprovar si l'atribut onclick conté el tabName correcte
+                const onclickAttr = button.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(`showCriteriaTab('${tabName}'`)) {
+                    button.classList.add('active');
+                }
+            });
+        } else {
+            console.warn(`Contenidor de botons de pestanyes '.${group}-tabs' no trobat.`);
+        }
+    }
+
+    showSolvencySubTab(subTabName) {
+        console.log(`Mostrant sub-pestanya de solvència: ${subTabName}`);
+        const wrapper = document.querySelector('#solvency-criteria .solvency-sub-content-wrapper');
+        if (!wrapper) {
+            console.error("Wrapper de sub-contingut de solvència no trobat.");
+            return;
+        }
+
+        // Amagar tots els sub-continguts
+        wrapper.querySelectorAll('.solvency-sub-tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // Mostrar el sub-contingut seleccionat
+        const targetContent = document.getElementById(`solvency-${subTabName}-content`);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        } else {
+            console.warn(`Sub-contingut de solvència solvency-${subTabName}-content no trobat.`);
+        }
+
+        // Actualitzar botó actiu de sub-pestanya
+        const subTabButtonsContainer = document.querySelector('#solvency-criteria .solvency-sub-tabs');
+        if (subTabButtonsContainer) {
+            subTabButtonsContainer.querySelectorAll('.sub-tab-button').forEach(button => {
+                button.classList.remove('active');
+                const onclickAttr = button.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(`showSolvencySubTab('${subTabName}'`)) {
+                    button.classList.add('active');
+                }
+            });
+        } else {
+            console.warn("Contenidor de botons de sub-pestanyes de solvència no trobat.");
         }
     }
 
@@ -644,27 +723,58 @@ class App {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM carregat, inicialitzant aplicació...');
-    const app = new App();
-    app.init().then(() => {
-        console.log("App inicialitzada completament.");
-    }).catch(err => {
-        console.error("Error final en la inicialització de l'App:", err);
-    });
-    window.app = app; 
-});
-
 // Gestió d'errors globals
 window.addEventListener('error', (e) => {
     console.error('Error global:', e.error);
-    ErrorHandler.show('S\'ha produït un error inesperat.');
+    if (window.ErrorHandler && typeof window.ErrorHandler.show === 'function') {
+        window.ErrorHandler.show('S\'ha produït un error inesperat.');
+    }
 });
 
 window.addEventListener('unhandledrejection', (e) => {
     console.error('Promise rebutjada:', e.reason);
-    ErrorHandler.show('Error de connexió. Si us plau, comprova la teva connexió a internet.');
+    if (window.ErrorHandler && typeof window.ErrorHandler.show === 'function') {
+        // Millorar el missatge per ser més específic si és possible
+        let message = 'S\'ha produït un error asíncron o una promesa ha estat rebutjada.';
+        if (e.reason && e.reason.message) {
+            // Comprovar si és un error de xarxa típic
+            if (e.reason.message.toLowerCase().includes('failed to fetch') || e.reason.message.toLowerCase().includes('networkerror')) {
+                message = 'Error de xarxa. Comprova la teva connexió a Internet.';
+            } else {
+                // message += ` Detall: ${e.reason.message}`; // Pot ser massa tècnic per l'usuari
+            }
+        }
+        window.ErrorHandler.show(message);
+    }
 });
 
-// Exportar per a ús global
-window.ErrorHandler = ErrorHandler;
+// Exportar classes principals a window per a ús global
+// Assegurar-se que les definicions de les classes (ThemeManager, SmoothScroll, LoadingManager, NavigationManager, AnimationManager, ErrorHandler, App) 
+// estan ABANS d'aquestes assignacions a window, o que són importades i re-exportades si s'usa un sistema de mòduls intern a app.js.
+
+// Assumint que ErrorHandler es defineix en aquest mateix arxiu abans d'aquest punt:
+if (typeof ErrorHandler !== 'undefined') {
+    window.ErrorHandler = ErrorHandler;
+}
+
+if (typeof App !== 'undefined') {
+    window.App = App;
+}
+
+/* ELIMINAT AQUEST BLOC PERQUÈ main.js ARA S'ENCARREGA DE LA INICIALITZACIÓ
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM carregat, inicialitzant aplicació des de app.js (REDUNDANT)...');
+    const app = new App();
+    app.init().then(() => {
+        console.log("App inicialitzada completament des de app.js (REDUNDANT).");
+    }).catch(err => {
+        console.error("Error final en la inicialització de l'App des de app.js (REDUNDANT):", err);
+    });
+    window.app = app; 
+});
+*/
+
+// Si altres classes definides en app.js (ThemeManager, etc.) necessiten ser globals,
+// també s'haurien d'exportar aquí:
+// if (typeof ThemeManager !== 'undefined') { window.ThemeManager = ThemeManager; }
+// etc.

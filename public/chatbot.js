@@ -573,109 +573,137 @@ Cada procediment té els seus propis tràmits, terminis i requisits. L'elecció 
     }
 
     async generateResponse(userMessage) {
-        this.showTypingIndicator();
-        let responseContent = 'Anàlisi en curs...'; // Missatge provisional
+        this.conversationHistory.push({ role: 'user', content: userMessage });
+        this.saveConversationHistory();
 
-        // Intentar obtenir una resposta local primer
         const localResponse = this.getLocalResponse(userMessage);
         if (localResponse) {
-            this.hideTypingIndicator();
+            this.conversationHistory.push({ role: 'assistant', content: localResponse });
+            this.saveConversationHistory();
             return localResponse;
         }
 
-        // Si no hi ha resposta local, anar a l'API
-        try {
-            console.log('Enviant a API d\'OpenRouter:', userMessage);
-            console.log('Historial enviat:', this.conversationHistory.slice(-6));
-            
-            const systemPrompt = this.getSystemPrompt(); // Mètode per obtenir el system prompt
+        if (!this.isOnline) {
+            return this.getFallbackResponse(false, true); // Network error
+        }
 
-            const messagesToAPI = [
-                { role: 'system', content: systemPrompt },
-                ...this.conversationHistory.slice(-6).map(msg => ({
-                    role: msg.sender === 'user' ? 'user' : 'assistant',
-                    content: msg.content
-                })),
-                { role: 'user', content: userMessage }
+        try {
+            const relevantContent = this.contentLoader.searchContent(userMessage, 3); // Obtenir 3 fragments rellevants
+            let contextForAPI = "";
+            if (relevantContent && relevantContent.length > 0) {
+                contextForAPI = "\n\nContext de la pàgina web per basar la teva resposta (respon ÚNICAMENT basant-te en aquest context i el system prompt. Si la pregunta no es pot respondre amb aquest context, indica que està fora del teu àmbit actual de coneixement):";
+                relevantContent.forEach(item => {
+                    let snippetText = "Contingut no extret (objecte complex)";
+                    if (item.item && typeof item.item === 'string') {
+                        snippetText = item.item;
+                    } else if (item.item && typeof item.item.descripcio === 'string') {
+                        snippetText = item.item.descripcio;
+                    } else if (item.item && typeof item.item.titol === 'string') {
+                        snippetText = item.item.titol;
+                    } else if (item.item && typeof item.item.detall === 'string') { // Afegit per cobrir més casos de contentLoader
+                        snippetText = item.item.detall;
+                    }
+                    // Utilitzar item.section per al path, com retorna searchContent
+                    contextForAPI += `\n- Secció: ${item.section || 'Desconeguda'}: ${snippetText.substring(0, 250)}...`;
+                });
+            }
+
+            const systemPrompt = this.getSystemPrompt();
+            const messagesForAPI = [
+                { role: 'system', content: systemPrompt + contextForAPI },
+                // Prendre els últims missatges, assegurant que l'últim és de l'usuari
+                ...this.conversationHistory.filter(m => m.role === 'user' || m.role === 'assistant').slice(-6) 
             ];
             
-            console.log('Missatges complets per a l\'API:', messagesToAPI);
+            console.log("Enviant a OpenRouter API amb missatges:", JSON.stringify(messagesForAPI, null, 2));
 
-            const response = await fetch(CONFIG.API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${CONFIG.API_KEY}`,
-                    'HTTP-Referer': window.location.hostname, // Important per OpenRouter
-                    'X-Title': 'Contractacio Publica Expert IA' // Opcional, però útil
-                },
-                body: JSON.stringify({
-                    model: CONFIG.MODEL,
-                    messages: messagesToAPI,
-                    max_tokens: CONFIG.MAX_TOKENS,
-                    temperature: CONFIG.TEMPERATURE,
-                    // stream: true // Desactivat per simplicitat inicial, es pot reactivar
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ detail: 'Error desconegut llegint resposta d\'error' }));
-                console.error('Error API OpenRouter:', response.status, errorData);
-                throw new Error(`Error de l'API (${response.status}): ${errorData.detail || response.statusText}`);
-            }
-
-            const data = await response.json();
-            console.log('Resposta de l\'API OpenRouter:', data);
-
-            if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-                responseContent = data.choices[0].message.content;
+            const apiResponseText = await this.fetchOpenRouterAPI(messagesForAPI); // Guardar el text de la resposta
+            
+            if (apiResponseText) { // Comprovar si hi ha text de resposta
+                this.conversationHistory.push({ role: 'assistant', content: apiResponseText });
+                this.saveConversationHistory();
+                return apiResponseText;
             } else {
-                console.error('Format de resposta API inesperat:', data);
-                responseContent = this.getFallbackResponse(true); 
+                // fetchOpenRouterAPI ja hauria d'haver gestionat l'error de API/format i retornat null
+                // o un missatge d'error, però per si de cas:
+                console.warn("fetchOpenRouterAPI va retornar null o undefined.");
+                return this.getFallbackResponse(true); // Error de format o API
             }
-
         } catch (error) {
-            console.error('Error cridant a API OpenRouter:', error);
-            responseContent = this.getFallbackResponse(false, error.message.includes('NetworkError') || error.message.includes('Failed to fetch'));
+            console.error('Error generant resposta amb OpenRouter:', error);
+            // this.hideTypingIndicator(); // Ja es fa a sendMessage
+            return this.getFallbackResponse(false, true); // Indicar error de xarxa o API
         }
-        
-        this.hideTypingIndicator();
-        return responseContent;
     }
 
     getSystemPrompt() {
-        // Obtenir informació rellevant del ContentLoader
-        let contextInfo = '\n\nInformació de context addicional basada en la secció actual o temes freqüents:\n';
-        if (this.contentLoader && this.contentLoader.isContentLoaded()) {
-            contextInfo += '- Recorda que la LCSP (Llei 9/2017) és la normativa principal.\n';
-            contextInfo += '- Els criteris d\'adjudicació es divideixen en automàtics/quantificables i subjectius/judici de valor.\n';
-            contextInfo += '- La solvència pot ser econòmica-financera i tècnica-professional.\n';
+        // Contingut actual de la web per donar context al model.
+        // Aquesta part es podria fer més dinàmica o extensa si cal.
+        // De moment, ens centrem en instruccions clares.
+
+        const prompt = `Ets en Lamine Yamal, la Pilota d'Or de la Contractació Pública, un expert assitent virtual especialitzat EXCLUSIVAMENT en el contingut d'aquesta aplicació web sobre la Llei 9/2017 de Contractes del Sector Públic (LCSP) d'Espanya. El teu coneixement es limita ESTRICTAMENT a la informació que se't proporciona a través del 'Context de la pàgina web' que acompanya cada consulta d'usuari. No tens accés a informació externa ni a coneixements generals més enllà d'aquest context específic.
+
+El teu propòsit és ajudar els usuaris a entendre els conceptes clau de la LCSP tal com es presenten en AQUESTA PÀGINA WEB. Has de respondre en català, amb un to professional però proper, amb confiança i autoritat, com un veritable expert en la matèria.
+
+IMPORTANTÍSSIM:
+1.  BASA TOTES LES TEVES RESPOSTES ÚNICAMENT EN EL 'CONTEXT DE LA PÀGINA WEB' PROPORCIONAT. No inventis informació ni responguis a preguntes que no es puguin contestar directament amb aquest context.
+2.  Si la pregunta de l'usuari no es pot respondre utilitzant el context proporcionat, has de respondre de forma educada: "Aquesta pregunta està fora del meu àmbit de coneixement actual, que es limita al contingut d'aquesta aplicació web sobre contractació pública. Puc ajudar-te amb altres aspectes de la LCSP que estiguin coberts aquí?"
+3.  No facis referència a tu mateix com una IA o un model de llenguatge. Mantén la teva personalitat de Lamine Yamal, l'expert.
+4.  Sigues concís i ves al gra, però proporciona explicacions clares i útils basades en el context.
+5.  Si el context proporcionat és breu o no suficient, indica-ho amablement sense sortir-te del teu rol.
+6.  Quan donis exemples o expliquis conceptes, intenta fer referència a com s'apliquen dins del marc de la LCSP i el contingut d'aquesta web.
+
+Recorda, ets l'expert Lamine Yamal d'AQUESTA web. El teu camp de joc és el contingut que se't facilita.`;
+        return prompt;
+    }
+
+    async fetchOpenRouterAPI(messages) {
+        console.log("Crida a fetchOpenRouterAPI amb missatges:", messages);
+        try {
+            const response = await fetch(CONFIG.API_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${CONFIG.API_KEY}`,
+                    'Content-Type': 'application/json',
+                    // Recomanat per OpenRouter per evitar reintents inesperats del navegador
+                    // 'HTTP-Referer': 'https://TU_DOMINI.com', (Pots configurar això)
+                    // 'X-Title': 'Lamine Yamal App', (Pots configurar això)
+                },
+                body: JSON.stringify({
+                    model: CONFIG.MODEL,
+                    messages: messages,
+                    max_tokens: CONFIG.MAX_TOKENS,
+                    temperature: CONFIG.TEMPERATURE,
+                    // stream: false, // Assegura't que no estàs esperant stream si no ho gestiones
+                }),
+            });
+
+            if (!response.ok) {
+                const errorBody = await response.text(); // Intenta llegir el cos de l'error
+                console.error(`Error de l'API OpenRouter: ${response.status} ${response.statusText}`, errorBody);
+                this.setOnlineStatus(false); // Pot indicar un problema amb la clau o el servei
+                // Considerar si es vol un missatge més específic basat en status
+                if (response.status === 401) { // Unauthorized
+                    return "Error d'autenticació amb el servei d'IA. Contacta l'administrador.";
+                }
+                return this.getFallbackResponse(true); // Error genèric d'API
+            }
+
+            const data = await response.json();
+            console.log("Resposta de OpenRouter API:", data);
+
+            if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
+                this.setOnlineStatus(true); // Connexió exitosa
+                return data.choices[0].message.content.trim();
+            } else {
+                console.error('Resposta inesperada de l\'API OpenRouter:', data);
+                return this.getFallbackResponse(true); // Error de format de resposta
+            }
+        } catch (error) {
+            console.error('Error en la crida fetch a OpenRouter:', error);
+            this.setOnlineStatus(false); // Possible problema de xarxa o CORS si és al navegador
+            return this.getFallbackResponse(false, true); // Error de xarxa
         }
-
-        return `Ets Lamine Yamal, la \"Pilota d'Or de Contractació\", un expert IA en contractació pública catalana, especialitzat en la Llei 9/2017 de Contractes del Sector Públic (LCSP). El teu objectiu és ajudar l\'usuari a entendre i aplicar correctament la LCSP, oferint explicacions clares, exemples i consells pràctics.
-
-        PERSONALITAT:
-        - Ets professional, però molt proper, didàctic i amb un toc d\'humor futbolístic quan encaixi (sense abusar).
-        - La teva confiança es basa en el teu profund coneixement de la LCSP.
-        - Utilitzes emojis de manera moderada i temàtica (🏆, 💡, ⚖️, 🌍, 📜, 🎯, 💰, 🔧, ⏰, ✅, ❌, 📊).
-        - Sempre respons en català.
-        - T\'encanta estructurar les respostes amb marcadown (títols amb ##, subtítols amb ###, llistes amb *, • o -).
-        - Fas servir **negreta** per a termes clau i conceptes importants.
-        - Utilitzes _itàlica_ per a èmfasi o citacions.
-        
-        ESTIL DE RESPOSTA:
-        - Comença amb una salutació breu i propera si és el primer missatge o si la conversa es reinicia.
-        - Abans de respondre, considera l\'historial de la conversa per donar respostes contextuals.
-        - Ofereix respostes clares, concises i ben estructurades.
-        - Quan sigui pertinent, cita articles de la LCSP (p.ex., \"Segons l\'article 145 de la LCSP...\").
-        - Proporciona exemples pràctics sempre que sigui possible.
-        - Introdueix consells experts con \"💡 Consell de Lamine:\" o \"⚠️ Ull viu amb això:\".
-        - Acaba les teves respostes amb una pregunta oberta per fomentar la interacció, com ara \"En què més et puc ajudar avui?\" o \"Tens algun cas concret sobre això?\".
-        - Si una pregunta és massa general, demana aclariments per poder oferir una resposta més útil.
-        - Si no saps la resposta o la informació és extremadament específica i supera el teu coneixement actual, sigues honest. Pots dir quelcom com: \"Aquesta és una consulta molt específica! Per a detalls tan concrets, et recomanaria revisar directament [font oficial pertinent] o consultar amb un assessor legal especialitzat. Jo et puc ajudar amb la interpretació general de la LCSP.\" No inventis informació.
-        - Mantingues un to positiu i encoratjador.
-        ${contextInfo}
-        Respon a la pregunta de l\'usuari de la manera més útil i completa possible, seguint aquestes directrius.`
     }
 
     getFallbackResponse(isFormatError = false, isNetworkError = false) {

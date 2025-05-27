@@ -275,100 +275,82 @@ class ContentLoader {
                 }
             },
             solvencia: {
-                titol: "Requisits de Solvència (Arts. 86 i ss. LCSP)",
-                introduccio: "Condicions mínimes d'aptitud per participar i executar el contracte. Es regulen al PCAP. El caràcter tècnic és innegable.",
-                tipusSolvencia: this.imagesData.solvencia_detall || [], // Utilitza dades de la imatge 3
-                economica: {
+                introduccio: "La solvència garanteix que el licitador té la capacitat per executar el contracte. Arts. 86-91 LCSP.",
+                economicaFinancial: {
                     titol: "Solvència Econòmica i Financera (Art. 87 LCSP)",
-                    descripcio: "Garanteix la fortalesa financera. El mitjà típic és el volum de negoci referit al millor dels últims tres anys.",
+                    descripcio: "Acredita la capacitat financera de l'empresa per afrontar les obligacions del contracte.",
+                    mitjansAcreditacio: [
+                        { nom: "Volum anual de negocis", descripcio: "Referit al millor exercici dins dels tres últims anys disponibles. Màxim exigible: 1,5 vegades el valor estimat del contracte (VEC), excepte justificació.", articles: "Art. 87.1.a" },
+                        { nom: "Patrimoni net", descripcio: "Al tancament de l'últim exercici econòmic. Exigible de forma motivada.", articles: "Art. 87.1.c" },
+                        { nom: "Assegurança d'indemnització per riscos professionals", descripcio: "Vigent fins a fi del termini de presentació d'ofertes. Import no superior al VEC i limitat a 1.500.000€ si VEC > 1.5M€, excepte justificació.", articles: "Art. 87.1.b" },
+                        { nom: "Nivells adequats de ràtios financers", descripcio: "Sobre liquiditat, solvència i endeutament. Excepcional i justificat.", articles: "Art. 87.1.d" }
+                    ],
                     consideracionsVolumNegoci: [
-                        "Que una empresa tingui un determinat volum de negoci no determina que la seva economia estigui sanejada (pot ser menor que deutes a curt termini).",
-                        "La solvència ha de ser proporcionada: mai més de 1,5 vegades el valor estimat del contracte (VEC). Compte amb contractes plurianuals: prendre valor mitjà anual com a referència."
+                        "No es pot exigir un volum de negocis mínim superior a 1,5 vegades el valor estimat del contracte, llevat de casos degudament justificats (per exemple, riscos especials).",
+                        "Si el contracte està dividit en lots, aquest requisit es referirà a l'import acumulat dels lots als quals liciti l'empresa, o al lot de major import si es presenten ofertes a múltiples lots i s'estableix un número màxim de lots a adjudicar a un mateix licitador."
                     ],
-                    exempleCalculVolumNegoci: "Si el contracte té un VEC de 100.000€/any i dura 3 anys (VEC total 300.000€), no s'exigeix 1,5 x 300.000€, sinó 1,5 x 100.000€ (sobre el valor mitjà anual).",
-                    altresMitjansEconomica: [
-                        { nom: "Assegurança d'Indemnització per Riscos Professionals (Art. 87.1.b)", detall: "Justificant d'existència i vigència. Comú en serveis professionals. Import cobertura proporcional." },
-                        { nom: "Patrimoni Net o Ràtio de Solvència Financera (Art. 87.1.c)", detall: "Acreditar nivell mínim de Patrimoni Net o ràtio entre Actius i Passius." }
-                    ]
+                    exempleCalculVolumNegoci: "Per a un contracte amb un VEC de 100.000€, el volum anual de negocis mínim no podrà excedir els 150.000€ (100.000 x 1,5)."
                 },
-                tecnica: {
-                    titol: "Solvència Tècnica o Professional",
-                    descripcio: "Acredita capacitat tècnica i coneixements. Els gestors tècnics tenen un paper clau en definir requisits mínims d'accés, ben definits i proporcionals.",
-                    mitjansPerTipusContracte: [
-                        "Obres (Art. 88 LCSP): Relació obres executades, tècnics, maquinària, classificació (si escau).",
-                        "Subministraments (Art. 89 LCSP): Relació principals subministraments, mostres, descripció instal·lacions tècniques, sistemes gestió cadena subministrament, certificats qualitat.",
-                        "Serveis (Art. 90 LCSP): Relació principals serveis, tècnics/unitats tècniques, titulacions/experiència personal, mesures gestió mediambiental, mitjans humans/materials, capacitat producció."
+                tecnicaProfessional: {
+                    titol: "Solvència Tècnica o Professional (Arts. 88-90 LCSP)",
+                    descripcio: "Acredita la capacitat tècnica, els mitjans i l'experiència per executar correctament la prestació.",
+                    mitjansAcreditacio: [
+                        // Aquests són exemples generals, s'han d'especificar segons tipus de contracte (O,S,SS)
+                        { nom: "Relació principals obres/serveis/subministraments", descripcio: "Executats en els últims 5 anys (obres) o 3 anys (serveis/subministraments), de igual o similar naturalesa. S'acredita amb certificats.", articles: "Art. 88.1.a, 89.1.a, 90.1.a" },
+                        { nom: "Personal tècnic o unitats tècniques", descripcio: "Integrades o no a l'empresa, participants en el contracte, especialment responsables control qualitat.", articles: "Art. 88.1.b, 89.1.f, 90.1.b" },
+                        { nom: "Titulacions acadèmiques i professionals", descripcio: "Del personal directiu de l'empresa i, en particular, del personal responsable de l'execució del contracte.", articles: "Art. 88.1.e, 89.1.g, 90.1.e" },
+                        { nom: "Maquinària, material i equip tècnic", descripcio: "Disponible per a l'execució del contracte.", articles: "Art. 88.1.g, 89.1.c, 90.1.g" },
+                        { nom: "Mostres, descripcions, fotografies", descripcio: "Per a subministraments, autenticitat verificable per l'òrgan de contractació.", articles: "Art. 89.1.d" },
+                        { nom: "Certificats de control de qualitat", descripcio: "Expedits per organismes independents que acreditin la conformitat amb especificacions o normes tècniques.", articles: "Art. 89.1.e, 90.1.d" },
+                        { nom: "Mesures de gestió mediambiental", descripcio: "Que l'empresari podrà aplicar en executar el contracte (obres, serveis).", articles: "Art. 88.1.h, 90.1.f" }
                     ],
-                    experienciaEmpresa: {
-                        titol: "Experiència de l'Empresa",
-                        detall: "Si se sol·licita, ha de ser concreta i relacionada amb l'objecte (no tipus d'entitat, territori, etc.). Per definir 'similar': Obres (grup/subgrup predominant), Serveis/Subministraments (3 primers dígits CPV, amb precaució per generalitat). No exigir massa treballs previs o massa específics."
-                    },
-                    empresesNovaCreacio: {
-                        titol: "Empreses de Nova Creació (< 5 anys)",
-                        detall: "Per contractes d'obres VEC < 500.000€ i no SARA (serveis/subministraments VEC < llindars SARA), s'ha de permetre un mitjà alternatiu d'acreditació. Error freqüent no incloure'l concretament."
-                    },
-                    personalAdscritSolvencia: {
-                        titol: "Qualificació i Experiència del Personal (Com a Solvència)",
-                        detall: "Es pot exigir la qualificació i experiència mínima del personal a adscriure. Diferent de l'experiència de l'empresa. Pot ser: solvència, prescripció del PPT (mitjans humans mínims), criteri d'adjudicació, o condició especial d'execució."
-                    },
-                    certificatsQualitatSolvencia: {
-                        titol: "Certificats de Qualitat (ISO, UNE) com a Solvència",
-                        descripcio: "Es poden exigir si guarden relació directa amb l'objecte i són proporcionals. Compte: poden excloure PYMEs. Recomanable conèixer si són necessaris i si el mercat els té.",
-                        regulacioLCSP: "Art. 93 LCSP (per SARA): referència a sistemes basats en normes europees, reconèixer equivalents UE i altres proves. Art. 94 LCSP (Gestió Mediambiental SARA): referència a EMAS o altres reconeguts, reconèixer equivalents i altres proves.",
-                        exposicioMotiusLCSP: "LCSP (Exposició de Motius): 'En l'àmbit mediambiental, s'exigeixen certificats de gestió medioambiental a les empreses licitadores, com a condició de solvència tècnica...'",
-                        reglaGeneralVsExcepcio: "Com a regla general, els certificats de qualitat són requisit de solvència. Excepcionalment, criteri d'adjudicació si es refereixen a característiques pròpies del producte/servei, no de l'empresa en general (TACRC).",
-                        articleFJVazquezMatilla: {
-                            titol: "Certificados de calidad en la contratación pública: solvencia técnica como regla general y criterio de adjudicación por excepción",
-                            autor: "Fco. Javier Vázquez Matilla",
-                            resum: "Analitza circumstàncies i modalitats d'ús dels certificats com a solvència o criteri, examinant marc normatiu i jurisprudència. Explora efectes sobre concurrència (barreres PYMEs) i proposa recomanacions.",
-                            puntsClauArticle: [
-                                "STJUE Lianakis (C-532/06): Exclou com a criteris d'adjudicació aquells vinculats a l'aptitud dels licitadors, no a identificar l'oferta econòmicament més avantatjosa.",
-                                "TACRC 906/2014: Certificats són modus d'acreditar solvència tècnica, no criteris de valoració d'ofertes.",
-                                "TACRC 786/2019: Certificats es refereixen a processos productius genèrics de l'empresa, no a característiques de la prestació en si mateixa.",
-                                "TACRC 321/2018: Per exigir-los com a solvència: vinculació clara amb objecte, proporcionalitat, admissió d'alternatives. Excepcional com a criteri d'adjudicació.",
-                                "TACRC 635/2024 (canvi de postura matisat): Permet ISO 9001/14001 com a criteri si hi ha vinculació clara amb objecte i permeten mesurar rendiment de l'oferta (millor relació qualitat-preu). Requereix motivació en expedient (Art. 116.4 LCSP)."
-                            ]
-                        }
-                    },
-                    mostresProducte: {
-                        titol: "Mostres del Producte",
-                        detall: "En subministraments (i menys en serveis), es poden sol·licitar mostres. Lliurament abans de fi de termini d'ofertes. Es poden valorar criteris amb càrrec a la mostra."
-                    },
-                    mitjansMaterialsMinims: {
-                        titol: "Mitjans Materials Mínims",
-                        detall: "Instal·lacions, maquinària, equips. Sol·licitar quan siguin rellevants i amb mesura."
-                    }
+                    // Informació dels `imagesData.solvencia_detall` es podria integrar aquí o en notes generals.
+                    // Per exemple, temes com "Proporcionalitat", "Personal Adscrit", "Certificacions ISO" etc.
                 },
+                notesGenerals: [
+                    { text: "Els mitjans de solvència exigits han de ser proporcionals a l'objecte del contracte i estar vinculats a aquest." },
+                    { text: "En contractes dividits en lots, la solvència es pot exigir per a cada lot o per a grups de lots." },
+                    { text: "Les empreses de nova creació (menys de 5 anys d'activitat) poden tenir requisits adaptats per a determinats contractes (Art. 86.3 LCSP)." },
+                    { text: "Es pot recórrer a la solvència de tercers (integració de la solvència amb mitjans externs) sota certes condicions (Art. 75 LCSP)." },
+                    { text: "La classificació empresarial, quan sigui exigible, eximeix de presentar la documentació de solvència per als contractes del mateix tipus i categoria." }
+                ],
                 fomentPYMES: {
-                    titol: "Foment de la Participació de PYMEs i Empreses Emergents",
-                    importanciaPYMES: "PYMEs a Espanya: 97% empreses, 63,8% ocupació. Microempreses (<10 empleats): 94% d'aquestes.",
-                    lcspArt1: "Obliga a facilitar accés a PYMEs i empreses d'economia social. Malgrat això, LCSP només cita 'PYME' 7 cops, de forma poc útil.",
-                    lleiFomentEmpresesEmergents: "Llei 28/2022 (Art. 14.3): Valorar en plecs requisits de solvència i criteris d'adjudicació que facilitin accés a empreses emergents, especialment en zones rurals, promovent productes locals, ecològics, energies renovables.",
-                    barreresPYMES: "Estratègia Nacional Contratación Pública 2023-2026: Reconeix barreres (accés informació, procediments). Repte: promoure participació PYME. Causes: falta formació, problemes pagaments, limitació requisits d'accés.",
+                    titol: "Solvència i Foment de la Participació de PYMEs",
+                    importanciaPYMES: "Les Petites i Mitjanes Empreses (PYMEs) constitueixen una part fonamental del teixit empresarial. La LCSP busca facilitar el seu accés a la contractació pública.",
+                    lcspArt1: "La Llei (Art. 1) té per finalitat garantir la selecció de l'oferta econòmicament més avantatjosa, fomentant la participació de les PYMEs i respectant els principis de la contractació.",
+                    lleiFomentEmpresesEmergents: "La Llei 28/2022 (Startup Act) també busca millorar l'accés de les empreses emergents a la contractació pública.",
+                    barreresPYMES: "Exigències de solvència desproporcionades, complexitat administrativa, necessitat de garanties elevades, terminis ajustats.",
                     factorsDecisionEmpreses: [
-                        "Identificació necessitat i 'pain points' de l'entitat pública.",
-                        "Suficiència del preu i termini.",
-                        "Criteris d'admissió (CPV, solvència econòmica/tècnica, possibles imposicions geogràfiques).",
-                        "Criteris d'adjudicació (claredat, objectivitat, focus de l'entitat pública)."
+                        "Coneixement de l'existència de la licitació.",
+                        "Possibilitat de presentar-se (requisits de solvència adequats).",
+                        "Possibilitat de guanyar (criteris d'adjudicació clars i objectius).",
+                        "Rendibilitat de l'operació."
                     ],
-                    impacteCertificatsQualitatEnPYMES: "L'exigència o valoració de certificats de qualitat complica participació PYMEs (costos elevats, processos arduos). Sovint perceben manca de motivació clara o sospites de favoritisme."
+                    impacteCertificatsQualitatEnPYMES: "Tot i que els certificats de qualitat poden ser un indicador de solvència tècnica, la seva exigència pot ser una barrera per a PYMEs si no són estrictament necessaris per a l'objecte del contracte o si no s'admeten mitjans alternatius d'acreditació."
                 }
             },
-            conclusionsBonesPractiques: {
-                 titol: "Bones Pràctiques Generals en la Definició de Criteris i Solvència",
-                 punts: [
-                    "Planificació i Estudi Previ: Analitzar adequadament les necessitats i el mercat abans de definir requisits.",
-                    "Redacció Clara i Precisa dels Plecs: Evitar ambigüitats que generin incertesa o impugnacions.",
-                    "Foment de la Concurrència: Dissenyar requisits de solvència i criteris d'adjudicació que no restringeixin innecessàriament la participació, especialment de PYMEs i empreses de nova creació.",
-                    "Proporcionalitat: Tant la solvència exigida com la ponderació dels criteris han de ser proporcionals a l'objecte i valor del contracte.",
-                    "Distinció Clara Solvència/Criteris: No utilitzar un requisit de solvència com a criteri d'adjudicació, tret que es valori una millora substancial sobre el mínim.",
-                    "Desglossament de Criteris Subjectius: Detallar els subcriteris i paràmetres de valoració per evitar l'arbitrarietat.",
-                    "Motivació Exhaustiva: Justificar totes les decisions, especialment en la valoració de criteris subjectius i en l'exclusió d'ofertes.",
-                    "Ús Adequat de les Millores: Definir clarament quines millores es valoraran i com, evitant que alterin l'objecte del contracte.",
-                    "Formació Contínua: El personal implicat en la contractació ha d'estar actualitzat en normativa i bones pràctiques."
-                 ]
+            bonesPractiques: {
+                titol: "Bones Pràctiques en la Definició de Criteris i Solvència",
+                punts: [
+                    "Definir clarament l'objecte del contracte abans d'establir criteris i solvència.",
+                    "Assegurar la vinculació directa dels criteris i la solvència amb l'objecte contractual.",
+                    "Utilitzar un llenguatge clar, precís i no discriminatori en els plecs.",
+                    "Ponderar adequadament els criteris, justificant la distribució de puntuació.",
+                    "Evitar criteris que confereixin una llibertat de decisió il·limitada a l'òrgan de contractació.",
+                    "Considerar la possibilitat de dividir el contracte en lots per fomentar la participació de PYMEs.",
+                    "Establir requisits de solvència proporcionals i no restrictius injustificadament.",
+                    "Valorar l'ús del Cost del Cicle de Vida per a una anàlisi econòmica més completa.",
+                    "En criteris subjectes a judici de valor, garantir la traçabilitat i motivació de les valoracions.",
+                    "Publicar els criteris, la seva ponderació i, si escau, les subponderacions amb antelació suficient."
+                ]
             }
         };
+
+        // Simular càrrega asíncrona (en un cas real, podria ser una crida fetch a un JSON)
+        return new Promise(resolve => setTimeout(() => {
+            console.log("Contingut legal carregat.");
+            resolve();
+        }, 100));
     }
 
     // Funcions auxiliars per extreure informació específica dels textos llargs
@@ -403,28 +385,48 @@ class ContentLoader {
     }
 
     getCriteriaInfo(type = null) {
-        if (!this.legalContent.criterisAdjudicacio) return null;
-        if (!type) {
-            return this.legalContent.criterisAdjudicacio;
+        if (!this.isLoaded || !this.legalContent.criterisAdjudicacio) {
+            console.warn('Contingut de criteris no carregat.');
+            return null;
         }
-        return this.legalContent.criterisAdjudicacio.tipus?.[type] || null;
+        if (type) {
+            return this.legalContent.criterisAdjudicacio.tipus[type] || null;
+        }
+        return this.legalContent.criterisAdjudicacio;
     }
     
     getDetailedCriteriaInfo(type, subCriteriKey) {
         const criteriaType = this.getCriteriaInfo(type);
-        if (type === 'subjectius') {
-            // Per a subjectius, buscar dins de subCriterisTextGeneral
-            return criteriaType?.subCriterisTextGeneral?.find(sc => sc.nom.toLowerCase().includes(subCriteriKey.toLowerCase())) || null;
+        if (criteriaType && criteriaType.subCriterisDetallats && criteriaType.subCriterisDetallats[subCriteriKey]) {
+            return criteriaType.subCriterisDetallats[subCriteriKey];
         }
-        return criteriaType?.subCriterisDetallats?.[subCriteriKey] || null;
+        if (criteriaType && criteriaType.subCriterisTextGeneral && criteriaType.subCriterisTextGeneral.find(sc => sc.nom.toLowerCase().replace(/\s+/g, '') === subCriteriKey.toLowerCase().replace(/\s+/g, ''))) {
+            return criteriaType.subCriterisTextGeneral.find(sc => sc.nom.toLowerCase().replace(/\s+/g, '') === subCriteriKey.toLowerCase().replace(/\s+/g, ''));
+        }
+        return null;
     }
 
     getSolvencyInfo(type = null) {
-        if (!this.legalContent.solvencia) return null;
-        if (!type) {
-            return this.legalContent.solvencia;
+        if (!this.isLoaded || !this.legalContent.solvencia) {
+            console.warn('Contingut de solvència no carregat.');
+            return type === 'all' || !type ? {} : []; // Retorna objecte buit per 'all' o array buit per tipus específic si no carregat
         }
-        return this.legalContent.solvencia[type] || null;
+
+        const solvenciaData = this.legalContent.solvencia;
+
+        if (type === 'economic') {
+            return solvenciaData.economicaFinancial?.mitjansAcreditacio || [];
+        }
+        if (type === 'technical') {
+            return solvenciaData.tecnicaProfessional?.mitjansAcreditacio || [];
+        }
+        if (type === 'generalNotes') {
+            return solvenciaData.notesGenerals || []; // Assegura't que notesGenerals existeixi a legalContent.solvencia
+        }
+        if (type === 'all' || !type) {
+            return solvenciaData; // Retorna tot l'objecte de solvència
+        }
+        return []; // Retorna array buit per defecte si el tipus no es reconeix
     }
     
     getSolvencyDetailsForImage() {
@@ -444,7 +446,7 @@ class ContentLoader {
     }
 
     getBonesPractiques() {
-        return this.legalContent.conclusionsBonesPractiques || null;
+        return this.legalContent.bonesPractiques || null;
     }
 
     searchContent(query) {
