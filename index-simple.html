@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractació Pública - Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <h2>Carregant...</h2>
+        </div>
+    </div>
+
+    <main>
+        <h1>Aplicació de Contractació Pública</h1>
+        <p>Si veus això, l'aplicació s'està carregant correctament.</p>
+        <div id="chat-messages"></div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Escriu aquí...">
+            <button id="send-button">Enviar</button>
+        </div>
+    </main>
+
+    <script>
+        console.log('Script inline funcionant');
+        
+        // Ocultar pantalla de carga
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        }, 1000);
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="content-loader.js"></script>
+    <script src="chatbot.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

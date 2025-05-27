@@ -1,52 +1,105 @@
 // Carregador de Contingut Legal - Contractació Pública
 class ContentLoader {
     constructor() {
-        this.legalContent = {};
         this.isLoaded = false;
+        this.legalContent = {};
+        this.imagesData = {
+            criteris_automatic_subjectius: null, // Placeholder for first image data
+            memoria_tecnica_servei: null,      // Placeholder for second image data
+            solvencia_detall: null             // Placeholder for third image data
+        };
     }
 
     async init() {
         try {
+            // Simular la càrrega de dades de les imatges (en un cas real, s'extrauria la info)
+            this.loadImagesData(); 
             await this.loadLegalContent();
             this.isLoaded = true;
-            console.log('Contingut legal carregat correctament amb informació detallada LCSP.');
+            console.log('ContentLoader inicialitzat i contingut carregat.');
         } catch (error) {
-            console.error('Error carregant contingut legal:', error);
+            console.error('Error inicialitzant ContentLoader:', error);
+            // Aquí es podria afegir un avís a l'usuari
+            throw error; // Rellençar l'error per a que App ho gestioni
         }
     }
 
+    loadImagesData() {
+        // Dades extretes manualment de la primera imatge (criteris automàtics i subjectius)
+        this.imagesData.criteris_automatic_subjectius = [
+            { tipus: 'automatic', nom: "Mejora plazo de Garantía", punts: 7.5, descripcio: "Mejora en la ampliación del plazo de garantía establecido. Aumento máximo considerado técnicamente: 3 años, valorándose a 2,5 ptos/año aumentado en el plazo de garantía ofrecido respecto al establecido con carácter de mínimo en el Pliego de Prescripciones Técnicas. Criterio: fórmula proporcional directa." },
+            { tipus: 'subjectiu', nom: "Mejora del Equipo Técnico", punts: 10, descripcio: "Incorporación al equipo técnico redactor de los siguientes perfiles técnicos, siendo estos profesionales distintos a los componentes del citado equipo que aporten un plus de calidad al servicio contratado a través de su perfil especializado en una rama o materia singular que sea requerida. Por ejemplo: arqueología, restauración, calidad, medioambiente... según el tipo de obra. Se presentará documento con la composición complementaria del equipo técnico con el que se concurre, indicándose expresamente el técnico asignado a cada categoría o especialidad, y especificando la concreta labor de que se ocupará cada uno de ellos, con objeto de que para las bajas desproporcionadas habrá de justificar pormenorizadamente el coste de cada uno de ellos y aportar los respectivos contratos. Cada técnico especialista relacionado con el objeto contractual supondrá 2 puntos. En apartado específico se explicitarán aquellos trabajos similares desarrollados, con referencia a la formación específica en la rama de especialidad declarada, que se acreditará mediante certificados expedidos por el órgano competente o destinatario de los trabajos en el caso de proyectos y/o obras realizados, y títulos oficiales en el caso de la formación y área de conocimiento." },
+            { tipus: 'automatic', nom: "Eficiencia Energética 01", punts: 2, descripcio: "Aporte de energías renovables y compromiso de calificación energética del edificio, o cuantificación, si procede, de la mejora respecto a la exigencia básica normativa o del requisito establecido por el Órgano de Contratación con carácter de mínimo común. Criterio: 1 punto por letra, con máximo de 2 puntos." },
+            { tipus: 'automatic', nom: "Eficiencia Energética 02", punts: 1, descripcio: "Eficiencia energética, concretada en la reducción de la demanda de energía primaria y en las emisiones de CO2 del edificio con relación a las exigencias mínimas normativas, o respecto al umbral prestacional que en este sentido venga determinado por el PPT como mejora respecto al requisito básico por parte del Órgano de Contratación en términos de reducción de la demanda de energía primaria y de las emisiones de CO2 (hay que objetivar el sistema de justificación, habrá que homologar los resultados según el programa de utilización). Criterio: proporción de magnitudes." },
+            { tipus: 'automatic', nom: "Asistencia Técnica", punts: 3, descripcio: "Número de visitas en fase de Dirección de Obra. Aumento máximo considerado técnicamente: 1 visita/semana, valorándose a 1,5 pts/visita-semana adicional respecto al establecido con carácter de mínimo en el Pliego de Prescripciones Técnicas. Criterio: fórmula proporcional directa." },
+            { tipus: 'subjectiu', nom: "Criterios sociales", punts: 1.5, descripcio: "Incorporación en el equipo de arquitectura adscrito a la ejecución del contrato: a) con menos de 5 años de Colegiación, b) reincorporación al ejercicio profesional de arquitectos en baja por maternidad o paternidad acreditables en los tres años siguientes al nacimiento, c) en situación de desempleo acreditable de al menos dos años. Criterio: se otorgan los puntos por la incorporación de al menos un arquitecto con estas características." },
+            { tipus: 'subjectiu', nom: "Especialización", punts: 5, descripcio: "Especialización en trabajos similares. Redacción de proyectos o dirección de obras de similares características por el personal adscrito a la ejecución del contrato (uso característico, superficie construida igual o superior al 75% de la superficie del edificio objeto del servicio). Especialización en trabajos similares al del objeto del contrato. (Hasta 5p) ->4 5p 1.4.1 4p 0 0p" },
+            { tipus: 'subjectiu', nom: "Formación continua", punts: 5, descripcio: "La acreditación de una adecuada formación continua del personal integrado en el equipo puntuará con 1 punto cada tres años de formación continua que se acredite por cada profesional con un máximo de 5 puntos." }
+        ];
+
+        // Dades extretes manualment de la segona imatge (Memòria Tècnica i Servei)
+        this.imagesData.memoria_tecnica_servei = {
+            memoria_tecnica: {
+                puntuacio_maxima: 35,
+                subcriteris: [
+                    { nom: "a. Calidad de la propuesta", descripcio: "Interés Conceptual y Valor Arquitectónico de la propuesta respecto de la configuración de la edificación (tipología, ordenación de volúmenes, ocupación, y relaciones espaciales y/o volumétricas).", fins_a_punts: 8 },
+                    { nom: "a. Calidad de la propuesta", descripcio: "Valoración de la solución compositiva y/o estética en los ámbitos discursivo y visual, de su racionalidad y funcionalidad, así como del equilibrio entre diferentes espacios que conforman la propuesta (interiores y exteriores, relación con el entorno, e inserción urbana).", fins_a_punts: 7 },
+                    { nom: "a. Calidad de la propuesta", descripcio: "Grado de idoneidad de la propuesta a la tipología y uso de la edificación objeto del servicio, teniendo en cuenta la innovación, el diseño y las soluciones técnicas y constructivas aplicadas, así como los productos, equipos y sistemas prescritos que atiendan a la mejor relación coste-eficacia sobre la base de su precio y/o su ciclo de vida, según el art. 148 LCSP.", fins_a_punts: 5 },
+                    { nom: "a. Calidad de la propuesta", descripcio: "Características medioambientales de la propuesta. Eficiencia energética de la misma, y reducción de incidencias futuras mediante elección de materiales y soluciones constructivas eficientes y de fácil mantenimiento. Minimización de la huella de las emisiones de carbono con análisis del ciclo de vida de los materiales, productos, equipos y sistemas propuestos.", fins_a_punts: 5 },
+                    { nom: "a. Calidad de la propuesta", descripcio: "Incorporación de técnicas de bioclimatismo, y/o implementación de nuevas tecnologías a la edificación, en un entorno sostenible, con objetivo en la calidad del ambiente interior y la reducción de los efectos negativos sobre el entorno.", fins_a_punts: 5 },
+                    { nom: "a. Calidad de la propuesta", descripcio: "Integración de planteamientos que garanticen y/o mejoren las determinaciones técnicas y económicas del PPT, no incluidas en otros apartados.", fins_a_punts: 2.5 },
+                    { nom: "a. Calidad de la propuesta", descripcio: "Capacidad de Adecuación al Programa de Necesidades proporcionado por el Órgano de Contratación, justificación de propuestas alternativas al programa, justificación de superficies presentadas, justificación de la funcionalidad de la propuesta y adaptación al equipamiento que se propone.", fins_a_punts: 2.5 }
+                ]
+            },
+            servei: {
+                puntuacio_maxima: 10,
+                subcriteris: [
+                    { nom: "b. Calidad del Servicio", descripcio: "Nivel de detalle del contenido técnico de la propuesta a nivel de estudio previo anteproyecto, u otro, según establece el PPT.", fins_a_punts: 2 },
+                    { nom: "b. Calidad del Servicio", descripcio: "Nivel de cumplimiento de las recomendaciones/especificaciones técnicas del PPT (promotor/órgano contratación).", fins_a_punts: 2 },
+                    { nom: "b. Calidad del Servicio", descripcio: "Análisis preliminar del cumplimiento de las exigencias básicas normativas de la propuesta, en especial de las de seguridad en caso de incendio y accesibilidad.", fins_a_punts: 1 },
+                    { nom: "b. Calidad del Servicio", descripcio: "Estudio de viabilidad Económica de la propuesta.", fins_a_punts: 5 }
+                ]
+            },
+            nota: "No podrá incluirse ningún importe o dato que pueda conllevar el conocimiento de la oferta económica del licitador. Su incumplimiento conllevará la exclusión."
+        };
+
+        // Dades extretes manualment de la tercera imatge (Solvència)
+        this.imagesData.solvencia_detall = [
+            { tema: "Medios de Solvencia Permitidos", detall: "Los medios de solvencia técnica varían según el tipo de contrato, como se establece en la LCSP: •Obras: Art. 88 LCSP. •Suministros: Art. 89 LCSP. •Servicios: Art. 90 LCSP." },
+            { tema: "Experiencia de la Empresa", detall: "Si se solicita experiencia, debe ser concreta y relacionada con el objeto del contrato. No se debe limitar a características específicas como tipo de entidad o territorio. Para definir \"similares\", se pueden utilizar: •Obras: Grupo y subgrupo predominantes. •Servicios y Suministros: Código CPV (aunque los tres primeros dígitos pueden ser muy generales)." },
+            { tema: "Proporcionalidad en la Solicitud de Trabajos Previos", detall: "No exigir demasiados trabajos específicos o previos. En contratos de menor valor (por ejemplo, obras de menos de 500.000 euros o servicios bajo umbrales SARA), se debe permitir a las empresas de nueva creación utilizar medios alternativos (menos de 5 años)." },
+            { tema: "Personal Adscrito al Contrato", detall: "La solvencia técnica puede incluir la cualificación y experiencia mínima del personal adscrito. A diferencia de la experiencia de la empresa, la experiencia y cualificación del personal puede ser: Solvencia técnica, Prescripción del pliego técnico, Criterio de adjudicación, Condición especial de ejecución." },
+            { tema: "Certificaciones de Calidad (ISO, UNE)", detall: "Pueden exigirse como solvencia, siempre que guarden relación directa con el objeto del contrato. Tener en cuenta que su exigencia podría excluir a pequeñas empresas que no dispongan de ellas." },
+            { tema: "Muestras de Producto (para suministros y servicios)", detall: "En contratos de suministros, se puede exigir muestras del producto a entregar. La muestra debe presentarse antes del plazo de presentación de ofertas." },
+            { tema: "Medios Materiales Mínimos", detall: "Se pueden solicitar cuando sean relevantes: instalaciones, maquinaria o equipos." }
+        ];
+    }
+
     async loadLegalContent() {
+        // Aquesta funció podria carregar dades d'un JSON extern en el futur
+        // De moment, definim el contingut directament aquí, ampliant-lo amb la nova informació
         this.legalContent = {
-            lcspInfo: { // Renamed from 'lcsp' to avoid conflict with article content
-                title: "Llei 9/2017 de Contractes del Sector Públic",
-                description: "Marc legal principal per a la contractació pública a Catalunya i Espanya.",
-                principisGenerals: [
-                    "Lliure concurrència i no discriminació",
-                    "Igualtat de tracte entre candidats",
-                    "Transparència en els procediments",
-                    "Proporcionalitat dels requisits",
-                    "Integritat i prevenció de la corrupció",
-                    "Eficiència en la utilització de fons públics",
-                    "Responsabilitat mediambiental i social"
-                ],
+            lcspInfo: {
+                titol: "Marc Legal LCSP",
+                descripcio: "La Llei 9/2017 de Contractes del Sector Públic és la normativa principal que regula la contractació a Espanya.",
                 articlesClau: {
+                    art131: { titol: "Article 131.1 LCSP", punts: ["Exigeix que els plecs estableixin els criteris d'adjudicació."] },
                     art145: {
                         titol: "Article 145 LCSP - Criteris d'adjudicació del contracte",
                         punts: [
-                            "Adjudicació basada en pluralitat de criteris per a la millor relació qualitat-preu (apartat 1).",
-                            "Avaluació de la relació qualitat-preu amb criteris econòmics i qualitatius (apartat 2).",
-                            "Criteris qualitatius poden incloure: qualitat (característiques tècniques, estètiques, funcionals), organització/qualificació/experiència del personal adscrit (si afecta significativament l'execució), servei postvenda i assistència tècnica, condicions d'entrega o execució, característiques mediambientals o socials, innovació (apartat 2.a i b).",
-                            "Requisits dels criteris: vinculats a l'objecte, formulació objectiva, respecte als principis d'igualtat, no discriminació, transparència i proporcionalitat, no conferir llibertat de decisió il·limitada (apartat 5.a).",
-                            "Han de garantir avaluació en condicions de competència efectiva i anar acompanyats d'especificacions per comprovar la informació dels licitadors (apartat 5.b i c)."
+                            "La adjudicació es realitzarà utilitzant una pluralitat de criteris basats en la millor relació qualitat-preu.",
+                            "La millor relació qualitat-preu s'avaluarà, generalment, amb criteris econòmics i qualitatius.",
+                            "Els criteris qualitatius poden incloure: qualitat (valor tècnic, estètica, funcionalitat, accessibilitat, disseny), organització, qualificació i experiència del personal adscrit (si afecta significativament la millor execució), servei postvenda, assistència tècnica, condicions d'entrega/execució, característiques mediambientals o socials, innovació.",
+                            "Requisits dels criteris (Art. 145.5): vinculació a l'objecte, formulació objectiva, respecte als principis d'igualtat, no discriminació, transparència i proporcionalitat, no conferir llibertat de decisió il·limitada, permetre avaluació en competència efectiva, publicitat amb ponderació.",
+                            "Ponderació criteris subjectius vs automàtics (Art. 146.2 i 146.3): Generalment, judici de valor no > 50%, excepte justificació. En serveis Anexo IV o component intel·lectual rellevant, qualitat ≥ 51%."
                         ]
                     },
                     art146: {
                         titol: "Article 146 LCSP - Aplicació dels criteris d'adjudicació",
                         punts: [
-                            "Si s'usa un únic criteri, ha d'estar relacionat amb costos (preu o cost del cicle de vida).",
-                            "Si s'usen múltiples criteris, detallar-los al plec amb la seva ponderació.",
-                            "Criteris dependents de judici de valor: no més del 50% de la puntuació total, tret d'excepcions justificades (ex. contractes de serveis Anexo IV o component intel·lectual rellevant, on qualitat ≥ 51%). Aquesta regla ha estat matisada jurisprudencialment.",
-                            "La valoració de criteris subjectes a judici de valor s'encomanarà a un comitè d'experts o organisme tècnic especialitzat."
+                            "Si hi ha un sol criteri, ha de ser el preu o un basat en la rendibilitat (com CCV).",
+                            "Si hi ha diversos criteris, s'han de detallar al plec amb la seva ponderació.",
+                            "Per criteris subjectes a judici de valor, es requereix un informe de valoració motivat d'un comitè d'experts o organisme tècnic especialitzat, emès abans de conèixer els criteris automàtics."
                         ]
                     },
                     art147: {
@@ -65,7 +118,16 @@ class ContentLoader {
                             "La metodologia ha de ser objectiva, no discriminatòria i accessible."
                         ]
                     }
-                }
+                },
+                principisGeneralsCriteris: [
+                    "Vinculació al objecte del contracte.",
+                    "Formulació objectiva (clara, precisa).",
+                    "Respecte als principis d'igualtat, no discriminació i transparència.",
+                    "Proporcionalitat.",
+                    "No conferir una llibertat de decisió il·limitada.",
+                    "Publicitat (en PCAP o document descriptiu, amb ponderació).",
+                    "Garantir la competència efectiva."
+                ]
             },
             costCicloVida: {
                 titol: "El Cost del Cicle de Vida (CCV)",
@@ -86,7 +148,11 @@ class ContentLoader {
                     ],
                     calculExternalitats: "Mètode basat en criteris verificables objectivament, accessible, dades facilitables amb esforç raonable. Es poden usar mètodes comuns UE."
                 },
-                exemples: [
+                exemples: this.imagesData.memoria_tecnica_servei?.memoria_tecnica?.subcriteris?.find(sc => sc.descripcio.includes("art. 148 LCSP")) ? [
+                    // Incloure aquí exemples si es troben a les imatges o es defineixen manualment
+                    { titol: "Adquisició d'Autobusos Urbans (Vida útil: 12 anys)", detall: "Criteri: Menor CCV. Components: Preu adquisició, consum combustible, manteniment preventiu, peces desgast, emissions CO2/NOx. Valoració: Suma de costos i puntuació inversament proporcional." },
+                    { titol: "Subministrament i Instal·lació de Lluminàries LED (Vida útil: 15 anys)", detall: "Criteri mixt: 70% Preu Adquisició, 30% Cost Consum Energètic. Components CCV (parcial): Potència lluminària, hores funcionament. Valoració: Preu per regla de tres inversa, Consum energètic amb puntuació inversament proporcional al cost a 15 anys." }
+                ] : [
                     { titol: "Adquisició d'Autobusos Urbans (Vida útil: 12 anys)", detall: "Criteri: Menor CCV. Components: Preu adquisició, consum combustible, manteniment preventiu, peces desgast, emissions CO2/NOx. Valoració: Suma de costos i puntuació inversament proporcional." },
                     { titol: "Subministrament i Instal·lació de Lluminàries LED (Vida útil: 15 anys)", detall: "Criteri mixt: 70% Preu Adquisició, 30% Cost Consum Energètic. Components CCV (parcial): Potència lluminària, hores funcionament. Valoració: Preu per regla de tres inversa, Consum energètic amb puntuació inversament proporcional al cost a 15 anys." }
                 ],
@@ -104,251 +170,188 @@ class ContentLoader {
                     automatics: {
                         titol: "Criteris Avaluables Mitjançant Fórmules (Automàtics/Objectius)",
                         descripcio: "Valoració mitjançant aplicació directa de xifres o fórmules matemàtiques.",
-                        exemplesConcretsOCR: [ // Información de la primera imagen
-                            { nom: "Mejora Plazo de Garantía", punts: 7.5, descripcio: "Ampliación plazo garantía establecido. Aumento máximo 3 años, valorándose a 2,5 pts/año aumentado. Criterio: fórmula proporcional directa.", categoria:"Garantia" },
-                            { nom: "Eficiencia Energética 01", punts: 2, descripcio: "Aporte energías renovables y/o compromiso calificación energética del edificio (o cuantificación mejora). Criterio: 1 punto por letra, máx 2 puntos.", categoria:"Mediambiental" },
-                            { nom: "Eficiencia Energética 02", punts: 1, descripcio: "Reducción demanda energía primaria y emisiones CO2 del edificio (respecto a mínims normatius o umbral PPT). Criterio: proporción de magnitudes.", categoria:"Mediambiental" },
-                            { nom: "Asistencia Técnica (Dirección Obra)", punts: 3, descripcio: "Número de visitas en fase de Dirección de Obra. Aumento máximo 2 visita/semana, valorándose a 1,5 pts/visita-semana adicional. Criterio: fórmula proporcional directa.", categoria:"Servei" },
-                        ],
+                        exemplesConcretsOCR: this.imagesData.criteris_automatic_subjectius?.filter(c => c.tipus === 'automatic') || [],
                         subCriterisDetallats: {
-                            preu: {
-                                titol: "Criteri Preu",
-                                fonamentLegal: ["Art. 145.2.c LCSP", "Art. 146.2.a LCSP", "Art. 102.2 i 102.3 LCSP"],
-                                modalitatsPresentacio: ["Preu Global Alçat", "Preus Unitaris", "Percentatge de Descompte", "Sistema Mixte"],
-                                formesValoracio: ["Preu Més Baix (binària o directa)", "Fórmules de Proporcionalitat (Regla de Tres Inversa Simple, Regla de Tres Lineal sobre Baixa, Fórmules Polinòmiques)"],
-                                baixesAnormals: "Regulat a l'Art. 149 LCSP. Identificació amb paràmetres objectius i procediment contradictori.",
-                                jurisprudenciaClau: ["Claredat de fórmules (TACRC 142/2019)", "Proporcionalitat i no discriminació (TACRC 55/2020)", "Preu zero o simbòlic (TACRC 1120/2017)"]
-                            },
-                            costCicloVidaRef: { // Referencia a la sección detallada
-                                titol: "Cost del Cicle de Vida (CCV)",
-                                veureSeccio: "costCicloVida"
-                            },
-                            terminiExecucio: {
-                                titol: "Termini d'Execució o Entrega",
-                                fonamentLegal: ["Art. 145.2.a LCSP (com a condició d'entrega/execució)"],
-                                descripcio: "Valora la reducció del temps per a la realització completa de la prestació.",
-                                plecsHanDEspecifiar: ["Termini màxim de referència", "Unitat de mesura per la reducció", "Fórmula exacta de valoració", "Límit a la reducció valorable (termini mínim viable justificat)"],
-                                formesValoracio: ["Puntuació Proporcional a la Reducció", "Puntuació per Trams de Reducció", "Màxima Puntuació al Menor Termini Ofertat"],
-                                jurisprudenciaClau: ["Viabilitat del termini ofertat", "Penalitzacions per incompliment (Art. 192 LCSP)", "Claredat en la definició", "Límits a la reducció valorable (TACRC 784/2018)"]
-                            },
-                            garantiaAddicional: {
-                                titol: "Període de Garantia Addicional",
-                                fonamentLegal: ["Art. 145.2.a LCSP (com a part de qualitat o servei postvenda)", "Art. 210.e LCSP (com a condició especial d'execució)"],
-                                descripcio: "Valora l'extensió del període de garantia legal o mínim exigit.",
-                                plecsHanDEspecifiar: ["Període de garantia mínim obligatori", "Abast de la garantia addicional valorable", "Unitat de mesura per l'ampliació"],
-                                formesValoracio: ["Puntuació Proporcional a l'Ampliació", "Puntuació Fixa per Trams d'Ampliació", "Màxima Puntuació a la Major Ampliació (amb límit)"],
-                                jurisprudenciaClau: ["Claredat en l'abast", "Solvència del garant", "Proporcionalitat de la ponderació"]
-                            },
-                            caracteristiquesTecniquesQuant: {
-                                titol: "Característiques Tècniques Quantificables o Certificables",
-                                fonamentLegal: ["Art. 145.2.a LCSP (qualitat, característiques tècniques)"],
-                                tipologia: ["Rendiment o Eficiència Superior (energètica, consum aigua, velocitat procés)", "Major Durabilitat o Resistència (cicles vida, resistència materials)", "Menors Emissions o Impacte Ambiental Quantificable (NOx, material reciclat, petjada carboni)", "Funcionalitats Addicionals Mesurables (canals, resolució, capacitat)", "Possessió de Segells/Certificacions Específiques de Producte (Ecolabel, EPEAT, etc.)"],
-                                formesValoracio: ["Puntuació Directa per Nivell Alcançat", "Puntuació Proporcional a la Millora", "Suma de Punts per Característiques Addicionals"],
-                                jurisprudenciaClau: ["Objectivitat i Verificabilitat", "No Restringir Competència Indegudament", "Rellevància per l'Objecte", "Distinció amb Requisits Mínims (TACRC 63/2015)"]
-                            },
-                            altresPrestacionsQuant: {
-                                titol: "Altres Prestacions Addicionals Quantificables",
-                                descripcio: "Millores o prestacions addicionals objectivament quantificables i valorables mitjançant fórmula.",
-                                exemples: ["Hores de formació addicionals", "Documentació tècnica extra detallada", "Llicències de programari addicionals sense cost", "Equipaments o accessoris complementaris útils", "Compromís de resposta tècnica en termini inferior al màxim", "Major freqüència d'informes"],
-                                formesValoracio: ["Puntuació Proporcional a la Quantitat Addicional", "Punts Fixos per Unitat Addicional"]
-                            }
+                            preu: { titol: "Criteri Preu", fonamentLegal: ["Art. 145.2.c LCSP", "Art. 146.2.a LCSP"], modalitatsPresentacio: ["Preu Global Alçat", "Preus Unitaris"], formesValoracio: ["Preu Més Baix", "Fórmules Proporcionalitat"], baixesAnormals: "Art. 149 LCSP" },
+                            costCicloVidaRef: { titol: "Cost del Cicle de Vida (CCV)", veureSeccio: "costCicloVida" },
+                            terminiExecucio: { titol: "Termini d'Execució o Entrega", descripcio: "Valora la reducció del temps. S'han d'especificar límits i fórmula.", exemples: this.imagesData.criteris_automatic_subjectius?.find(c => c.nom.toLowerCase().includes("asistencia tecnica")) ? [this.imagesData.criteris_automatic_subjectius.find(c => c.nom.toLowerCase().includes("asistencia tecnica"))] : [] },
+                            garantiaAddicional: { titol: "Període de Garantia Addicional", descripcio: "Valora l'extensió del període de garantia. Especificar abast i unitat.", exemples: this.imagesData.criteris_automatic_subjectius?.find(c => c.nom.toLowerCase().includes("garantía")) ? [this.imagesData.criteris_automatic_subjectius.find(c => c.nom.toLowerCase().includes("garantía"))] : [] },
+                            caracteristiquesTecniquesQuant: { titol: "Característiques Tècniques Quantificables", descripcio: "Rendiment, eficiència, durabilitat, emissions (quantificables), certificacions de producte.", exemples: this.imagesData.criteris_automatic_subjectius?.filter(c => c.nom.toLowerCase().includes("eficiencia energética")) || [] },
+                            altresPrestacionsQuant: { titol: "Altres Prestacions Addicionals Quantificables", descripcio: "Hores formació, documentació extra, llicències addicionals, etc." }
                         }
                     },
                     subjectius: {
                         titol: "Criteris la Quantificació dels Quals Depèn d'un Judici de Valor (Subjectius/Qualitatius)",
                         descripcio: "La seva valoració requereix una apreciació tècnica o qualitativa per un comitè d'experts. S'avaluen abans que els criteris automàtics.",
                         principisEssencials: ["Definició clara i detallada als plecs", "Motivació suficient i raonada de la valoració", "Discrecionalitat tècnica vs. Arbitrarietat", "Competència i imparcialitat de l'òrgan de valoració"],
-                        jurisprudenciaGeneralRellevant: ["TACRC 1065/2016 (motivació)", "TACRC 785/2019 (major motivació que automàtics)", "TACRC 423/2024 (límits control judicial)"],
-                        exemplesConcretsOCR: [ // Información de la primera imagen (parte subjetiva) y segunda imagen
-                            { nom: "Mejora del Equipo Técnico (aspectos cualitativos de especialización)", punts: 10, descripcio: "Incorporació perfils tècnics diferents als de l'equip base, amb especialització singular (arqueologia, restauració, etc.). Es valora composició complementària, tasques específiques, justificació de treballs similars i formació. Cada tècnic especialista suma punts.", categoria:"Personal" },
-                            { nom: "Criterios Sociales (incorporación arquitectos)", punts: 1.5, descripcio: "Incorporació arquitectes amb menys de 5 anys col·legiació, o reincorporats post-maternitat/paternitat, o en atur de llarga durada. S'atorguen punts per incorporar almenys un arquitecte amb aquestes característiques.", categoria:"Social" },
-                            { nom: "Especialización (personal adscrito)", punts: 5, descripcio: "Especialització en treballs similars (redacció projectes/DO) del personal adscrit a l'execució. Es valora per nombre de projectes similars (fins a 5 punts).", categoria:"Personal" },
-                            { nom: "Formación continua (personal)", punts: 5, descripcio: "Acreditació de formació contínua del personal integrat. 1 punt cada 3 anys de formació contínua per professional, màxim 5 punts.", categoria:"Personal" },
-                            {
-                                nom: "Memoria Técnica (Qualitat de la proposta)", punts: 35, // De la segunda imagen
-                                subcriteris: [
-                                    { nom: "Interés Conceptual y Valor Arquitectónico", fins_a_punts: 8, desc: "Respecte tipologia, ordenació volums, ocupació, relacions espacials/volumètriques." },
-                                    { nom: "Valoración solución compositiva y/o estética", fins_a_punts: 7, desc: "Àmbits discursiu i visual, racionalitat, funcionalitat, equilibri espais (interiors, exteriors, entorn)." },
-                                    { nom: "Grado de idoneidad a tipología y uso", fins_a_punts: 5, desc: "Innovació, disseny, solucions tècniques/constructives, productes/equips/sistemes prescrits que atenguin millor relació cost-eficàcia (preu i/o CCV art.146 LCSP)." },
-                                    { nom: "Características medioambientales", fins_a_punts: 5, desc: "Eficiència energètica, minimització incidències futures (materials/solucions eficients i fàcil manteniment), minimització petjada carboni (anàlisi CV materials/productes/equips/sistemes)." },
-                                    { nom: "Incorporación técnicas de bioclimatismo", fins_a_punts: 5, desc: "Implementació noves tecnologies edificació, entorn sostenible, qualitat ambient interior, reducció efectes negatius." },
-                                    { nom: "Integración planteamientos que mejoren determinaciones técnicas/económicas PPT", fins_a_punts: 2.5, desc: "No incloïes en altres apartats." },
-                                    { nom: "Capacidad de Adecuación al Programa de Necesidades", fins_a_punts: 2.5, desc: "Justificació propostes alternatives, justificació superfícies, funcionalitat, adaptació equipament." }
-                                ]
-                            },
-                            {
-                                nom: "Calidad del Servicio (prestación de servicios)", punts: 10, // De la segunda imagen, asumiendo que "Servicio: 10,00" se refiere a esto.
-                                subcriteris: [
-                                    { nom: "Nivel de detalle contenido técnico propuesta (estudio previo/anteproyecto)", fins_a_punts: 2 },
-                                    { nom: "Nivel de cumplimiento recomendaciones/especificaciones técnicas PPT", fins_a_punts: 2 },
-                                    { nom: "Análisis preliminar cumplimiento exigencias básicas normativas (CTE, accesibilidad)", fins_a_punts: 1 },
-                                    { nom: "Estudio de viabilidad Económica de la propuesta", fins_a_punts: 5 }
-                                ]
-                            }
+                        exemplesConcretsOCR: this.imagesData.criteris_automatic_subjectius?.filter(c => c.tipus === 'subjectiu') || [],
+                        subCriterisTextGeneral: [
+                            { nom: "Qualitat Tècnica de la Proposta / Memòria Tècnica", descripcio: "Coherència global, comprensió necessitats, adequació solucions, detall i rigor documentació. Veure exemples OCR per a desglossament específic.", subExemples: this.imagesData.memoria_tecnica_servei?.memoria_tecnica?.subcriteris || [] },
+                            { nom: "Metodologia o Pla de Treball", descripcio: "Adequació metodologia, claredat pla de treball, identificació fases/tasques, assignació recursos, control i seguiment, gestió riscos." },
+                            { nom: "Organització, Qualificació i Experiència del Personal Adscrit", descripcio: "Estructura organitzativa, qualificació acadèmica/formació, experiència específica personal clau, dedicació horària, pla estabilitat/substitució. Diferent de solvència. Veure text 'L'experiència com a criteri d'adjudicació'.", infoAddicionalSource: "experiencia_com_a_criteri" },
+                            { nom: "Característiques Mediambientals (Qualitatives)", descripcio: "Qualitat Pla Gestió Ambiental específic, propostes minimització residus innovadores, plans protecció biodiversitat. Vinculació estricta a l'objecte." },
+                            { nom: "Característiques Socials (Qualitatives)", descripcio: "Qualitat Pla Inserció Laboral, Pla Igualtat Gènere específic contracte, millora condicions laborals personal adscrit. Vinculació estricta a l'execució contracte.", exemplesText: this.getSocialBenefitExamples() },
+                            { nom: "Innovació de la Solució", descripcio: "Originalitat, valor afegit, viabilitat tècnica, maduresa innovació (TRL).", exemplesText: this.getInnovationExamples() },
+                            { nom: "Servei Postvenda i Assistència Tècnica (Qualitatius)", descripcio: "Qualitat Pla Suport i Manteniment, organització SAT, proactivitat, qualitat documentació suport, plans formació ús/manteniment.", subExemples: this.imagesData.memoria_tecnica_servei?.servei?.subcriteris || [] },
+                            { nom: "Millores sobre els Requisits Mínims (Qualitatives)", descripcio: "Prestacions addicionals valorables qualitativament. No requisits encoberts, no modificar objecte, gratuïtes. Definir àmbits i paràmetres valoració." },
+                            { nom: "Característiques Estètiques o Funcionals (Qualitatives)", descripcio: "Aparença visual, disseny, ergonomia, usabilitat. Comitè experts amb perfil adequat. Pliecs han de guiar subjectivitat." },
+                            { nom: "Accessibilitat Universal i Disseny per a Tothom (Qualitatives)", descripcio: "Propostes que van més enllà dels mínims d'accessibilitat, millorant ús per a persones amb diverses capacitats." },
+                            { nom: "Condicions d'Entrega o Execució (Qualitatives)", descripcio: "Qualitat Pla Entrega/Execució, mesures integritat, protocols coordinació, minimització molèsties, seguretat i salut superiors a mínims." }
                         ],
-                        subCriterisDetallats: {
-                            qualitatTecnica: { // Ampliado con información del texto y OCR
-                                titol: "Qualitat Tècnica de la Proposta / Memòria Tècnica Descriptiva",
-                                fonamentLegal: ["Art. 145.2.a LCSP (qualitat, característiques tècniques/estètiques/funcionals)"],
-                                objecteValoracio: ["Coherència global", "Comprensió necessitats", "Adequació i viabilitat solucions tècniques", "Nivell detall i rigor documentació", "Robustesa, fiabilitat, escalabilitat", "Integració sistemes", "Claredat expositiva"],
-                                desglossamentSubcriterisExemples: ["Comprensió dels Objectius i Necessitats", "Adequació i Disseny de la Solució Tècnica", "Nivell de Detall, Claritat i Rigor Documentació Tècnica", "Viabilitat i Realisme de la Proposta", "(Veure exemples OCR per a desglossament Memòria Tècnica contracte serveis)"],
-                                formaValoracioGeneral: ["Establiment d'escales/nivells", "Anàlisi individualitzat i comparatiu", "Informe de valoració detallat (identificar membres comitè, procés avaluació, resum proposta, puntuació, motivació exhaustiva per subcriteri)"],
-                                jurisprudenciaClau: ["Necessitat desglossament subcriteris (TACRC 984/2017, 182/2020)", "Motivació exhaustiva i comparativa (TACRC 709/2018)", "Informe tècnic no pot contradir plec", "Límits control judicial discrecionalitat tècnica"]
-                            },
-                            metodologiaPlaTreball: {
-                                titol: "Metodologia o Pla de Treball",
-                                fonamentLegal: ["Art. 145.2.a LCSP (qualitat, procés producció/prestació)"],
-                                objecteValoracio: ["Adequació metodologia", "Claredat i coherència pla de treball", "Identificació fases/tasques/fites/entregables", "Assignació de recursos", "Mecanismes control i seguiment", "Gestió riscos execució", "Protocols comunicació"],
-                                desglossamentSubcriterisExemples: ["Adequació i Detall Planificació Tasques i Cronograma", "Assignació Recursos i Mitjans", "Sistema Control Qualitat, Seguiment i Reporting", "Gestió Riscos i Pla Contingències", "Protocols Comunicació i Coordinació"],
-                                formaValoracioGeneral: ["Definició nivells qualitat/compliment", "Anàlisi individualitzat i comparatiu", "Informe valoració detallat"],
-                                jurisprudenciaClau: ["Distinció amb solvència", "Valorar plans concrets, no intencions genèriques", "Necessitat concreció plecs (TACRC 388/2018)", "Motivació detallada (TACRC 1118/2024)"]
-                            },
-                            personalAdscrit: {
-                                titol: "Organització, Qualificació i Experiència del Personal Adscrit al Contracte",
-                                fonamentLegal: ["Art. 145.2.a LCSP (si qualitat personal afecta significativament millor execució)"],
-                                descripcio: "Valora idoneïtat equip humà específic per al contracte.",
-                                distincioSolvencia: "Solvència és aptitud mínima general; criteri adjudicació valora personal concret per a AQUEST contracte.",
-                                doctrinaTJUE_C601_13: "Experiència equip concret pot ser característica intrínseca oferta, vinculada a qualitat professional.",
-                                requisitsInclusioComACriteri: ["Experiència superior al mínim de solvència", "Compliment Art. 145.5 LCSP", "Justificació a l'expedient (Art. 116.4 LCSP) que qualitat personal afecta execució (TCCSP 88/2019)"],
-                                desglossamentSubcriterisExemples: ["Estructura Organitzativa i Coordinació Equip", "Qualificació Acadèmica i Formació Específica Addicional Personal Clau", "Experiència Professional Específica i Rellevant Personal Clau", "Dedicació Horària Efectiva Personal Clau", "Pla Gestió Coneixement, Estabilitat i Mecanismes Substitució Personal"],
-                                formaValoracioGeneral: ["Identificació personal clau als plecs", "Presentació documentació (CVs, cartes compromís)", "Valoració per Comitè Experts", "Compromís adscripció i substitució (amb aprovació òrgan contractació)"],
-                                jurisprudenciaClau: ["Vinculació a l'objecte", "No discriminació PIMEs", "Intentar objectivació", "Mínim és solvència, millora és criteri (TACRC 135/2019)", "Compromís adscripció efectiu (TACRC 678/2021)"]
-                            },
-                            caracteristiquesMediambientalsQualit: {
-                                titol: "Característiques Mediambientals (Subjectes a Judici de Valor)",
-                                fonamentLegal: ["Art. 1.3 LCSP (transversal)", "Art. 145.2.b LCSP", "Art. 147 LCSP"],
-                                objecteValoracioExemples: ["Qualitat Pla Gestió Ambiental específic", "Propostes minimització residus innovadores", "Plans protecció biodiversitat", "Ús tècniques constructives/productives menor impacte", "Qualitat anàlisi cicle vida qualitatiu"],
-                                desglossamentSubcriterisExemples: ["Qualitat i Abast Pla Gestió Ambiental Específic", "Propostes Innovadores Minimizació Residus i Ús Eficient Recursos", "Qualitat Pla Protecció Biodiversitat", "Qualitat Anàlisi Cicle Vida (ACV) Qualitatiu"],
-                                jurisprudenciaClau: ["Vinculació estricta objecte (TJUE C-448/01, TACRC 175/2019)", "No discriminació i verificabilitat", "Evitar doble valoració", "Precisió definició (no genèrics)", "Caràcter addicional propostes (TACRC 831/2020)"]
-                            },
-                            caracteristiquesSocialsQualit: {
-                                titol: "Característiques Socials (Subjectes a Judici de Valor)",
-                                fonamentLegal: ["Art. 1.3 LCSP", "Art. 145.2.b LCSP", "Art. 147 LCSP"],
-                                objecteValoracioExemplesOCR: ["Inserció laboral col·lectius vulnerables", "Subcontractació Centres Especials Ocupació/Empreses Inserció", "Plans igualtat gènere aplicats a execució", "Foment contractació femenina", "Mesures conciliació", "Millora condicions laborals/salarials", "Formació i protecció salut/seguretat personal adscrit"],
-                                desglossamentSubcriterisExemples: ["Qualitat i Abast Pla Inserció Laboral Col·lectius Vulnerables", "Qualitat i Impacte Pla Igualtat Gènere Específic Contracte", "Qualitat Propostes Millora Condicions Laborals Personal Adscrit"],
-                                jurisprudenciaClau: ["Vinculació estricta execució contracte (no política general empresa)", "Verificabilitat", "No discriminació", "Claredat i precisió plecs", "Proporcionalitat ponderació"]
-                            },
-                            innovacioSolucio: {
-                                titol: "Innovació de la Solució",
-                                fonamentLegal: ["Art. 145.2.a LCSP", "Art. 1.3 LCSP"],
-                                objecteValoracio: ["Originalitat i grau novetat", "Valor afegit i beneficis tangibles", "Viabilitat tècnica i econòmica", "Maduresa innovació (TRL)"],
-                                desglossamentSubcriterisExemples: ["Grau Novetat i Originalitat", "Valor Afegit i Beneficis Concrets", "Viabilitat Tècnica i Maduresa", "Potencial Escalabilitat o Replicabilitat"],
-                                formaValoracioGeneral: ["Definició clara problema/repte", "Evitar restricció excessiva", "Comitè experts amb visió futur", "Motivació detallada"],
-                                jurisprudenciaClau: ["Vinculació objecte i necessitats reals", "Claredat definició criteri (TACRC 200/2019)", "Evitar discriminació tecnològica", "Equilibri risc/innovació", "Motivació rigorosa"]
-                            },
-                            serveiPostvendaAssistenciaTecnicaQualit: {
-                                titol: "Servei Postvenda i Assistència Tècnica (Aspectes Qualitatius)",
-                                fonamentLegal: ["Art. 145.2.a LCSP"],
-                                objecteValoracio: ["Qualitat Pla Suport i Manteniment", "Organització SAT (personal, nivells, escalat)", "Proactivitat servei (manteniment predictiu)", "Qualitat documentació suport", "Procediments gestió garanties/reparacions", "Disponibilitat i qualificació personal suport", "Plans formació ús/manteniment bàsic"],
-                                desglossamentSubcriterisExemples: ["Qualitat i Exhaustivitat Pla Suport i Manteniment", "Organització i Mitjans SAT", "Qualitat Documentació Suport i Eines Autoajuda", "Qualitat Plans Formació Ús i Manteniment Bàsic"],
-                                jurisprudenciaClau: ["Concreció i detall plecs", "Distinció obligacions mínimes garantia", "Realisme i credibilitat propostes", "Valorar qualitat aplicada al contracte, no simple existència SAT", "Motivació basada en elements concrets pla ofertat"]
-                            },
-                            milloresRequisitsMinimsQualit: {
-                                titol: "Millores sobre els Requisits Mínims (Subjectes a Judici de Valor)",
-                                fonamentLegal: ["Art. 145.2.a LCSP (qualitat, característiques tècniques/funcionals/estètiques)", "Innovació"],
-                                descripcio: "Valora prestacions, característiques o funcionalitats addicionals ofertes per sobre dels mínims del PPT, amb valoració qualitativa.",
-                                condicionsMillores: ["No ser requisits encoberts", "No modificar substancialment objecte contracte", "Ser gratuïtes o incloses en preu ofertat"],
-                                desglossamentSubcriterisOEspecificacioAmbits: ["Definir àmbits/categories de millores valorables (programari, materials obra, procediments servei)", "Establir com descriure i justificar millores", "Indicar paràmetres qualitatius per jutjar valor"],
-                                exemplesAmbitsSubcriteris: ["Millores Funcionalment Programari (Utilitat i Rellevància Funcionalitats Addicionals)", "Millores Qualitat Materials Obra (Impacte en Durabilitat/Manteniment/Sostenibilitat)", "Millores Prestació Servei Atenció Ciutadà (Innovació i Eficàcia en Experiència Ciutadà)"],
-                                formaValoracioGeneral: ["Presentació separada i clara", "Llista tancada (recomanable) o oberta de millores", "Valoració per Comitè Experts", "No puntuació de 'no millores' o irrellevants", "Motivació rigorosa"],
-                                jurisprudenciaClau: ["Definició precisa plecs (TACRC 115/2018)", "No alteració objecte contracte", "Gratuïtat i no condicionament", "Objectivitat en valoració (beneficis reals)", "Evitar valorar elements que haurien de ser requisits mínims", "Proporcionalitat ponderació"]
-                            },
-                            caracteristiquesEstetiquesFuncionalsQualit: {
-                                titol: "Característiques Estètiques o Funcionals (Subjectes a Judici de Valor)",
-                                fonamentLegal: ["Art. 145.2.a LCSP (qualitat, característiques estètiques/funcionals)"],
-                                descripcio: "Valora aspectes d'aparença visual, disseny, ergonomia, usabilitat o adequació funcional qualitativa.",
-                                objecteValoracio: ["Estètica (bellesa, harmonia, originalitat, adequació entorn)", "Funcionalitat Qualitativa (usabilitat, UX, ergonomia, adaptabilitat)", "Coherència forma/funció", "Capacitat transmissió valors/sensacions"],
-                                desglossamentSubcriterisExemples: [
-                                    "Estètica: Originalitat i Qualitat Disseny; Adequació Context/Entorn; Capacitat Comunicativa/Representativa Disseny",
-                                    "Funcionalitat: Usabilitat i Experiència Usuari (UX); Ergonomia i Confort"
-                                ],
-                                formaValoracioGeneral: ["Presentació elements visuals/prototips", "Comitè experts amb perfil adequat", "Definició paràmetres 'bon disseny/funcionalitat'", "Evitar 'm'agrada/no m'agrada' simplista", "Possibilitat sessions presentació (regulades)"],
-                                jurisprudenciaClau: ["Justificació rellevància criteri", "Composició comitè experts (TACRC 544/2013)", "Risc subjectivitat extrema (motivació acurada)", "No ser únic criteri o preponderant sense justificació forta", "Plecs han de guiar subjectivitat"]
-                            },
-                             accessibilitatUniversalQualit: { // Nueva sección basada en mención en OCR
-                                titol: "Accessibilitat Universal i Disseny per a Tothom (Aspectes Qualitatius)",
-                                fonamentLegal: ["Art. 145.2.a LCSP (implícit en qualitat i característiques funcionals)", "Legislació específica sobre accessibilitat"],
-                                descripcio: "Valora les propostes que van més enllà dels requisits mínims d'accessibilitat, oferint solucions que milloren significativament l'ús i la comprensió per a persones amb diverses capacitats.",
-                                objecteValoracio: [
-                                    "Qualitat de les solucions d'accessibilitat proposades (física, sensorial, cognitiva).",
-                                    "Aplicació de principis de disseny universal en la proposta global.",
-                                    "Superació dels estàndards mínims d'accessibilitat (ex. WCAG per a webs, normatives UNE específiques).",
-                                    "Innovació en solucions d'accessibilitat.",
-                                    "Consideració de les necessitats de diversos col·lectius d'usuaris."
-                                ],
-                                desglossamentSubcriterisExemples: [
-                                    "Qualitat i detall del Pla d'Accessibilitat per al projecte/servei.",
-                                    "Propostes d'adaptació específica per a diferents tipus de discapacitat.",
-                                    "Usabilitat i facilitat d'ús de les solucions d'accessibilitat proposades.",
-                                    "Formació del personal en atenció a persones amb diversitat funcional (si aplica al servei)."
-                                ],
-                                formaValoracioGeneral: ["Presentació de memòria específica o secció detallada sobre accessibilitat.", "Valoració per comitè amb coneixements en accessibilitat.", "Motivació basada en l'impacte real de les mesures proposades."],
-                                jurisprudenciaClau: ["Necessitat de concreció en els plecs.", "Vinculació amb l'objecte del contracte.", "Valoració de millores efectives sobre els mínims legals."]
-                            },
-                            condicionsEntregaExecucioQualit: {
-                                titol: "Condicions d'Entrega o Execució (Aspectes Qualitatius)",
-                                fonamentLegal: ["Art. 145.2.a LCSP (condicions entrega/execució, procés producció/prestació)"],
-                                descripcio: "Valora aspectes qualitatius de la forma, mode, seguretat, logística o minimització de molèsties durant l'entrega o execució.",
-                                objecteValoracio: ["Qualitat Pla Entrega/Execució", "Mesures integritat subministraments", "Protocols coordinació", "Minimització molèsties/interferències", "Mesures seguretat i salut laboral superiors a mínims", "Qualitat plans prova/posada en marxa/integració", "Flexibilitat/adaptabilitat condicions entrega"],
-                                desglossamentSubcriterisExemples: ["Qualitat i Detall Pla Logística i Entrega (Subministraments)", "Propostes Minimizació Molèsties i Impactes Durant Execució (Obres/Serveis in situ)", "Qualitat Pla Seguretat i Salut Laboral Específic (Superant mínims)", "Qualitat Pla Proves, Posada en Marxa i Integració (Sistemes)"],
-                                formaValoracioGeneral: ["Descripció en oferta tècnica", "Avaluació per Comitè Experts", "Concreció i verificabilitat compromisos", "Informe motivat"],
-                                jurisprudenciaClau: ["Vinculació objecte i proporcionalitat", "Claredat plecs", "No confondre amb obligacions mínimes", "Possibilitat verificació", "Motivació detallada"]
-                            }
+                        textosClau: {
+                            criteris_qualitatius_general: `Els criteris qualitatius poden ser: • La qualitat, inclòs el valor tècnic, les característiques estètiques i funcionals, l'accessibilitat, el disseny, etc. • Les característiques socials... • Les característiques mediambientals... • L'organització, la qualificació i l'experiència del personal adscrit... • El servei postvenda, l'assistència tècnica i les condicions d'entrega... • Les millores... Els criteris qualitatius sempre s'han d'acompanyar de criteris relacionats amb els costos.`, // Extret de text proporcionat
+                            experiencia_com_a_criteri: `Tant la doctrina... com les resolucions... havien establert una diferència clara entre les característiques del licitador (solvència) i les de l'oferta (criteri d'adjudicació). Es rebutjava l'experiència com a criteri. Això evoluciona amb la STJUE C-601-13 (26/03/2015): l'experiència dels equips concrets proposats, al contrari que l'experiència general de l'empresa, està lligada a la qualitat professional i pot ser característica intrínseca de l'oferta. La Directiva 2014/24/UE (Cons. 94 i Art. 67.2.b) ho incorpora: organització, qualificació i experiència del personal encarregat si la qualitat del personal afecta significativament l'execució. L'Art. 145.2.2 LCSP ho transposa. Requisits: 1. Experiència per sobre del nivell mínim de solvència (TCCSP 48/2018). 2. Complir requisits Art. 145.5 LCSP (vinculació objecte, objectivitat, etc.). 3. Justificació en expedient que qualitat del personal afecta millor execució (Art. 116.4 LCSP, TCCSP 88/2019).` // Resum extret de text
                         }
                     }
+                },
+                exemplesPracticsQualitat: {
+                    titol: "Exemples Pràctics de Criteris de Qualitat (Enfocament en PYMEs i Startups)",
+                    introduccio: "Avaluar la qualitat no implica necessàriament usar criteris subjectes a judici de valor. També hi ha automàtics. És clau transformar els plecs per facilitar l'accés a PYMEs i startups, prioritzant la relació qualitat-preu sobre només preu.",
+                    aspectesValorar: [
+                        "Innovació tecnològica en les propostes.",
+                        "Impacte ambiental positiu o contribucions a la sostenibilitat.",
+                        "Beneficis socials, com la contratación de persones de col·lectius vulnerables."
+                    ],
+                    exemplesDetallats: [
+                        {
+                            ambit: "Beneficis socials (contractació col·lectius vulnerables)",
+                            exempleContracte: "Servei de neteja d'edificis públics",
+                            criteriDesc: "Es concediran X punts a ofertes que acreditin la contractació de persones de col·lectius vulnerables:",
+                            desglossament: [
+                                "X punts per contractar almenys 40% del personal entre persones aturades de llarga durada, majors de 45 anys o víctimes de violència de gènere.",
+                                "Y punts addicionals si l'empresa es compromet a oferir formació i certificació professional en neteja.",
+                                "Z punts addicionals si s'estableixen programes de promoció interna per a aquests treballadors."
+                            ]
+                        },
+                        {
+                            ambit: "Innovació tecnològica",
+                            exempleContracte: "Gestió de residus urbans",
+                            criteriDesc: "Es valorarà amb X punts la incorporació de tecnologies innovadores en la gestió i recollida de residus:",
+                            desglossament: [
+                                "Ús de sensors IoT en contenidors per optimitzar rutes i reduir CO2.",
+                                "Implementació de plataformes digitals de traçabilitat.",
+                                "Ús de vehicles elèctrics o de baixes emissions."
+                            ]
+                        },
+                        {
+                            ambit: "Impacte ambiental positiu / Sostenibilitat",
+                            exempleContracte: "Subministrament de mobiliari urbà",
+                            criteriDesc: "S'atorgaran X punts a propostes que incorporen materials sostenibles i procesos de fabricació amb menor impacte ambiental:",
+                            desglossament: [
+                                "Ús de fusta certificada.",
+                                "Incorporació de materials reciclats/reciclables (mínim 50%).",
+                                "Disseny modular que facilita manteniment i allarga vida útil."
+                            ]
+                        },
+                        {
+                            ambit: "Contracte de subministrament d'aliments per a menjadors escolars",
+                            subseccions: [
+                                {
+                                    titolSub: "Sostenibilitat i qualitat del producte (X punts)",
+                                    desglossament: [
+                                        "Ús de productos de proximidad y temporada (fins a A punts).",
+                                        "Reducció d'envasos plástics y ús de materiales biodegradables (fins a B punts).",
+                                        "Compromís amb la reducció del malbaratament alimentari (fins a C punts)."
+                                    ]
+                                },
+                                {
+                                    titolSub: "Impacte social i generació d'ocupació local (Y punts)",
+                                    desglossament: [
+                                        "Contractació de persones en risc d'exclusió social (fins a D punts).",
+                                        "Participació de productors locals i cooperatives agràries (fins a E punts)."
+                                    ]
+                                },
+                                {
+                                    titolSub: "Innovació i eficiència en la logística de distribució (Z punts)",
+                                    desglossament: [
+                                        "Reducció de l'impacte ambiental en l'entrega (vehicles elèctrics, logística optimitzada) (fins a F punts).",
+                                        "Sistemes de traçabilitat i control de qualitat (eines digitals) (fins a G punts).",
+                                        "Flexibilitat i capacitat de resposta davant necessitats excepcionals (fins a H punts)."
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
             },
-            solvencia: { // Ampliado con información del OCR y el texto
-                titol: "Requisits de Solvència",
-                descripcio: "Condicions mínimes d'aptitud per participar i executar el contracte. Regulats als Arts. 86-94 LCSP. No confondre amb criteris d'adjudicació.",
-                tipusSegonsContracteLCSP: [ // De la imagen 3
-                    { tipus: "Obres", article: "Art. 88 LCSP", exemples: "Relació obres executades, tècnics, maquinària, classificació (si escau)." },
-                    { tipus: "Subministraments", article: "Art. 89 LCSP", exemples: "Relació principals subministraments, mostres, descripció instal·lacions tècniques, sistemes gestió cadena subministrament, certificats qualitat." },
-                    { tipus: "Serveis", article: "Art. 90 LCSP", exemples: "Relació principals serveis, tècnics/unitats tècniques, titulacions/experiència personal, mesures gestió mediambiental, mitjans humans/materials, capacitat producció." }
-                ],
+            solvencia: {
+                titol: "Requisits de Solvència (Arts. 86 i ss. LCSP)",
+                introduccio: "Condicions mínimes d'aptitud per participar i executar el contracte. Es regulen al PCAP. El caràcter tècnic és innegable.",
+                tipusSolvencia: this.imagesData.solvencia_detall || [], // Utilitza dades de la imatge 3
                 economica: {
                     titol: "Solvència Econòmica i Financera (Art. 87 LCSP)",
-                    descripcio: "Garanteix la fortalesa financera per afrontar obligacions i riscos del contracte.",
-                    mitjans: [
-                        { nom: "Volum Anual de Negocis (Art. 87.1.a)", detall: "Global o específic de l'àmbit del contracte, referit al millor exercici dels 3 últims anys. Límit general: no excedir 1,5 vegades el VEC (o valor mitjà anual del VEC en plurianuals), excepte justificació. Considerar que alt volum no garanteix salut financera total." },
-                        { nom: "Assegurança d'Indemnització per Riscos Professionals (Art. 87.1.b)", detall: "Justificant d'existència i vigència. Comú en serveis professionals. Import cobertura proporcional, límit general 1.500.000€ (excepte justificació)." },
-                        { nom: "Patrimoni Net o Ràtio de Solvència Financera (Art. 87.1.c)", detall: "Acreditar nivell mínim de Patrimoni Net o ràtio entre Actius i Passius. Basat en comptes anuals aprovats i dipositats." }
+                    descripcio: "Garanteix la fortalesa financera. El mitjà típic és el volum de negoci referit al millor dels últims tres anys.",
+                    consideracionsVolumNegoci: [
+                        "Que una empresa tingui un determinat volum de negoci no determina que la seva economia estigui sanejada (pot ser menor que deutes a curt termini).",
+                        "La solvència ha de ser proporcionada: mai més de 1,5 vegades el valor estimat del contracte (VEC). Compte amb contractes plurianuals: prendre valor mitjà anual com a referència."
                     ],
-                    consideracionsGenerals: "Justificació, proporcionalitat, no restricció indeguda de competència."
+                    exempleCalculVolumNegoci: "Si el contracte té un VEC de 100.000€/any i dura 3 anys (VEC total 300.000€), no s'exigeix 1,5 x 300.000€, sinó 1,5 x 100.000€ (sobre el valor mitjà anual).",
+                    altresMitjansEconomica: [
+                        { nom: "Assegurança d'Indemnització per Riscos Professionals (Art. 87.1.b)", detall: "Justificant d'existència i vigència. Comú en serveis professionals. Import cobertura proporcional." },
+                        { nom: "Patrimoni Net o Ràtio de Solvència Financera (Art. 87.1.c)", detall: "Acreditar nivell mínim de Patrimoni Net o ràtio entre Actius i Passius." }
+                    ]
                 },
                 tecnica: {
                     titol: "Solvència Tècnica o Professional",
-                    descripcio: "Acredita capacitat tècnica i coneixements per executar correctament el contracte.",
-                    mitjansPrincipals: [
-                        {
-                            nom: "Experiència de l'Empresa en Treballs Similars",
-                            periodeReferencia: { obres: "Últims 5 anys (Art. 88.1.a)", subministraments: "Últims 3 anys (Art. 89.1.a)", serveis: "Últims 3 anys (Art. 90.1.a)" },
-                            definicioSimilar: "El plec ha de definir amb claredat. No limitar a tipus d'entitat o territori sense justificació. CPV per serveis/subministraments (precaució amb generalitat 3 primers dígits). Obres: grup/subgrup classificació.",
-                            proporcionalitat: "No exigir nombre desproporcionat de treballs previs ni valor excessiu.",
-                            empresesNovaCreacio: "Per contractes sota certs llindars (Obres VEC < 500.000€, Subm./Serv. no SARA), admetre obligatòriament mitjans alternatius per empreses < 5 anys (Arts. 88.4, 89.4, 90.5 LCSP). Error comú ometre-ho."
-                        },
-                        {
-                            nom: "Qualificació i Experiència del Personal (com a solvència)",
-                            detall: "Exigir titulacions i experiència mínima del personal que potencialment executarà. Distingir de criteri d'adjudicació que valora equip concret ofertat.",
-                            fonament: ["Art. 90.1.e LCSP (serveis)", "Art. 88.1.b LCSP (obres)"]
-                        },
-                        {
-                            nom: "Certificats de Qualitat i Gestió Mediambiental (ISO, UNE, EMAS)",
-                            qualitat: { fonament: "Art. 93 LCSP", detall: "Relació amb objecte, proporcionalitat. Admetre equivalents UE i altres proves." },
-                            mediambiental: { fonament: "Art. 94 LCSP", detall: "Referència a EMAS o altres reconeguts. Admetre equivalents UE i altres proves." },
-                            consideracions: "Impacte en PIMEs. Exposició Motius LCSP: certificats gestió mediambiental com a condició solvència tècnica."
-                        },
-                        {
-                            nom: "Mostres, Descripcions i Fotografies de Productes",
-                            fonament: "Art. 89.1.c LCSP (subministraments)",
-                            detall: "Per verificar compliment especificacions mínimes. Presentació abans fi termini ofertes. Plec ha d'indicar devolució i cost."
-                        },
-                        {
-                            nom: "Mitjans Materials Mínims (Instal·lacions, Maquinària, Equip Tècnic)",
-                            fonament: ["Art. 88.1.d (obres)", "Art. 89.1.d (subministraments)", "Art. 90.1.g (serveis)"],
-                            detall: "Exigir si són objectivament necessaris, rellevants i proporcionals. Acreditar disponibilitat (no propietat necessàriament)."
+                    descripcio: "Acredita capacitat tècnica i coneixements. Els gestors tècnics tenen un paper clau en definir requisits mínims d'accés, ben definits i proporcionals.",
+                    mitjansPerTipusContracte: [
+                        "Obres (Art. 88 LCSP): Relació obres executades, tècnics, maquinària, classificació (si escau).",
+                        "Subministraments (Art. 89 LCSP): Relació principals subministraments, mostres, descripció instal·lacions tècniques, sistemes gestió cadena subministrament, certificats qualitat.",
+                        "Serveis (Art. 90 LCSP): Relació principals serveis, tècnics/unitats tècniques, titulacions/experiència personal, mesures gestió mediambiental, mitjans humans/materials, capacitat producció."
+                    ],
+                    experienciaEmpresa: {
+                        titol: "Experiència de l'Empresa",
+                        detall: "Si se sol·licita, ha de ser concreta i relacionada amb l'objecte (no tipus d'entitat, territori, etc.). Per definir 'similar': Obres (grup/subgrup predominant), Serveis/Subministraments (3 primers dígits CPV, amb precaució per generalitat). No exigir massa treballs previs o massa específics."
+                    },
+                    empresesNovaCreacio: {
+                        titol: "Empreses de Nova Creació (< 5 anys)",
+                        detall: "Per contractes d'obres VEC < 500.000€ i no SARA (serveis/subministraments VEC < llindars SARA), s'ha de permetre un mitjà alternatiu d'acreditació. Error freqüent no incloure'l concretament."
+                    },
+                    personalAdscritSolvencia: {
+                        titol: "Qualificació i Experiència del Personal (Com a Solvència)",
+                        detall: "Es pot exigir la qualificació i experiència mínima del personal a adscriure. Diferent de l'experiència de l'empresa. Pot ser: solvència, prescripció del PPT (mitjans humans mínims), criteri d'adjudicació, o condició especial d'execució."
+                    },
+                    certificatsQualitatSolvencia: {
+                        titol: "Certificats de Qualitat (ISO, UNE) com a Solvència",
+                        descripcio: "Es poden exigir si guarden relació directa amb l'objecte i són proporcionals. Compte: poden excloure PYMEs. Recomanable conèixer si són necessaris i si el mercat els té.",
+                        regulacioLCSP: "Art. 93 LCSP (per SARA): referència a sistemes basats en normes europees, reconèixer equivalents UE i altres proves. Art. 94 LCSP (Gestió Mediambiental SARA): referència a EMAS o altres reconeguts, reconèixer equivalents i altres proves.",
+                        exposicioMotiusLCSP: "LCSP (Exposició de Motius): 'En l'àmbit mediambiental, s'exigeixen certificats de gestió medioambiental a les empreses licitadores, com a condició de solvència tècnica...'",
+                        reglaGeneralVsExcepcio: "Com a regla general, els certificats de qualitat són requisit de solvència. Excepcionalment, criteri d'adjudicació si es refereixen a característiques pròpies del producte/servei, no de l'empresa en general (TACRC).",
+                        articleFJVazquezMatilla: {
+                            titol: "Certificados de calidad en la contratación pública: solvencia técnica como regla general y criterio de adjudicación por excepción",
+                            autor: "Fco. Javier Vázquez Matilla",
+                            resum: "Analitza circumstàncies i modalitats d'ús dels certificats com a solvència o criteri, examinant marc normatiu i jurisprudència. Explora efectes sobre concurrència (barreres PYMEs) i proposa recomanacions.",
+                            puntsClauArticle: [
+                                "STJUE Lianakis (C-532/06): Exclou com a criteris d'adjudicació aquells vinculats a l'aptitud dels licitadors, no a identificar l'oferta econòmicament més avantatjosa.",
+                                "TACRC 906/2014: Certificats són modus d'acreditar solvència tècnica, no criteris de valoració d'ofertes.",
+                                "TACRC 786/2019: Certificats es refereixen a processos productius genèrics de l'empresa, no a característiques de la prestació en si mateixa.",
+                                "TACRC 321/2018: Per exigir-los com a solvència: vinculació clara amb objecte, proporcionalitat, admissió d'alternatives. Excepcional com a criteri d'adjudicació.",
+                                "TACRC 635/2024 (canvi de postura matisat): Permet ISO 9001/14001 com a criteri si hi ha vinculació clara amb objecte i permeten mesurar rendiment de l'oferta (millor relació qualitat-preu). Requereix motivació en expedient (Art. 116.4 LCSP)."
+                            ]
                         }
-                    ]
+                    },
+                    mostresProducte: {
+                        titol: "Mostres del Producte",
+                        detall: "En subministraments (i menys en serveis), es poden sol·licitar mostres. Lliurament abans de fi de termini d'ofertes. Es poden valorar criteris amb càrrec a la mostra."
+                    },
+                    mitjansMaterialsMinims: {
+                        titol: "Mitjans Materials Mínims",
+                        detall: "Instal·lacions, maquinària, equips. Sol·licitar quan siguin rellevants i amb mesura."
+                    }
+                },
+                fomentPYMES: {
+                    titol: "Foment de la Participació de PYMEs i Empreses Emergents",
+                    importanciaPYMES: "PYMEs a Espanya: 97% empreses, 63,8% ocupació. Microempreses (<10 empleats): 94% d'aquestes.",
+                    lcspArt1: "Obliga a facilitar accés a PYMEs i empreses d'economia social. Malgrat això, LCSP només cita 'PYME' 7 cops, de forma poc útil.",
+                    lleiFomentEmpresesEmergents: "Llei 28/2022 (Art. 14.3): Valorar en plecs requisits de solvència i criteris d'adjudicació que facilitin accés a empreses emergents, especialment en zones rurals, promovent productes locals, ecològics, energies renovables.",
+                    barreresPYMES: "Estratègia Nacional Contratación Pública 2023-2026: Reconeix barreres (accés informació, procediments). Repte: promoure participació PYME. Causes: falta formació, problemes pagaments, limitació requisits d'accés.",
+                    factorsDecisionEmpreses: [
+                        "Identificació necessitat i 'pain points' de l'entitat pública.",
+                        "Suficiència del preu i termini.",
+                        "Criteris d'admissió (CPV, solvència econòmica/tècnica, possibles imposicions geogràfiques).",
+                        "Criteris d'adjudicació (claredat, objectivitat, focus de l'entitat pública)."
+                    ],
+                    impacteCertificatsQualitatEnPYMES: "L'exigència o valoració de certificats de qualitat complica participació PYMEs (costos elevats, processos arduos). Sovint perceben manca de motivació clara o sospites de favoritisme."
                 }
             },
             conclusionsBonesPractiques: {
@@ -356,7 +359,7 @@ class ContentLoader {
                  punts: [
                     "Planificació i Estudi Previ: Analitzar adequadament les necessitats i el mercat abans de definir requisits.",
                     "Redacció Clara i Precisa dels Plecs: Evitar ambigüitats que generin incertesa o impugnacions.",
-                    "Foment de la Concurrència: Dissenyar requisits de solvència i criteris d'adjudicació que no restringeixin innecessàriament la participació, especialment de PIMEs i empreses de nova creació.",
+                    "Foment de la Concurrència: Dissenyar requisits de solvència i criteris d'adjudicació que no restringeixin innecessàriament la participació, especialment de PYMEs i empreses de nova creació.",
                     "Proporcionalitat: Tant la solvència exigida com la ponderació dels criteris han de ser proporcionals a l'objecte i valor del contracte.",
                     "Distinció Clara Solvència/Criteris: No utilitzar un requisit de solvència com a criteri d'adjudicació, tret que es valori una millora substancial sobre el mínim.",
                     "Desglossament de Criteris Subjectius: Detallar els subcriteris i paràmetres de valoració per evitar l'arbitrarietat.",
@@ -366,6 +369,24 @@ class ContentLoader {
                  ]
             }
         };
+    }
+
+    // Funcions auxiliars per extreure informació específica dels textos llargs
+    getSocialBenefitExamples() {
+        // Extreure de this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats
+        const socialExample = this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats.find(ex => ex.ambit.includes("Beneficis socials"));
+        if (socialExample) {
+            return `${socialExample.exempleContracte}: ${socialExample.criteriDesc} ${socialExample.desglossament.join('; ')}`;
+        }
+        return "Exemples no trobats.";
+    }
+
+    getInnovationExamples() {
+        const innovationExample = this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats.find(ex => ex.ambit.includes("Innovació tecnològica"));
+        if (innovationExample) {
+            return `${innovationExample.exempleContracte}: ${innovationExample.criteriDesc} ${innovationExample.desglossament.join('; ')}`;
+        }
+        return "Exemples no trobats.";
     }
 
     // Mètodes per accedir al contingut
@@ -391,6 +412,10 @@ class ContentLoader {
     
     getDetailedCriteriaInfo(type, subCriteriKey) {
         const criteriaType = this.getCriteriaInfo(type);
+        if (type === 'subjectius') {
+            // Per a subjectius, buscar dins de subCriterisTextGeneral
+            return criteriaType?.subCriterisTextGeneral?.find(sc => sc.nom.toLowerCase().includes(subCriteriKey.toLowerCase())) || null;
+        }
         return criteriaType?.subCriterisDetallats?.[subCriteriKey] || null;
     }
 
@@ -401,15 +426,23 @@ class ContentLoader {
         }
         return this.legalContent.solvencia[type] || null;
     }
+    
+    getSolvencyDetailsForImage() {
+        return this.imagesData.solvencia_detall || [];
+    }
 
-    getSpecialAspects(type = null) { // Assuming aspectsEspecials structure exists or will be added
-        if (!this.legalContent.aspectesEspecials) return null;
-        if (!type) {
-            return this.legalContent.aspectesEspecials;
-        }
-        return this.legalContent.aspectesEspecials[type] || null;
+    getCriteriaExamplesFromImage() {
+        return this.imagesData.criteris_automatic_subjectius || [];
+    }
+
+    getTechnicalMemoryCriteriaFromImage() {
+        return this.imagesData.memoria_tecnica_servei || {};
     }
     
+    getPracticalQualityCriteria() {
+        return this.legalContent.criterisAdjudicacio?.exemplesPracticsQualitat || null;
+    }
+
     getBonesPractiques() {
         return this.legalContent.conclusionsBonesPractiques || null;
     }
@@ -422,9 +455,9 @@ class ContentLoader {
             for (const key in obj) {
                 if (typeof obj[key] === 'string' && obj[key].toLowerCase().includes(searchTerm)) {
                     results.push({ type, section: path.join('.'), item: obj[key], relevance: 2 });
-                } else if (obj[key]?.title?.toLowerCase().includes(searchTerm)) {
+                } else if (obj[key]?.titol?.toLowerCase().includes(searchTerm) || obj[key]?.nom?.toLowerCase().includes(searchTerm)){
                      results.push({ type, section: path.join('.'), item: obj[key], relevance: 5 });
-                } else if (obj[key]?.descripcio?.toLowerCase().includes(searchTerm)) {
+                } else if (obj[key]?.descripcio?.toLowerCase().includes(searchTerm) || obj[key]?.detall?.toLowerCase().includes(searchTerm)) {
                      results.push({ type, section: path.join('.'), item: obj[key], relevance: 3 });
                 } else if (Array.isArray(obj[key])) {
                     obj[key].forEach((item, index) => {
@@ -440,35 +473,17 @@ class ContentLoader {
             }
         };
         
-        if (this.legalContent.lcspInfo) searchInObject(this.legalContent.lcspInfo, ['LCSP'], 'Marc Legal');
-        if (this.legalContent.costCicloVida) searchInObject(this.legalContent.costCicloVida, ['CCV'], 'Cost Cicle Vida');
-        if (this.legalContent.criterisAdjudicacio) searchInObject(this.legalContent.criterisAdjudicacio, ['Criteris Adjudicació'], 'Criteris Adjudicació');
-        if (this.legalContent.solvencia) searchInObject(this.legalContent.solvencia, ['Solvència'], 'Solvència');
-        if (this.legalContent.conclusionsBonesPractiques) searchInObject(this.legalContent.conclusionsBonesPractiques, ['Bones Pràctiques'], 'Bones Pràctiques');
+        // Millorar l'abast de la cerca
+        for (const mainSectionKey in this.legalContent) {
+            searchInObject(this.legalContent[mainSectionKey], [mainSectionKey], mainSectionKey);
+        }
         
-        // Simple relevance boost for title matches
         results.forEach(res => {
-            if (res.item?.titol && typeof res.item.titol === 'string' && res.item.titol.toLowerCase().includes(searchTerm)) {
+            if (res.item?.titol?.toLowerCase().includes(searchTerm) || res.item?.nom?.toLowerCase().includes(searchTerm)) {
                 res.relevance += 5;
             }
         });
-        return results.sort((a, b) => b.relevance - a.relevance).slice(0, 15); // Limit results
-    }
-
-
-    calculateRelevance(item, searchTerm) { // Basic relevance, can be improved
-        let relevance = 0;
-        if (item.nom && item.nom.toLowerCase().includes(searchTerm)) relevance += 10;
-        if (item.descripcio && item.descripcio.toLowerCase().includes(searchTerm)) relevance += 5;
-        if (item.titol && item.titol.toLowerCase().includes(searchTerm)) relevance += 8;
-        
-        // Check other string properties
-        for (const key in item) {
-            if (typeof item[key] === 'string' && item[key].toLowerCase().includes(searchTerm)) {
-                relevance +=1;
-            }
-        }
-        return relevance;
+        return results.sort((a, b) => b.relevance - a.relevance).slice(0, 20);
     }
 
     generateSuggestions(context = '') {
@@ -480,7 +495,8 @@ class ContentLoader {
                 "Quins són els principis dels criteris d'adjudicació segons l'Art. 145 LCSP?",
                 "Com es valora el Cost del Cicle de Vida (CCV)?",
                 "Quins subcriteris pot tenir la Qualitat Tècnica d'una proposta?",
-                "Explica'm la diferència entre criteris automàtics i subjectius."
+                "Explica'm la diferència entre criteris automàtics i subjectius.",
+                "Com es valora l'experiència del personal com a criteri?"
             );
         }
         if (lowerContext.includes('solvència') || lowerContext.includes('aptitud')) {
@@ -488,7 +504,8 @@ class ContentLoader {
                 "Quins són els mitjans de solvència econòmica més comuns?",
                 "Com s'acredita l'experiència de l'empresa com a solvència tècnica?",
                 "Què diu la LCSP sobre les empreses de nova creació i la solvència?",
-                "Poden ser els certificats de qualitat un requisit de solvència?"
+                "Poden ser els certificats de qualitat un requisit de solvència?",
+                "Detalla la solvència per a contractes d'obres."
             );
         }
          if (lowerContext.includes('termini') || lowerContext.includes('plazo')) {
@@ -504,27 +521,45 @@ class ContentLoader {
                 "Què va dir el TJUE sobre l'experiència del personal com a criteri?"
             );
         }
-        if (lowerContext.includes('mediambiental') || lowerContext.includes('social')) {
+        if (lowerContext.includes('mediambiental') || lowerMessage.includes('social') || lowerMessage.includes('sostenibilitat')) {
             suggestions.push(
                 "Exemples de criteris mediambientals qualitatius.",
                 "Com es pot valorar la inserció laboral com a criteri social?",
-                "Quina vinculació han de tenir els criteris socials/mediambientals amb l'objecte del contracte?"
+                "Quina vinculació han de tenir els criteris socials/mediambientals amb l'objecte del contracte?",
+                "Dona'm exemples de criteris per fomentar el emprendiment local."
             );
         }
-        if (suggestions.length === 0) {
+        if (lowerContext.includes('certificat') && lowerContext.includes('qualitat')) {
             suggestions.push(
+                "Quan pot ser un certificat de qualitat un criteri d'adjudicació?",
+                "Què diu la jurisprudència sobre ISO com a criteri de solvència?",
+                "Com afecten els certificats de qualitat a les PYMEs?"
+            );
+        }
+        if (suggestions.length < 5) { // Afegeix suggeriments generals si no hi ha prou específics
+            const generalSuggestions = [
                 "Què diu l'article 145 de la LCSP?",
                 "Explica el Cost del Cicle de Vida (CCV).",
                 "Quins tipus de criteris subjectius existeixen?",
-                "Com s'acredita la solvència tècnica per a serveis?"
-            );
+                "Com s'acredita la solvència tècnica per a serveis?",
+                "Quines són les bones pràctiques per definir criteris?",
+                "Quins són els principals procediments de contractació?"
+            ];
+            for (const sg of generalSuggestions) {
+                if (suggestions.length < 5 && !suggestions.includes(sg)) {
+                    suggestions.push(sg);
+                }
+            }
         }
         return [...new Set(suggestions)].slice(0, 5); // Unique suggestions, max 5
     }
 
-    getContextualInfo(userMessage) { // Basic contextual info, can be expanded
+    getContextualInfo(userMessage) { 
         const lowerMessage = userMessage.toLowerCase();
         let contextData = {};
+        // Aquesta funció es podria expandir per retornar informació més específica basada en paraules clau
+        // Per exemple, si l'usuari pregunta per "criteris per a obres", podríem carregar informació específica
+        // de this.legalContent.criterisAdjudicacio.tipus.automatics.subCriterisDetallats o similar.
         if (lowerMessage.includes('145')) contextData.art145 = this.getArticleInfo('art145');
         if (lowerMessage.includes('148') || lowerMessage.includes('cicle de vida') || lowerMessage.includes('ccv')) {
             contextData.ccv = this.getCostCicloVidaInfo();

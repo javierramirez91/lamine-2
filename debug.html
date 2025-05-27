@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Contractació Pública</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        pre {
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug - Aplicació de Contractació Pública</h1>
+    
+    <div id="status-container">
+        <div class="status info">Iniciant proves de depuració...</div>
+    </div>
+
+    <script>
+        const statusContainer = document.getElementById('status-container');
+        
+        function addStatus(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.textContent = message;
+            statusContainer.appendChild(div);
+        }
+
+        // Test 1: DOM carregat
+        addStatus('✓ DOM carregat correctament', 'success');
+
+        // Test 2: JavaScript funcionant
+        addStatus('✓ JavaScript funcionant correctament', 'success');
+
+        // Test 3: Comprovar llibreries externes
+        setTimeout(() => {
+            if (typeof marked !== 'undefined') {
+                addStatus('✓ Marked.js carregat correctament', 'success');
+            } else {
+                addStatus('✗ Marked.js NO carregat', 'error');
+            }
+
+            // Test 4: Comprovar arxius locals
+            const scripts = ['content-loader.js', 'chatbot.js', 'app.js'];
+            
+            scripts.forEach(script => {
+                const scriptTag = document.createElement('script');
+                scriptTag.src = script;
+                scriptTag.onload = () => {
+                    addStatus(`✓ ${script} carregat correctament`, 'success');
+                    
+                    // Comprovar classes globals
+                    if (script === 'content-loader.js' && typeof ContentLoader !== 'undefined') {
+                        addStatus('✓ Classe ContentLoader disponible', 'success');
+                    }
+                    if (script === 'chatbot.js' && typeof Chatbot !== 'undefined') {
+                        addStatus('✓ Classe Chatbot disponible', 'success');
+                    }
+                    if (script === 'app.js' && typeof App !== 'undefined') {
+                        addStatus('✓ Classe App disponible', 'success');
+                    }
+                };
+                scriptTag.onerror = () => {
+                    addStatus(`✗ Error carregant ${script}`, 'error');
+                };
+                document.body.appendChild(scriptTag);
+            });
+
+            // Test 5: Comprovar configuració
+            setTimeout(() => {
+                if (typeof CONFIG !== 'undefined') {
+                    addStatus('✓ Configuració CONFIG disponible', 'success');
+                    addStatus(`API URL: ${CONFIG.API_URL}`, 'info');
+                    addStatus(`Model: ${CONFIG.MODEL}`, 'info');
+                } else {
+                    addStatus('✗ Configuració CONFIG NO disponible', 'error');
+                }
+
+                // Test 6: Intentar inicialitzar l'aplicació
+                if (typeof App !== 'undefined') {
+                    try {
+                        addStatus('Intentant inicialitzar App...', 'info');
+                        const testApp = new App();
+                        testApp.init().then(() => {
+                            addStatus('✓ App inicialitzada correctament!', 'success');
+                        }).catch(err => {
+                            addStatus(`✗ Error inicialitzant App: ${err.message}`, 'error');
+                            console.error(err);
+                        });
+                    } catch (err) {
+                        addStatus(`✗ Error creant App: ${err.message}`, 'error');
+                        console.error(err);
+                    }
+                }
+            }, 1000);
+        }, 500);
+
+        // Test errors globals
+        window.addEventListener('error', (e) => {
+            addStatus(`✗ Error global: ${e.message} a ${e.filename}:${e.lineno}`, 'error');
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</body>
+</html> 

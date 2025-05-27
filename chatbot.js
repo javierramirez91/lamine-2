@@ -327,17 +327,6 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
         }
     }
 
-    async generateResponse(userMessage) {
-        // Primer, intentar resposta basada en coneixement local
-        const localResponse = this.getLocalResponse(userMessage);
-        if (localResponse) {
-            return localResponse;
-        }
-
-        // Si no hi ha resposta local, usar API
-        return await this.getAPIResponse(userMessage);
-    }
-
     getLocalResponse(message) {
         const lowerMessage = message.toLowerCase();
         
@@ -364,6 +353,16 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
         // Respostes sobre aspectes mediambientals
         if (lowerMessage.includes('mediambiental') || lowerMessage.includes('ambiental') || lowerMessage.includes('sostenib')) {
             return this.getEnvironmentalResponse();
+        }
+
+        // Respostes sobre procediments
+        if (lowerMessage.includes('procediment') || lowerMessage.includes('licitació') || lowerMessage.includes('tipus de contracte')) {
+            if (lowerMessage.includes('obert') || lowerMessage.includes('restringit') || lowerMessage.includes('negociat') || lowerMessage.includes('diàleg') || lowerMessage.includes('innovació') || lowerMessage.includes('menor')) {
+                 // Si ja pregunta per un específic, anar a API per resposta més detallada
+                 // Aquesta funció ha de ser async per utilitzar await
+                 return null; // Marcar per a processament API
+            }
+            return this.getProceduresResponse();
         }
 
         return null;
@@ -518,32 +517,80 @@ Quin tipus de contracte tens? T'ajudo a definir terminis adequats!`;
 La sostenibilitat és el futur! Quin aspecte ambiental vols potenciar en el teu contracte?`;
     }
 
+    getProceduresResponse() {
+        return `**Procediments de Contractació Pública (LCSP)** 📜
+
+La Llei de Contractes del Sector Públic estableix diversos procediments per adjudicar contractes. Els principals són:
+
+**1. PROCEDIMENT OBERT (Art. 156-159 LCSP):**
+   • Qualsevol empresari interessat pot presentar una proposició.
+   • És el procediment ordinari i més transparent.
+   • No hi ha negociació.
+   • Hi ha una variant, el **procediment obert simplificat** (Art. 159 LCSP), per a contractes de valor estimat inferior a certs llindars, amb tràmits més àgils.
+     - **Contractes d'obres:** VEC < 2.000.000€
+     - **Contractes de serveis i subministraments:** VEC < 143.000€ (o llindar SARA aplicable)
+     - També existeix el **procediment obert súper simplificat** (o simplificat abreujat) per a contractes amb VEC < 60.000€ (obres) o < 35.000€ (serveis i subministraments), amb requisits encara menors.
+
+**2. PROCEDIMENT RESTRINGIT (Art. 160-165 LCSP):**
+   • Només poden presentar proposicions aquells empresaris que hagin estat seleccionats prèviament per l'òrgan de contractació, després de sol·licitar la seva participació.
+   • Es busca seleccionar els candidats més idonis.
+   • Mínim 5 candidats a convidar.
+   • No hi ha negociació.
+
+**3. PROCEDIMENT AMB NEGOCIACIÓ (Art. 166-171 LCSP):**
+   • L'adjudicació recau en el licitador justificadament elegit per l'òrgan de contractació, després d'efectuar consultes amb diversos candidats i negociar les condicions del contracte amb un o diversos d'ells.
+   • S'utilitza en circumstàncies específiques taxades per la llei (Art. 167 per a contractes SARA, Art. 168 per a no SARA), com ara prestacions complexes, innovadores, o quan no es puguin definir prèviament les especificacions tècniques.
+   • Pot ser **amb publicitat prèvia** (s'anuncia la licitació i se seleccionen candidats per negociar) o **sense publicitat prèvia** (en casos molt excepcionals, Art. 168.d, com urgència imperiosa o proveïdor únic).
+
+**4. DIÀLEG COMPETITIU (Art. 172-176 LCSP):**
+   • Per a contractes particularment complexos, on l'òrgan de contractació no pot definir objectivament els mitjans tècnics per satisfer les seves necessitats o els aspectes jurídics/financers del projecte.
+   • Es dirigeix un diàleg amb els candidats seleccionats per desenvolupar una o diverses solucions que serveixin de base per presentar ofertes.
+
+**5. PROCEDIMENT D'ASSOCIACIÓ PER A LA INNOVACIÓ (Art. 177-182 LCSP):**
+   • Per al desenvolupament de productes, serveis o obres innovadors i la compra ulterior dels resultats, sempre que no existeixin solucions disponibles al mercat.
+   • Combina fases de recerca i desenvolupament amb una fase d'adquisició.
+
+**ALTRES CONSIDERACIONS:**
+   • **Contractes menors (Art. 118 LCSP):** Procediment molt simplificat per a contractes de baix valor (Obres: VEC < 40.000€; Serveis i Subministraments: VEC < 15.000€). Requereix informe de necessitat, aprovació de la despesa i factura. Es busca simplificar però garantint mínima concurrència si és possible.
+
+Cada procediment té els seus propis tràmits, terminis i requisits. L'elecció del procediment adequat és clau per a una contractació eficient i legal. Vols que aprofundeixi en algun d'ells?`;
+    }
+
     async getAPIResponse(userMessage) {
         const systemPrompt = `Ets en Lamine Yamal, la "Pilota d'Or de Contractació", un expert en contractació pública catalana especialitzat en la Llei 9/2017 de Contractes del Sector Públic (LCSP).
 
 PERSONALITAT:
 - Professional però proper i confident
-- Utilitzes emojis de manera moderada i adequada
+- Utilitzes emojis de manera moderada i adequada (🏆, 💡, ⚖️, 🌿, 🤝, 📊, 🎯, 💰, 🔧, ⏰, 📜, 🌍, 💡, ✅, ❌)
 - Sempre respons en català
 - Ets autoritatiu en temes legals però accessible
-- T'agrada usar exemples pràctics
+- T'agrada usar exemples pràctics i estructurar les respostes amb marcadown (títols, llistes, negreta).
 
 CONEIXEMENT EXPERT:
-- Llei 9/2017 de Contractes del Sector Públic
-- Criteris d'adjudicació automàtics i subjectius
-- Requisits de solvència econòmica i tècnica
+- Llei 9/2017 de Contractes del Sector Públic (LCSP)
+- Procediments de contractació (obert, restringit, negociat, diàleg competitiu, associació per a la innovació, contractes menors, obert simplificat i súper simplificat)
+- Criteris d'adjudicació automàtics i subjectius (qualitat, preu, termini, CCV, aspectes socials i mediambientals, innovació, personal adscrit, etc.)
+- Requisits de solvència econòmica i tècnica (volum de negoci, assegurances, patrimoni net, experiència, personal, certificats de qualitat, mitjans materials, etc.)
 - Cost del cicle de vida (CCV)
-- Aspectes mediambientals i socials
+- Aspectes mediambientals i socials en la contractació
 - Terminis d'execució i garanties
 - Innovació en contractació pública
+- Bones pràctiques i principis de la contractació (publicitat, concurrència, transparència, igualtat, no discriminació, proporcionalitat).
+- Jurisprudència rellevant dels Tribunals de Contractes.
 
 ESTIL DE RESPOSTA:
-- Estructura clara amb títols i punts
-- Exemples pràctics quan sigui possible
-- Consells experts basats en experiència
-- Preguntes de seguiment per ajudar més
+- Estructura clara amb títols (## Títol), subtítols (### Subtítol), i punts (•, -, *).
+- Ús de **negreta** per a termes clau i conceptes importants.
+- Ús d'_itàlica_ per a èmfasi o citacions.
+- Exemples pràctics quan sigui possible, introduïts amb "Exemple:".
+- Consells experts basats en experiència, introduïts amb "💡 Consell Expert:" o "⚠️ Important:".
+- Preguntes de seguiment per ajudar més a l'usuari, com "Vols que aprofundeixi en algun punt?" o "Necessites exemples concrets per a un tipus de contracte específic?".
+- Si no saps la resposta o la informació és molt específica i no la tens, sigues honest i suggereix consultar fonts oficials o un expert legal.
 
-Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper.`;
+Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper. Adapta la teva resposta al context de la conversa.`;
+
+        this.showTypingIndicator();
+        let apiResponseContent = '';
 
         try {
             const response = await fetch(CONFIG.API_URL, {
@@ -575,21 +622,41 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper.`;
             }
 
             const data = await response.json();
-            return data.choices[0].message.content;
+            if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
+                apiResponseContent = data.choices[0].message.content;
+            } else {
+                console.error('API response format unexpected:', data);
+                apiResponseContent = this.getFallbackResponse(true); // Pass true for unexpected format
+            }
 
         } catch (error) {
             console.error('Error API:', error);
-            return this.getFallbackResponse();
+            apiResponseContent = this.getFallbackResponse(false, error.message.includes('Failed to fetch') || error.message.includes('NetworkError')); // Pass true if network error
         }
+        
+        this.hideTypingIndicator();
+        return apiResponseContent;
     }
 
-    getFallbackResponse() {
-        const fallbacks = [
-            "Disculpa, he tingut un problema tècnic momentani. Com a expert en contractació pública, puc assegurar-te que estic aquí per ajudar-te amb qualsevol dubte sobre la LCSP. Pots reformular la teva pregunta?",
-            "Sembla que hi ha hagut un petit problema de connexió. No et preocupis! Com la teva Pilota d'Or de Contractació, estic preparat per resoldre tots els teus dubtes. Torna a provar, si us plau.",
-            "Hi ha hagut una incidència tècnica, però no perdis la confiança en mi! Sóc expert en Llei 9/2017 i estic aquí per ajudar-te. Pots repetir la pregunta?"
-        ];
-        
+    getFallbackResponse(isFormatError = false, isNetworkError = false) {
+        let fallbacks;
+        if (isNetworkError) {
+            fallbacks = [
+                "Sembla que hi ha un problema de connexió en aquests moments 🌐. Si us plau, comprova la teva connexió a internet i torna a intentar-ho. Estic aquí per ajudar-te quan es restableixi!",
+                "Ups! No puc connectar-me per obtenir la informació més actualitzada. Verifica la teva xarxa i pregunta de nou. Mentrestant, puc intentar respondre amb el meu coneixement base si ho prefereixes."
+            ];
+        } else if (isFormatError) {
+            fallbacks = [
+                "He rebut una resposta en un format una mica estrany 🤔. Podries intentar reformular la teva pregunta? De vegades, un petit canvi fa la diferència!",
+                "Vaja, sembla que la meva connexió amb el núvol d'informació ha tingut un petit contratemps amb el format. Si us plau, torna a preguntar, potser amb altres paraules."
+            ];
+        } else {
+            fallbacks = [
+                "Disculpa, he tingut un problema tècnic momentani ⚙️. Com a expert en contractació pública, puc assegurar-te que estic aquí per ajudar-te amb qualsevol dubte sobre la LCSP. Pots reformular la teva pregunta?",
+                "Sembla que hi ha hagut un petit error en els meus circuits. No et preocupis! Com la teva Pilota d'Or de Contractació 🏆, estic preparat per resoldre tots els teus dubtes. Torna a provar, si us plau.",
+                "Hi ha hagut una incidència tècnica, però no perdis la confiança en mi! Sóc expert en Llei 9/2017 i estic aquí per ajudar-te. Pots repetir la pregunta?"
+            ];
+        }
         return fallbacks[Math.floor(Math.random() * fallbacks.length)];
     }
 
