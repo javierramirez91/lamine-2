@@ -514,7 +514,7 @@ class App {
                 <button class="modal-close-btn">&times;</button>
             </div>
             <div class="modal-body">
-                ${ typeof marked !== 'undefined' ? marked.parse(contentToShow) : contentToShow.replace(/\n/g, '<br>') }
+                ${ contentToShow.replace(/\n/g, '<br>') } 
             </div>
         `;
         
@@ -578,9 +578,11 @@ class App {
         if (targetSection) {
             targetSection.classList.add('active-section');
             // Forçar la visualització per a diagnòstic
+            /* // Eliminat ja que el problema principal és CSP
             if (sectionId === 'home') {
                 targetSection.style.display = 'block !important'; 
             }
+            */
             // Opcional: scroll a la secció
             // targetSection.scrollIntoView({ behavior: 'smooth' }); 
         } else {
