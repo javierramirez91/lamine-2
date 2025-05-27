@@ -59,12 +59,9 @@ exports.handler = async function(event, context) {
             body: JSON.stringify({
                 model: modelToUse,
                 messages: requestBody.messages,
-                // Pots afegir aquí altres paràmetres que accepti l\'API d\'OpenRouter
-                // com temperature, max_tokens, etc., si els vols controlar des del backend
-                // o si vols que el frontend els pugui especificar i els reenvies.
-                // Per exemple, si el frontend els envia:
-                // temperature: requestBody.temperature,
-                // max_tokens: requestBody.max_tokens,
+                // Reenviar temperature i max_tokens si el frontend els proporciona
+                ...(requestBody.temperature !== undefined && { temperature: requestBody.temperature }),
+                ...(requestBody.max_tokens !== undefined && { max_tokens: requestBody.max_tokens }),
             }),
         });
 
