@@ -1,72 +1,99 @@
 import fsExtra from 'fs-extra';
-const { readFileSync, writeFileSync, copyFileSync, ensureDirSync, readdirSync, existsSync } = fsExtra;
-import { resolve, dirname } from 'path';
+const { readFileSync, writeFileSync, copyFileSync, ensureDirSync, existsSync } = fsExtra;
+import { resolve } from 'path';
 
-console.log('Post-build: Iniciant procés d\'ajustament...');
+console.log('[Post-Build] Iniciant ajustos finals...');
 
 const distPath = resolve('dist');
 const publicPath = resolve('public');
-const assetsDistPath = resolve(distPath, 'assets');
 
-// 1. Assegurar que la carpeta dist/assets existeix
-ensureDirSync(assetsDistPath);
+// Arxius JS a copiar des de /public a /dist (arrel)
+const jsFilesToEnsureInDist = ['app.js', 'chatbot.js', 'content-loader.js'];
 
-// 2. Llista d'arxius JS a copiar des de la carpeta public (si existeixen)
-const jsFilesToCopy = ['app.js', 'chatbot.js', 'content-loader.js'];
-
-jsFilesToCopy.forEach(file => {
+console.log('[Post-Build] Copiant arxius JS addicionals...');
+jsFilesToEnsureInDist.forEach(file => {
     const sourcePath = resolve(publicPath, file);
-    const destPath = resolve(distPath, file); // Copiar a l'arrel de dist
+    const destPath = resolve(distPath, file); 
     if (existsSync(sourcePath)) {
-        copyFileSync(sourcePath, destPath);
-        console.log(`✓ Copiat ${file} a ${destPath}`);
+        try {
+            copyFileSync(sourcePath, destPath);
+            console.log(`  ✓ Copiat: ${sourcePath} -> ${destPath}`);
+        } catch (err) {
+            console.error(`  ✗ ERROR copiant ${file}:`, err);
+        }
     } else {
-        console.warn(`ATENCIÓ: No s'ha trobat ${sourcePath} per copiar.`);
+        console.warn(`  ⚠️ ATENCIÓ: L'arxiu font no existeix, no es copiarà: ${sourcePath}`);
     }
 });
 
-// 3. Llegir l'index.html generat per Vite dins de la carpeta dist
-const viteGeneratedIndexHtmlPath = resolve(distPath, 'index.html');
-if (!existsSync(viteGeneratedIndexHtmlPath)) {
-    console.error(`ERROR CRÍTIC: No s'ha trobat ${viteGeneratedIndexHtmlPath}. El build de Vite pot haver fallat o la ruta és incorrecta.`);
+const indexPath = resolve(distPath, 'index.html');
+
+if (!existsSync(indexPath)) {
+    console.error(`
+    --------------------------------------------------------------------
+    ERROR CRÍTIC POST-BUILD: L'arxiu 'dist/index.html' no existeix!
+    Això significa que el build de Vite probablement ha fallat o no ha generat l'HTML esperat.
+    Revisa els logs del build de Vite per a més detalls.
+    El script post-build no pot continuar.
+    --------------------------------------------------------------------
+    `);
     process.exit(1);
 }
 
-let htmlContent = readFileSync(viteGeneratedIndexHtmlPath, 'utf-8');
+console.log(`[Post-Build] Processant: ${indexPath}`);
+let htmlContent = readFileSync(indexPath, 'utf-8');
 
-console.log('✓ Llegit index.html generat per Vite.');
+// Comprovació inicial del contingut llegit (primeres 200 caràcters)
+// console.log('[Post-Build] Contingut inicial (parcial) de index.html:\n', htmlContent.substring(0, 200));
 
-// 4. Modificar les rutes dels scripts copiats per apuntar a l'arrel
-// Vite ja hauria d'haver gestionat correctament les rutes als seus assets (CSS i JS principal amb hash)
-// Només ajustem els que hem copiat manualment des de /public
-
-// Assegurem que les rutes siguin absolutes des de l'arrel del lloc
-htmlContent = htmlContent.replace(/src="\.\/assets\//g, 'src="/assets/');
-htmlContent = htmlContent.replace(/href="\.\/assets\//g, 'href="/assets/');
-
-// Ajustar els scripts que hem copiat manualment a l'arrel de dist
-jsFilesToCopy.forEach(file => {
-    // Exemples de patrons que podria haver generat Vite o estar a l'HTML original
-    const regex1 = new RegExp(`src="\.\/${file}"`, 'g');
-    const regex2 = new RegExp(`src="${file}"`, 'g'); 
-    const regex3 = new RegExp(`src="\/public\/${file}"`, 'g');
-    const regex4 = new RegExp(`src="public\/${file}"`, 'g');
-
-    htmlContent = htmlContent.replace(regex1, `src="/${file}"`);
-    htmlContent = htmlContent.replace(regex2, `src="/${file}"`);
-    htmlContent = htmlContent.replace(regex3, `src="/${file}"`);
-    htmlContent = htmlContent.replace(regex4, `src="/${file}"`);
+// Assegurar que les referències als JS copiats siguin absolutes des de l'arrel
+jsFilesToEnsureInDist.forEach(file => {
+    // Busca patrons com: src="./app.js", src="app.js", src="/public/app.js", src="public/app.js"
+    // i els converteix a src="/app.js"
+    const regexPatterns = [
+        new RegExp(`src\s*=\s*"\.\/${file}"`, 'g'),
+        new RegExp(`src\s*=\s*"${file}"`, 'g'),
+        new RegExp(`src\s*=\s*"\/public\/${file}"`, 'g'),
+        new RegExp(`src\s*=\s*"public\/${file}"`, 'g')
+    ];
+    
+    let replaced = false;
+    regexPatterns.forEach(regex => {
+        if (htmlContent.match(regex)) {
+            htmlContent = htmlContent.replace(regex, `src="/${file}"`);
+            console.log(`  ✓ Actualitzada ruta per a ${file} (patró: ${regex}) a src="/${file}"`);
+            replaced = true;
+        }
+    });
+    if (!replaced) {
+        console.warn(`  ⚠️ No s'ha trobat cap patró de ruta per actualitzar per a ${file}. Verifica l'HTML.`);
+    }
 });
 
-// 5. (Opcional però recomanat) Assegurar que l'enllaç al CSS principal de Vite utilitza una ruta absoluta
-// Vite normalment ho fa bé, però per si de cas.
-// Busca un enllaç CSS dins de la carpeta /assets/
-htmlContent = htmlContent.replace(/href="assets\//g, 'href="/assets/'); // Si la ruta fos relativa
-htmlContent = htmlContent.replace(/href="\.\/assets\//g, 'href="/assets/'); // Si la ruta fos relativa amb ./assets/
+// Comprovació addicional: assegurar que les rutes als assets generats per Vite siguin absolutes
+// Vite normalment ho fa bé, però això és una doble comprovació.
+let replacedAssets = false;
+if (htmlContent.match(/href="\.\/assets\//g)) {
+    htmlContent = htmlContent.replace(/href="\.\/assets\//g, 'href="/assets/');
+    console.log('  ✓ Corregida ruta relativa CSS: href="./assets/ -> href="/assets/');
+    replacedAssets = true;
+}
+if (htmlContent.match(/src="\.\/assets\//g)) {
+    htmlContent = htmlContent.replace(/src="\.\/assets\//g, 'src="/assets/');
+    console.log('  ✓ Corregida ruta relativa JS (assets): src="./assets/ -> src="/assets/');
+    replacedAssets = true;
+}
+if (!replacedAssets) {
+    console.log('  ⓘ Les rutes als assets de Vite ja semblen ser absolutes o no n\'hi ha de relatives.');
+}
 
+// Guardar els canvis
+try {
+    writeFileSync(indexPath, htmlContent, 'utf-8');
+    console.log(`[Post-Build] ✓ Fitxer 'dist/index.html' actualitzat correctament.`);
+} catch (err) {
+    console.error(`[Post-Build] ✗ ERROR escrivint a 'dist/index.html':`, err);
+    process.exit(1);
+}
 
-// 6. Escribir el HTML final modificat a dist/index.html
-writeFileSync(viteGeneratedIndexHtmlPath, htmlContent);
-console.log('✓ index.html final actualitzat correctament a la carpeta dist.');
-
-console.log('✓ Procés de Post-build finalitzat amb èxit!'); 
+console.log('[Post-Build] Procés finalitzat amb èxit! ✨'); 
