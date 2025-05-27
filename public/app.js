@@ -577,6 +577,10 @@ class App {
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
             targetSection.classList.add('active-section');
+            // Forçar la visualització per a diagnòstic
+            if (sectionId === 'home') {
+                targetSection.style.display = 'block !important'; 
+            }
             // Opcional: scroll a la secció
             // targetSection.scrollIntoView({ behavior: 'smooth' }); 
         } else {
