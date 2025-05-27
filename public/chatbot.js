@@ -2,9 +2,9 @@
 
 // Configuració global del Chatbot (mogut des de app.js)
 const CONFIG = {
-    API_KEY: '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', // Compte! Això és la teva API Key
+    API_KEY: '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', // Clau API actualitzada per l'usuari
     API_URL: 'https://openrouter.ai/api/v1/chat/completions',
-    MODEL: 'google/gemma-2b-it:free', // Model actualitzat i gratuït
+    MODEL: 'meta-llama/llama-3.3-8b-instruct:free', // Model actualitzat per l'usuari
     MAX_TOKENS: 1500, // Augmentat per respostes més completes
     TEMPERATURE: 0.65 // Un pèl menys aleatori
 };
@@ -156,19 +156,25 @@ class Chatbot {
     }
 
     showWelcomeMessage() {
-        const welcomeMessage = `Hola! Sóc en **Lamine Yamal**, la teva **Pilota d'Or de Contractació** 🏆. Estic afinat amb la darrera LCSP!
+        const welcomeListItems = [
+            "Criteris d'adjudicació (qualitat, preu, CCV, socials, ambientals...)",
+            "Requisits de solvència (econòmica, tècnica)",
+            "Procediments de licitació (obert, restringit, negociat...)",
+            "O qualsevol altre dubte sobre la Llei 9/2017!"
+        ];
 
-Com et pucAssistant avui amb la teva estratègia de contractació pública? Pregunta'm sobre:
+        let listHtml = '<ul class="welcome-list">';
+        welcomeListItems.forEach(item => {
+            listHtml += `<li>${this.escapeHtml(item)}</li>`;
+        });
+        listHtml += '</ul>';
 
-*   Criteris d'adjudicació (qualitat, preu, CCV, socials, ambientals...)
-*   Requisits de solvència (econòmica, tècnica)
-*   Procediments de licitació (obert, restringit, negociat...)
-*   O qualsevol altre dubte sobre la Llei 9/2017!
-
+        const welcomeMessage = `👋 Hola! Sóc en <strong>Lamine Yamal</strong>, la teva <strong>Pilota d'Or de Contractació</strong> 🏆. Estic afinat amb la darrera LCSP!
+<br><br>Com et puc ajudar avui amb la teva estratègia de contractació pública? Pregunta'm sobre:
+${listHtml}
 Estic llest per xutar i marcar un golàs per tu! ⚽️`;
 
-        this.addMessage(welcomeMessage, 'bot');
-        // No afegir suggestions aquí, ja que es gestionen des de App.js o es carreguen dinàmicament
+        this.addMessage(welcomeMessage, 'bot', true); // true indica que és un missatge especial (HTML)
     }
 
     async sendMessage(text = null) {
@@ -209,7 +215,7 @@ Estic llest per xutar i marcar un golàs per tu! ⚽️`;
         this.saveConversationHistory();
     }
 
-    addMessage(content, sender) {
+    addMessage(content, sender, isPreformattedHtml = false) {
         const chatMessages = document.getElementById('chat-messages');
         if (!chatMessages) return;
 
@@ -223,33 +229,29 @@ Estic llest per xutar i marcar un golàs per tu! ⚽️`;
         });
 
         const messageText = content || '';
+        const formattedContent = isPreformattedHtml ? messageText : this.formatMessage(messageText);
 
         if (sender === 'bot') {
+            // Avatar per al bot (LY)
+            const avatarInitial = this.personality.name.substring(0, 2).toUpperCase();
             messageElement.innerHTML = `
-                <div class="message-avatar">
-                    <img src="/assets/lamine-avatar.png" alt="Lamine Yamal" /> 
-                    <div class="avatar-status online"></div>
+                <div class="message-avatar bot-avatar">
+                    <span>${avatarInitial}</span>
                 </div>
                 <div class="message-content">
-                    <div class="message-header">
-                        <span class="message-author">Lamine Yamal</span>
-                        <span class="message-time">${timeString}</span>
-                    </div>
-                    <div class="message-text">${this.formatMessage(messageText)}</div>
+                    <div class="message-text">${formattedContent}</div>
                 </div>
             `;
         } else { // User message
+            // Avatar per a l'usuari (TU) - es podria personalitzar més endavant
+            const userAvatarInitial = "TU";
             messageElement.innerHTML = `
                 <div class="message-content">
-                    <div class="message-header">
-                        <span class="message-author">Tu</span>
-                        <span class="message-time">${timeString}</span>
-                    </div>
                     <div class="message-text">${this.escapeHtml(messageText)}</div>
                 </div>
                  <div class="message-avatar user-avatar">
-                    <span>TU</span>
-                </div>
+                    <span>${userAvatarInitial}</span>
+                 </div>
             `;
         }
 
@@ -265,18 +267,14 @@ Estic llest per xutar i marcar un golàs per tu! ⚽️`;
     }
 
     formatMessage(content) {
-        if (typeof marked !== 'undefined') {
-            try {
-                // Assegurar que marked no afegeix <p> al voltant de tot si ja és un sol paràgraf.
-                // O simplement deixar que ho faci, i l'estil CSS s'encarregui.
-                return marked.parse(content);
-            } catch (e) {
-                console.error("Error en marked.parse:", e);
-                return this.basicMarkdownToHtml(content); // Fallback
-            }
-        } else {
-            return this.basicMarkdownToHtml(content); // Fallback si marked no està definit
+        if (typeof content !== 'string') {
+            return '';
         }
+        // Si el contingut ja sembla ser HTML (per exemple, el missatge de benvinguda), no el processem.
+        if (content.trim().startsWith('<ul class="welcome-list">') || content.trim().startsWith('<p>')) {
+            return content;
+        }
+        return this.basicMarkdownToHtml(content);
     }
 
     basicMarkdownToHtml(content) {

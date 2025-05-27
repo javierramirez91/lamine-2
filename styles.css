@@ -1,13 +1,13 @@
 /* ===== VARIABLES CSS ===== */
 :root {
   /* Colors principals */
-  --primary-color: #00508C;
+  --primary-color: #00508C; /* Blau fosc principal (capçalera del xat) */
   --primary-light: #1a6ba8;
   --primary-dark: #003d6b;
-  --secondary-color: #007BFF;
+  --secondary-color: #007BFF; /* Blau més brillant (botó enviar, avatar usuari) */
   --secondary-light: #339cff;
   --secondary-dark: #0056cc;
-  --accent-color: #28a745;
+  --accent-color: #28a745; /* Verd per accents (checks, status online) */
   --accent-light: #5cb85c;
   --accent-dark: #1e7e34;
   
@@ -18,17 +18,33 @@
   --info-color: #17a2b8;
   
   /* Colors de text */
-  --text-primary: #1a1a1a;
-  --text-secondary: #6c757d;
-  --text-muted: #9ca3af;
-  --text-light: #f8f9fa;
-  
+  --text-primary: #1f2937; /* Un negre una mica més suau */
+  --text-secondary: #4b5563; /* Gris fosc per text secundari */
+  --text-muted: #9ca3af; /* Gris per text menys important */
+  --text-light: #f9fafb; /* Text clar per fons foscos */
+  --text-on-primary: #ffffff; 
+  --text-on-secondary: #ffffff;
+
   /* Colors de fons */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --bg-tertiary: #e9ecef;
-  --bg-dark: #1a1a1a;
+  --bg-body: #e5e7eb; /* Gris molt clar per al fons de la pàgina (com a la imatge) */
+  --bg-primary: #ffffff; /* Blanc per a targetes, contingut principal */
+  --bg-secondary: #f3f4f6; /* Gris una mica més fosc que el blanc */
+  --bg-tertiary: #d1d5db; /* Gris per a vores o divisors */
+  --bg-dark: #111827; 
   --bg-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Fons Específics del Chat segons la imatge */
+  --chat-header-bg: #00508C;
+  --chat-sidebar-bg: #ffffff; /* Blanc per a la sidebar */
+  --chat-messages-bg: #f3f4f6; /* Mateix que --bg-secondary per a l'àrea de missatges */
+  --chat-input-bg: #ffffff;
+  --chat-bot-message-bg: #ffffff;
+  --chat-user-message-bg: var(--secondary-color); /* Blau brillant per missatges d'usuari */
+  --chat-suggestion-bg: #e5e7eb; /* Mateix que el fons del body */
+  --chat-suggestion-text: #374151; /* Text una mica més fosc per suggeriments */
+  --chat-quick-help-btn-bg: #ffffff;
+  --chat-quick-help-btn-text: #374151;
+  --chat-quick-help-btn-hover-bg: #f3f4f6;
   
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
@@ -98,19 +114,33 @@
 
 /* ===== TEMA FOSC ===== */
 [data-theme="dark"] {
-  --text-primary: #f8f9fa;
-  --text-secondary: #adb5bd;
-  --text-muted: #6c757d;
-  --text-light: #1a1a1a;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-light: #1f2937;
   
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
-  --bg-tertiary: #404040;
-  --bg-dark: #ffffff;
-  
-  --shadow-sm: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05);
+  --bg-body: #111827; /* Fosc per al fons del body */
+  --bg-primary: #1f2937; /* Fons de targetes en tema fosc */
+  --bg-secondary: #374151;
+  --bg-tertiary: #4b5563;
+  --bg-dark: #f3f4f6; /* Text clar com a "fons" per contrast */
+
+  /* Fons Específics del Chat en tema fosc */
+  --chat-header-bg: #003d6b; 
+  --chat-sidebar-bg: #1f2937; 
+  --chat-messages-bg: #111827; 
+  --chat-input-bg: #1f2937; 
+  --chat-bot-message-bg: #374151;
+  --chat-user-message-bg: var(--secondary-dark); 
+  --chat-suggestion-bg: #374151;
+  --chat-suggestion-text: #d1d5db;
+  --chat-quick-help-btn-bg: #374151;
+  --chat-quick-help-btn-text: #d1d5db;
+  --chat-quick-help-btn-hover-bg: #4b5563;
+
+  --shadow-sm: 0 1px 2px 0 rgba(255, 255, 255, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(255, 255, 255, 0.05), 0 2px 4px -1px rgba(255, 255, 255, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.05), 0 4px 6px -2px rgba(255, 255, 255, 0.03);
 }
 
 /* ===== RESET I BASE ===== */
@@ -133,7 +163,7 @@ body {
   font-weight: var(--font-normal);
   line-height: 1.6;
   color: var(--text-primary);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-body); /* Canviat a --bg-body */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -341,13 +371,13 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: var(--bg-primary); 
   position: relative;
   overflow: hidden;
 }
 
 [data-theme="dark"] .hero-section {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  background: var(--bg-primary); /* S'ajustarà automàticament a la variable del tema fosc */
 }
 
 .hero-container {
@@ -415,8 +445,8 @@ body {
   background: var(--bg-primary);
   border-radius: var(--radius-2xl);
   padding: var(--space-2xl);
-  box-shadow: var(--shadow-2xl);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md); 
+  border: 1px solid var(--bg-tertiary); 
   max-width: 400px;
   width: 100%;
 }
@@ -572,162 +602,188 @@ body {
 
 /* ===== SECCIÓ CHAT (NOVA ESTRUCTURA) ===== */
 .chat-section {
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-body);
   padding: var(--space-xl) 0;
-  min-height: 80vh;
-}
-
-[data-theme="dark"] .chat-section {
-  background-color: var(--bg-dark);
+  min-height: auto; /* Llevat min-height per ara */
+  /* Es podria donar una alçada fixa al .chat-page-wrapper si es vol que ocupi pantalla */
 }
 
 .chat-page-wrapper {
   display: flex;
-  max-width: 1200px;
+  max-width: 1100px; /* Amplada similar a la imatge */
   margin: 0 auto;
-  gap: var(--space-lg);
-  padding: 0 var(--space-lg);
+  gap: var(--space-xl); /* Espai entre sidebar i main area */
+  padding: 0 var(--space-md); /* Menys padding lateral */
+  /* background-color: var(--bg-primary); Per donar fons blanc si no es fa a la sidebar/main */
+  /* border-radius: var(--radius-xl); */
+  /* box-shadow: var(--shadow-lg); */
 }
 
 /* Columna Esquerra: Sidebar del Perfil */
 .chat-sidebar {
-  flex: 0 0 300px;
+  flex: 0 0 280px; /* Amplada una mica més petita, ajustar segons la imatge */
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-xl); /* Més espai entre targeta de perfil i ajuda */
+  background-color: var(--chat-sidebar-bg); /* Blanc, segons variables */
+  padding: var(--space-xl); /* Més padding intern a la sidebar */
+  border-radius: var(--radius-xl); /* Cantonades arrodonides per la sidebar */
+  height: fit-content; 
+  box-shadow: var(--shadow-lg); /* Ombra per destacar la sidebar */
 }
 
-.user-profile-card, .quick-help-card {
-  background-color: var(--bg-primary);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--bg-tertiary);
+[data-theme="dark"] .chat-sidebar {
+    background-color: var(--chat-sidebar-bg);
+    box-shadow: var(--shadow-lg-dark); /* Potser una ombra específica per tema fosc */
 }
 
-[data-theme="dark"] .user-profile-card,
-[data-theme="dark"] .quick-help-card {
-  background-color: var(--bg-secondary);
-  border-color: var(--bg-tertiary);
+.user-profile-card {
+  background-color: transparent; 
+  border-radius: 0;
+  padding: 0; 
+  box-shadow: none;
+  border: none;
+  text-align: center;
 }
 
 .profile-avatar-large {
-  width: 120px;
-  height: 120px;
+  width: 100px; 
+  height: 100px;
   border-radius: var(--radius-full);
-  margin: 0 auto var(--space-md);
+  margin: 0 auto var(--space-lg);
   position: relative;
-  border: 4px solid var(--bg-primary);
-  box-shadow: var(--shadow-lg);
+  background-color: var(--secondary-color); /* Blau brillant per l'avatar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-on-secondary); /* Lletres LY en blanc */
+  font-size: 2.8rem; /* Mida de les inicials LY, una mica més gran */
+  font-weight: var(--font-bold);
+  border: 3px solid var(--bg-primary); /* Vora blanca al voltant, com a la imatge */
+  box-shadow: var(--shadow-md); /* Ombra subtil per a l'avatar */
 }
 
 .profile-avatar-large img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: var(--radius-full);
+ display: none; 
 }
 
 .status-dot-large {
-  width: 20px;
-  height: 20px;
-  border-radius: var(--radius-full);
-  background-color: var(--success-color);
-  border: 3px solid var(--bg-primary);
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
+ display: none; /* No es veu a la imatge */
 }
 
 .profile-name {
-  font-size: var(--font-2xl);
-  font-weight: var(--font-bold);
+  font-size: 1.375rem; /* ~22px */
+  font-weight: var(--font-semibold);
   text-align: center;
   color: var(--text-primary);
   margin-bottom: var(--space-xs);
 }
 
 .profile-title {
-  font-size: var(--font-sm);
+  font-size: var(--font-sm); /* 14px */
   color: var(--text-secondary);
   text-align: center;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-lg); /* Més espai abans dels badges */
 }
 
 .profile-badges {
   display: flex;
-  justify-content: center;
+  flex-direction: column; 
+  align-items: center; 
   gap: var(--space-sm);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-xl); /* Més espai després dels badges */
 }
 
 .badge {
-  font-size: var(--font-xs);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md);
+  font-size: var(--font-xs); /* 12px */
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-md); 
   font-weight: var(--font-medium);
   display: inline-flex;
   align-items: center;
+  background-color: var(--bg-secondary); /* Fons gris molt clar per als badges */
+  border: 1px solid var(--bg-tertiary); /* Vora subtil */
+  color: var(--text-secondary); 
+  width: auto; /* Amplada ajustada al contingut */
+  min-width: 120px; /* Amplada mínima per consistència */
+  justify-content: center;
 }
 
+/* Estils específics per als badges segons la imatge (ajustar icones si cal) */
 .badge.gold {
-  background-color: #FFD700;
-  color: #4A3B00;
+    background-color: var(--bg-secondary); 
+    color: #b8860b; /* Un to daurat per al text */
+    border-color: #e0cda1; 
 }
 .badge.blue {
-  background-color: #007BFF;
-  color: var(--text-light);
+    background-color: var(--bg-secondary); 
+    color: var(--primary-dark); /* Un blau fosc per al text */
+    border-color: #a9cce3;
 }
 .badge.purple {
-  background-color: #6f42c1;
-  color: var(--text-light);
+    background-color: var(--bg-secondary); 
+    color: #5d3d9c; /* Un to lila per al text */
+    border-color: #c9bddb;
+}
+
+.badge svg, .badge img { /* Per a les icones dels badges */
+  margin-right: var(--space-sm); /* Espai a la dreta de la icona */
+  width: 14px;
+  height: 14px;
+  /* El color de l'SVG heretarà el 'color' del badge si no té 'fill' propi */
+}
+
+
+.quick-help-card {
+  background-color: transparent; 
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+  text-align: left; /* Text del títol alineat a l'esquerra */
 }
 
 .quick-help-title {
-  font-size: var(--font-lg);
+  font-size: var(--font-base); /* 16px */
   font-weight: var(--font-semibold);
   margin-bottom: var(--space-md);
   color: var(--text-primary);
+  padding-left: var(--space-xs); /* Petit padding si està alineat a l'esquerra */
 }
 
 .quick-help-btn {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: var(--space-sm) var(--space-md);
-  margin-bottom: var(--space-sm);
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
-  border: 1px solid var(--bg-tertiary);
+  padding: var(--space-sm) var(--space-md); /* Una mica menys padding vertical */
+  margin-bottom: var(--space-xs); /* Menys espai entre botons */
+  background-color: var(--chat-quick-help-btn-bg);
+  color: var(--chat-quick-help-btn-text);
+  border: 1px solid transparent; /* Sense vora visible inicialment */
   border-radius: var(--radius-md);
   text-align: left;
-  font-weight: var(--font-medium);
+  font-weight: var(--font-medium); /* Una mica més de pes */
+  font-size: var(--font-sm);
   transition: all var(--transition-fast);
   cursor: pointer;
 }
 
 .quick-help-btn:hover {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  border-color: var(--primary-dark);
+  background-color: var(--chat-quick-help-btn-hover-bg);
+  color: var(--text-primary);
+  /* border-color: var(--bg-tertiary); Podria afegir una vora al hover */
 }
 
 .quick-help-btn svg {
-  margin-right: var(--space-sm);
-  width: 20px;
+  margin-right: var(--space-md);
+  width: 20px; /* Icones una mica més grans */
   height: 20px;
+  color: var(--text-muted); /* Icones grises */
+  transition: color var(--transition-fast);
 }
 
-[data-theme="dark"] .quick-help-btn {
-  background-color: var(--bg-tertiary);
-  color: var(--text-secondary);
-  border-color: #555;
-}
-
-[data-theme="dark"] .quick-help-btn:hover {
-  background-color: var(--secondary-color);
-  color: var(--text-primary);
-  border-color: var(--secondary-dark);
+.quick-help-btn:hover svg {
+  color: var(--primary-color); /* Icones blaves al hover */
 }
 
 /* Columna Dreta: Àrea Principal del Xat */
@@ -735,64 +791,68 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-primary); /* Fons blanc per a l'àrea principal */
+  border-radius: var(--radius-xl); /* Cantonades arrodonides */
+  box-shadow: var(--shadow-lg); /* Ombra per destacar */
+  overflow: hidden; /* Molt important per mantenir les cantonades en els fills */
+  min-height: 70vh; /* Alçada mínima per donar-li cos */
 }
 
+[data-theme="dark"] .chat-main-area {
+    background-color: var(--chat-messages-bg); /* Un fons una mica més fosc per al contenidor en tema fosc */
+    box-shadow: var(--shadow-lg-dark);
+}
+
+/* S'eliminen estils redundants o conflictius de .chat-container dins de .chat-main-area */
 .chat-main-area .chat-container {
-  background-color: var(--bg-primary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  background-color: transparent; 
+  border-radius: 0; 
+  box-shadow: none; 
+  height: 100%; 
+  border: none;
   display: flex;
   flex-direction: column;
-  height: 75vh;
-  overflow: hidden;
-  border: 1px solid var(--bg-tertiary);
+  width: 100%; /* Ocupar tot l'ample del pare */
 }
 
-[data-theme="dark"] .chat-main-area .chat-container {
-  background-color: var(--bg-secondary);
-  border-color: var(--bg-tertiary);
-}
 
 .chat-main-area .chat-header {
   display: flex;
   align-items: center;
-  padding: var(--space-md);
-  background-color: var(--bg-secondary);
-  border-bottom: 1px solid var(--bg-tertiary);
+  padding: var(--space-md) var(--space-lg);
+  background-color: var(--chat-header-bg); /* Blau fosc definit a variables */
+  border-bottom: none; /* La imatge no mostra vora */
+  color: var(--text-on-primary); /* Text blanc */
+  flex-shrink: 0; /* Evitar que s'encongeixi */
 }
 
 [data-theme="dark"] .chat-main-area .chat-header {
-  background-color: var(--bg-tertiary);
-  border-bottom-color: #444;
+    background-color: var(--chat-header-bg); /* La variable ja s'actualitza per tema fosc */
 }
 
+
 .chat-avatar-small {
-  width: 40px;
+  width: 40px; /* Una mica més gran que abans */
   height: 40px;
   border-radius: var(--radius-full);
-  margin-right: var(--space-sm);
+  margin-right: var(--space-md);
   position: relative;
+  background-color: var(--text-on-primary); /* Fons blanc per l'avatar petit */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--chat-header-bg); /* Inicials LY en el color blau de la capçalera */
+  font-size: var(--font-lg); /* Mida de les lletres LY */
+  font-weight: var(--font-semibold);
+  border: 1px solid var(--chat-header-bg); /* Vora del color de fons per si el fons de l'avatar és lleugerament diferent */
 }
 
 .chat-avatar-small img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: var(--radius-full);
+  display: none; 
 }
 
 .chat-avatar-small .avatar-status {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: var(--success-color);
-  border: 2px solid var(--bg-secondary);
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-[data-theme="dark"] .chat-avatar-small .avatar-status {
-  border-color: var(--bg-tertiary);
+  display: none; /* No es mostra el punt verd aquí, va amb el text */
 }
 
 .chat-main-area .chat-info {
@@ -800,146 +860,172 @@ body {
 }
 
 .chat-main-area .chat-info h3 {
-  font-size: var(--font-lg);
+  font-size: var(--font-lg); /* ~18px */
   font-weight: var(--font-semibold);
   margin: 0;
-  color: var(--text-primary);
+  color: var(--text-on-primary);
 }
 
 .chat-main-area .chat-info .status-text {
-  font-size: var(--font-sm);
-  color: var(--success-color);
+  font-size: var(--font-xs); /* 12px */
+  color: var(--text-on-primary);
+  opacity: 0.85; /* Una mica menys transparent */
   margin: 0;
+  display: flex; 
+  align-items: center;
 }
 
-[data-theme="dark"] .chat-main-area .chat-info .status-text {
-  color: var(--accent-light);
+.chat-main-area .chat-info .status-text::before { 
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-color); /* Verd d'accent */
+  margin-right: var(--space-xs); /* Espai entre punt i text */
 }
+
 
 .chat-main-area .chat-actions .btn-icon {
   background: transparent;
   border: none;
-  color: var(--text-secondary);
-  padding: var(--space-xs);
-}
-
-[data-theme="dark"] .chat-main-area .chat-actions .btn-icon {
-  color: var(--text-muted);
+  color: var(--text-on-primary);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
 }
 
 .chat-main-area .chat-actions .btn-icon:hover {
-  color: var(--primary-color);
+  background-color: rgba(255, 255, 255, 0.15); /* Hover una mica més visible */
 }
 
-[data-theme="dark"] .chat-main-area .chat-actions .btn-icon:hover {
-  color: var(--secondary-light);
+.chat-main-area .chat-actions .btn-icon svg {
+    width: 20px;
+    height: 20px;
 }
+
 
 .chat-messages {
   flex-grow: 1;
-  padding: var(--space-md);
+  padding: var(--space-lg);
   overflow-y: auto;
+  background-color: var(--chat-messages-bg); /* Gris clar per a l'àrea de missatges */
 }
+
+[data-theme="dark"] .chat-messages {
+    background-color: var(--chat-messages-bg); /* Ja definit a les variables */
+}
+
 
 .chat-suggestions-bar {
   display: flex;
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-md) var(--space-lg);
   border-top: 1px solid var(--bg-tertiary);
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-primary); /* Fons blanc per a la barra */
   overflow-x: auto;
-  gap: var(--space-sm);
+  gap: var(--space-sm); /* Espai entre botons de suggeriment */
+  flex-shrink: 0;
 }
 
 [data-theme="dark"] .chat-suggestions-bar {
-  background-color: var(--bg-tertiary);
-  border-top-color: #444;
+    background-color: var(--chat-input-bg); /* Mateix que l'input en tema fosc */
+    border-top-color: var(--bg-tertiary); /* La variable ja s'actualitza */
 }
 
 .chat-suggestions-bar .suggestion-item {
-  padding: var(--space-xs) var(--space-md);
-  border: 1px solid var(--primary-light);
-  color: var(--primary-color);
-  background-color: transparent;
-  border-radius: var(--radius-full);
-  font-size: var(--font-sm);
+  padding: var(--space-xs) var(--space-md); /* Més compacte */
+  border: 1px solid var(--bg-tertiary);
+  color: var(--chat-suggestion-text);
+  background-color: var(--chat-suggestion-bg);
+  border-radius: var(--radius-lg); /* Més arrodonit, com a la imatge */
+  font-size: var(--font-sm); /* 14px */
   cursor: pointer;
   transition: all var(--transition-fast);
   white-space: nowrap;
 }
 
 .chat-suggestions-bar .suggestion-item:hover {
-  background-color: var(--primary-color);
-  color: var(--text-light);
+  background-color: var(--secondary-light); /* Blau clar al hover */
+  color: var(--text-on-secondary);
+  border-color: var(--secondary-light);
 }
 
 [data-theme="dark"] .chat-suggestions-bar .suggestion-item {
-  border-color: var(--secondary-light);
-  color: var(--secondary-light);
+    background-color: var(--chat-suggestion-bg);
+    color: var(--chat-suggestion-text);
+    border-color: var(--bg-tertiary);
 }
 
 [data-theme="dark"] .chat-suggestions-bar .suggestion-item:hover {
-  background-color: var(--secondary-light);
-  color: var(--bg-dark);
+    background-color: var(--primary-light);
+    color: var(--text-on-primary);
+    border-color: var(--primary-light);
 }
 
+
 .chat-input-container {
-  padding: var(--space-md);
+  padding: var(--space-md) var(--space-lg); /* Padding ajustat */
   border-top: 1px solid var(--bg-tertiary);
-  background-color: var(--bg-primary);
+  background-color: var(--chat-input-bg); /* Fons blanc */
+  flex-shrink: 0;
 }
 
 [data-theme="dark"] .chat-input-container {
-  background-color: var(--bg-secondary);
-  border-top-color: #444;
+    background-color: var(--chat-input-bg);
+    border-top-color: var(--bg-tertiary);
 }
 
 .chat-input-wrapper {
   display: flex;
-  align-items: flex-end;
-  background-color: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  padding: var(--space-sm);
+  align-items: flex-end; /* Per alinear el botó amb el textarea si creix */
+  background-color: var(--bg-primary); /* Fons de l'input wrapper */
+  border-radius: var(--radius-lg); /* Cantonades arrodonides, com a la imatge */
+  padding: var(--space-xs); /* Petit padding al voltant del textarea i botó */
   border: 1px solid var(--bg-tertiary);
 }
 
 [data-theme="dark"] .chat-input-wrapper {
-  background-color: var(--bg-tertiary);
-  border-color: #555;
+    background-color: var(--chat-input-bg);
+    border-color: var(--bg-tertiary);
 }
 
 .chat-input-wrapper textarea {
   flex-grow: 1;
   border: none;
-  padding: var(--space-sm);
+  padding: var(--space-sm); /* Padding intern del textarea */
   font-family: var(--font-family);
   font-size: var(--font-base);
-  background-color: transparent;
+  background-color: transparent; /* Sense fons propi */
   color: var(--text-primary);
   resize: none;
-  max-height: 120px;
+  min-height: 44px; /* Alçada mínima per a una línia amb padding */
+  max-height: 120px; /* Limitar el creixement */
   overflow-y: auto;
+  line-height: 1.5;
 }
 
 .chat-input-wrapper textarea:focus {
   outline: none;
+  box-shadow: none;
 }
 
 .chat-input-wrapper .send-button {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: var(--secondary-color); /* Blau brillant per enviar */
+  color: var(--text-on-secondary);
   border: none;
-  border-radius: var(--radius-md);
-  padding: var(--space-sm);
-  margin-left: var(--space-sm);
+  border-radius: var(--radius-md); /* Cantonades del botó */
+  padding: calc(var(--space-sm) + 2px) var(--space-md); /* Ajustar padding per alinear amb textarea */
+  margin-left: var(--space-sm); /* Espai entre textarea i botó */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition-fast);
+  align-self: flex-end; /* Alineat amb la part inferior del textarea */
+  height: 44px; /* Mateixa alçada mínima que el textarea */
 }
 
 .chat-input-wrapper .send-button:hover {
-  background-color: var(--primary-dark);
+  background-color: var(--secondary-dark);
 }
 
 .chat-input-wrapper .send-button svg {
@@ -948,103 +1034,125 @@ body {
 }
 
 .chat-footer {
-  font-size: var(--font-xs);
+  font-size: var(--font-xs); /* 12px */
   color: var(--text-muted);
-  text-align: center;
+  text-align: left; /* Alineat a l'esquerra */
   padding-top: var(--space-sm);
+  padding-left: var(--space-xs); /* Petit padding per alinear amb l'input */
 }
 
 .message {
   display: flex;
-  margin-bottom: var(--space-md);
-  max-width: 85%;
+  margin-bottom: var(--space-lg); /* Més espai entre missatges */
+  max-width: 85%; /* Amplada màxima del missatge */
+  align-items: flex-end; /* Alinea l'avatar amb la part inferior del missatge */
 }
 
 .message.user-message {
-  margin-left: auto;
-  flex-direction: row-reverse;
+  margin-left: auto; /* Alinea a la dreta */
+  flex-direction: row-reverse; /* Inverteix l'ordre per (contingut - avatar) */
 }
 
 .message-avatar {
-  width: 40px;
+  width: 40px; /* Mateixa mida que a la capçalera del xat */
   height: 40px;
   border-radius: 50%;
-  margin-right: var(--space-sm);
+  margin-right: var(--space-md);
   flex-shrink: 0;
   position: relative;
+  background-color: var(--secondary-color); /* Avatar del bot: blau brillant */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-on-secondary); /* Inicials en blanc */
+  font-size: var(--font-lg);
+  font-weight: var(--font-semibold);
+  align-self: flex-start; /* Alinea l'avatar a la part superior del seu espai */
+  margin-top: 0; /* Ajust per si el missatge té padding superior */
 }
 
 .message.user-message .message-avatar {
   margin-right: 0;
-  margin-left: var(--space-sm);
+  margin-left: var(--space-md);
+  background-color: var(--accent-color); /* Avatar de l'usuari: verd (exemple) */
+  /* Si vols inicials per a l'usuari, hauràs d'afegir-les via JS o canviar l'HTML */
 }
 
 .message-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+  display:none; /* Amagades per ara, es fan servir inicials o fons de color */
 }
 
 .message-content {
-  background-color: var(--bg-secondary);
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-lg);
+  background-color: var(--chat-bot-message-bg); /* Blanc per missatges del bot */
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg); 
   box-shadow: var(--shadow-sm);
-  max-width: calc(100% - 50px);
+  max-width: 100%; /* El pare (.message) ja limita l'amplada */
+  border: 1px solid var(--bg-tertiary);
+  position: relative; /* Per a possibles fletxes (no implementades aquí) */
 }
 
 .message.bot-message .message-content {
-  border-top-left-radius: 0;
+  border-top-left-radius: var(--radius-sm); /* Cantonada aixafada per la fletxa (si n'hi hagués) */
 }
 
 .message.user-message .message-content {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  border-top-right-radius: 0;
+  background-color: var(--chat-user-message-bg); /* Blau per missatges d'usuari */
+  color: var(--text-on-primary);
+  border-top-right-radius: var(--radius-sm); /* Cantonada aixafada */
+  border-color: transparent;
 }
 
-[data-theme="dark"] .message.bot-message .message-content {
-  background-color: var(--bg-tertiary);
+[data-theme="dark"] .message-content {
+    background-color: var(--chat-bot-message-bg); /* Variable per tema fosc */
+    border-color: var(--bg-tertiary);
 }
 
 [data-theme="dark"] .message.user-message .message-content {
-  background-color: var(--secondary-color);
+    background-color: var(--chat-user-message-bg);
+    border-color: transparent;
 }
+
 
 .message-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-xs);
-}
-
-.message-author {
-  font-weight: var(--font-semibold);
-  font-size: var(--font-sm);
-}
-
-.message-time {
-  font-size: var(--font-xs);
-  color: var(--text-muted);
-}
-
-.message.user-message .message-time {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-[data-theme="dark"] .message.user-message .message-time {
-  color: rgba(255, 255, 255, 0.6);
+  /* La imatge no mostra aquest header dins del globus del missatge */
+  display: none; 
 }
 
 .message-text {
   font-size: var(--font-base);
-  line-height: 1.5;
-  word-wrap: break-word;
+  line-height: 1.6;
+  word-wrap: break-word; /* Per evitar overflow horitzontal */
+  white-space: pre-wrap; /* Respecta salts de línia i espais múltiples */
+  padding-top: 0; /* Eliminat padding si no hi ha header visible */
 }
 
 .message-text p:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
+}
+
+/* Estils per al missatge de benvinguda amb checks (llista) */
+.message-text ul.welcome-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: var(--space-sm); /* Espai superior per a la llista */
+    margin-bottom: 0;
+}
+.message-text ul.welcome-list li {
+    padding-left: calc(var(--space-sm) + 1.2em); /* Espai per al check + icona */
+    position: relative;
+    margin-bottom: var(--space-xs); /* Menys espai entre ítems de la llista */
+    line-height: 1.5;
+}
+
+.message-text ul.welcome-list li::before {
+    content: '\2714'; /* Codi Unicode per a la marca de verificació (✓) */
+    color: var(--accent-color); /* Verd */
+    position: absolute;
+    left: var(--space-xs);
+    top: 1px; /* Ajust fi de la posició vertical */
+    font-weight: bold;
+    font-size: 1em; /* Mida del check */
 }
 
 @media (max-width: 1024px) {
@@ -2075,4 +2183,126 @@ section.active-section {
 /* Ajustos finals per a la visibilitat de seccions si cal */
 .tools-section.solvency-section {
     /* No calen estils específics aquí si ja estan definits a .solvency-section */
+}
+
+/* Solvència Sub-pestanyes dins de #criteria */
+.solvency-sub-tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--bg-tertiary);
+  overflow-x: auto;
+  padding-bottom: var(--space-xs);
+}
+
+.sub-tab-button {
+  background: none;
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; /* Alinea amb la vora inferior de .solvency-sub-tabs */
+}
+
+.sub-tab-button:hover {
+  color: var(--primary-color);
+}
+
+.sub-tab-button.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.solvency-sub-tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.solvency-sub-tab-content.active {
+  display: block;
+}
+
+#solvency-economic-list,
+#solvency-technical-list {
+  list-style: none;
+  padding: 0;
+}
+
+#solvency-economic-list li,
+#solvency-technical-list li {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  border: 1px solid var(--bg-tertiary);
+}
+
+#solvency-economic-list li strong,
+#solvency-technical-list li strong {
+  display: block;
+  color: var(--primary-color);
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-sm);
+}
+
+#solvency-economic-list li p,
+#solvency-technical-list li p {
+  color: var(--text-secondary);
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  margin: 0;
+}
+
+#solvency-economic-list li .articles,
+#solvency-technical-list li .articles {
+    font-size: var(--font-xs);
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+    display: block;
+}
+
+.solvency-general-notes {
+    margin-top: var(--space-xl);
+    padding: var(--space-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.solvency-general-notes h4 {
+    font-size: var(--font-lg);
+    color: var(--primary-color);
+    margin-bottom: var(--space-md);
+}
+
+.solvency-general-notes ul {
+    list-style: disc;
+    padding-left: var(--space-lg);
+}
+
+.solvency-general-notes ul li {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.alert.alert-info {
+    background-color: rgba(23, 162, 184, 0.1);
+    border: 1px solid rgba(23, 162, 184, 0.3);
+    color: #0c5460;
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-lg);
+}
+
+[data-theme="dark"] .alert.alert-info {
+    background-color: rgba(23, 162, 184, 0.2);
+    border-color: rgba(23, 162, 184, 0.5);
+    color: #90d5e4;
+}
+
+.alert.alert-info p {
+    margin:0;
 }
