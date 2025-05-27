@@ -33,10 +33,8 @@
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script async type="module" crossorigin src="/assets/index-DHBFTXZt.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-C926WKez.css">
-  <script type="module">import.meta.url;import("_").catch(()=>1);(async function*(){})().next();if(location.protocol!="file:"){window.__vite_is_modern_browser=true}</script>
-  <script type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy chunks, syntax error above and the same error below should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
+  <script type="module" crossorigin src="/assets/main-BS301V13.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-Biusa1Zn.css">
 </head>
 <body>
     <!-- Loading Screen -->
@@ -177,6 +175,314 @@
             </div>
         </section>
 
+        <!-- Guide Section -->
+        <section id="guide" class="guide-section">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Guia Completa LCSP</h2>
+                    <p>Tot el que necessites saber sobre la Llei 9/2017 de Contractes del Sector Públic</p>
+                </div>
+                
+                <div class="guide-grid" data-aos="fade-up" data-aos-delay="200">
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                        </div>
+                        <h3>Marc Legal</h3>
+                        <p>Articles clau de la LCSP: 145, 146, 147, 148 i més</p>
+                        <button class="btn-text" onclick="app.showLegalInfo()">Veure més →</button>
+                    </div>
+                    
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11H3v10h6V11zM15 3H9v18h6V3zM21 7h-6v14h6V7z"/>
+                            </svg>
+                        </div>
+                        <h3>Tipus de Contractes</h3>
+                        <p>Obres, Serveis, Subministraments i més</p>
+                        <button class="btn-text" onclick="app.showContractTypes()">Explorar →</button>
+                    </div>
+                    
+                    <div class="guide-card">
+                        <div class="guide-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <h3>Procediments</h3>
+                        <p>Obert, Restringit, Negociat, Simplificat</p>
+                        <button class="btn-text" onclick="app.showProcedures()">Descobrir →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Criteria Section -->
+        <section id="criteria" class="criteria-section">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Criteris d'Adjudicació</h2>
+                    <p>La clau per seleccionar la millor oferta amb relació qualitat-preu</p>
+                </div>
+                
+                <div class="criteria-tabs" data-aos="fade-up" data-aos-delay="100">
+                    <button class="tab-button active" onclick="app.showCriteriaTab('automatic')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                        </svg>
+                        Criteris Automàtics
+                    </button>
+                    <button class="tab-button" onclick="app.showCriteriaTab('subjective')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Criteris Subjectius
+                    </button>
+                    <button class="tab-button" onclick="app.showCriteriaTab('ccv')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        Cost Cicle de Vida
+                    </button>
+                </div>
+                
+                <div class="criteria-content" data-aos="fade-up" data-aos-delay="200">
+                    <!-- Criteris Automàtics -->
+                    <div id="automatic-criteria" class="tab-content active">
+                        <h3>Criteris Avaluables Mitjançant Fórmules</h3>
+                        <p>Valoració objectiva mitjançant xifres o fórmules matemàtiques</p>
+                        
+                        <div class="criteria-grid">
+                            <div class="criteria-card">
+                                <h4>💰 Preu</h4>
+                                <p>El criteri més comú. Pot ser fins al 100% si és l'únic criteri.</p>
+                                <ul>
+                                    <li>Preu global alçat</li>
+                                    <li>Preus unitaris</li>
+                                    <li>Percentatge de descompte</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="criteria-card">
+                                <h4>⏱️ Termini d'Execució</h4>
+                                <p>Reducció del temps per a la realització de la prestació.</p>
+                                <ul>
+                                    <li>Ha de ser realista</li>
+                                    <li>Establir límits mínims</li>
+                                    <li>Ponderat: 5-15%</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="criteria-card">
+                                <h4>🛡️ Garantia Addicional</h4>
+                                <p>Extensió del període de garantia mínim exigit.</p>
+                                <ul>
+                                    <li>Màxim recomanat: 3 anys extra</li>
+                                    <li>Valoració proporcional</li>
+                                    <li>Claredat en l'abast</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="criteria-card">
+                                <h4>🔧 Característiques Tècniques</h4>
+                                <p>Millores quantificables i certificables.</p>
+                                <ul>
+                                    <li>Eficiència energètica</li>
+                                    <li>Rendiment superior</li>
+                                    <li>Certificacions específiques</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Criteris Subjectius -->
+                    <div id="subjective-criteria" class="tab-content">
+                        <h3>Criteris Subjectes a Judici de Valor</h3>
+                        <p>Requereixen apreciació tècnica o qualitativa per un comitè d'experts. S'avaluen abans que els criteris automàtics.</p>
+                        
+                        <div class="criteria-detailed-list">
+                            <!-- Aquí s'injectarà el contingut dels criteris subjectius des de ContentLoader -->
+                        </div>
+
+                        <h4>Exemples Pràctics de Criteris de Qualitat (Enfocament PYMEs i Startups)</h4>
+                        <div class="practical-examples-quality">
+                            <!-- Aquí s'injectaran els exemples pràctics -->
+                        </div>
+                    </div>
+                    
+                    <!-- Cost Cicle de Vida -->
+                    <div id="ccv-criteria" class="tab-content">
+                        <h3>Cost del Cicle de Vida (CCV)</h3>
+                        <p>Valoració econòmica completa considerant tots els costos durant la vida útil</p>
+                        
+                        <div class="ccv-components">
+                            <div class="ccv-card">
+                                <div class="ccv-icon">💵</div>
+                                <h4>Costos d'Adquisició</h4>
+                                <p>Preu de compra, instal·lació, transport</p>
+                            </div>
+                            
+                            <div class="ccv-card">
+                                <div class="ccv-icon">⚡</div>
+                                <h4>Costos d'Utilització</h4>
+                                <p>Energia, aigua, recursos, formació</p>
+                            </div>
+                            
+                            <div class="ccv-card">
+                                <div class="ccv-icon">🔧</div>
+                                <h4>Costos de Manteniment</h4>
+                                <p>Preventiu, correctiu, peces recanvi</p>
+                            </div>
+                            
+                            <div class="ccv-card">
+                                <div class="ccv-icon">♻️</div>
+                                <h4>Costos Fi de Vida</h4>
+                                <p>Desmuntatge, reciclatge, eliminació</p>
+                            </div>
+                        </div>
+                        
+                        <div class="ccv-formula">
+                            <h4>Fórmula CCV:</h4>
+                            <code>CCV = Preu inicial + (Costos anuals × Anys vida útil) + Costos finals</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Section (can be renamed or a new Solvency section created) -->
+        <section id="solvency" class="solvency-section tools-section">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Requisits de Solvència</h2>
+                    <p>Condicions mínimes d'aptitud per participar i executar el contracte (Arts. 86 i ss. LCSP)</p>
+                </div>
+                <div class="solvency-details-content">
+                    <!-- Aquí s'injectarà tot el contingut detallat sobre solvència -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Section -->
+        <section id="tools" class="tools-section">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <h2>Eines i Recursos</h2>
+                    <p>Tot el necessari per gestionar la contractació pública eficientment</p>
+                </div>
+                
+                <div class="tools-grid" data-aos="fade-up" data-aos-delay="200">
+                    <!-- Solvència Tool -->
+                    <div class="tool-card featured">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                            </div>
+                            <h3>Requisits de Solvència</h3>
+                        </div>
+                        
+                        <div class="solvency-content">
+                            <h4>Solvència Econòmica i Financera</h4>
+                            <ul class="solvency-list">
+                                <li>
+                                    <strong>Volum Anual de Negocis:</strong>
+                                    <span>Màxim 1,5 vegades el VEC (valor estimat contracte)</span>
+                                </li>
+                                <li>
+                                    <strong>Assegurança Responsabilitat:</strong>
+                                    <span>Import proporcional al risc, màxim 1.500.000€</span>
+                                </li>
+                                <li>
+                                    <strong>Patrimoni Net:</strong>
+                                    <span>Ràtio entre actius i passius segons comptes anuals</span>
+                                </li>
+                            </ul>
+                            
+                            <h4>Solvència Tècnica o Professional</h4>
+                            <ul class="solvency-list">
+                                <li>
+                                    <strong>Experiència en treballs similars:</strong>
+                                    <span>Últims 5 anys (obres) o 3 anys (serveis/subministraments)</span>
+                                </li>
+                                <li>
+                                    <strong>Personal tècnic:</strong>
+                                    <span>Titulacions i experiència mínima requerida</span>
+                                </li>
+                                <li>
+                                    <strong>Certificats de qualitat:</strong>
+                                    <span>ISO 9001, ISO 14001, EMAS (admetre equivalents)</span>
+                                </li>
+                                <li>
+                                    <strong>Mitjans materials:</strong>
+                                    <span>Maquinària, equips, instal·lacions necessàries</span>
+                                </li>
+                            </ul>
+                            
+                            <div class="solvency-alert">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="12"/>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                <p><strong>Important:</strong> Per a empreses de nova creació (&lt;5 anys), s'han d'admetre mitjans alternatius d'acreditació</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Altres eines -->
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <h3>Plantilles de Plecs</h3>
+                        <p>Models de PCAP i PPT adaptats a cada tipus de contracte</p>
+                        <button class="btn-secondary" onclick="app.showTemplates()">Accedir →</button>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </div>
+                        <h3>Calculadora de Criteris</h3>
+                        <p>Simula la puntuació segons diferents ponderacions</p>
+                        <button class="btn-secondary" onclick="app.showCalculator()">Calcular →</button>
+                    </div>
+                    
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <h3>Calendari de Terminis</h3>
+                        <p>Gestiona tots els terminis legals del procediment</p>
+                        <button class="btn-secondary" onclick="app.showCalendar()">Veure →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Chat Section -->
         <section id="chat" class="chat-section">
             <div class="container">
@@ -270,11 +576,8 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="content-loader.js"></script>
-    <script src="chatbot.js"></script>
-    <script src="app.js"></script>
-  <script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
-  <script nomodule crossorigin id="vite-legacy-polyfill" src="/assets/polyfills-legacy-DMrMt_pQ.js"></script>
-  <script nomodule crossorigin id="vite-legacy-entry" data-src="/assets/index-legacy-BZJiMQeB.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
+    <script src="./content-loader.js"></script>
+    <script src="./chatbot.js"></script>
+    <script src="./app.js"></script>
 </body>
 </html> 
