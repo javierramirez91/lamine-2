@@ -29,11 +29,12 @@
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- Styles -->
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/main-B-0OockB.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-DFKbZjCe.css">
 </head>
 <body>
     <!-- Loading Screen -->
@@ -484,86 +485,92 @@
 
         <!-- Chat Section -->
         <section id="chat" class="chat-section">
-            <div class="container">
-                <div class="section-header" data-aos="fade-up">
-                    <h2>Lamine Yamal - Expert IA en Contractació Pública</h2>
-                    <p>El teu assistent personal especialitzat en LCSP disponible 24/7</p>
-                </div>
-                <div class="chat-container" data-aos="fade-up" data-aos-delay="200">
-                    <div class="chat-header">
-                        <div class="chat-avatar">
-                            <div class="avatar-gradient"></div>
-                            <span class="avatar-text">LY</span>
+            <!-- El contenidor principal del xat ara serà el wrapper de dues columnes -->
+            <div class="chat-page-wrapper" data-aos="fade-up">
+
+                <!-- Columna Esquerra: Perfil de Lamine Yamal -->
+                <aside class="chat-sidebar">
+                    <div class="user-profile-card">
+                        <div class="profile-avatar-large">
+                            <img src="/assets/lamine-avatar.png" alt="Lamine Yamal">
+                            <div class="status-dot-large online"></div>
                         </div>
-                        <div class="chat-info">
-                            <h3>Lamine Yamal</h3>
-                            <p>Pilota d'Or de Contractació Pública</p>
-                            <div class="status-indicator">
-                                <span class="status-dot"></span>
-                                <span>En línia - Expert en LCSP</span>
-                            </div>
-                        </div>
-                        <div class="chat-actions">
-                            <button class="btn-icon" onclick="app.chatbot ? app.chatbot.clearHistory() : console.warn('Chatbot not initialized')" title="Netejar conversa">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M3 6h18"/>
-                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                </svg>
-                            </button>
+                        <h2 class="profile-name">Lamine Yamal</h2>
+                        <p class="profile-title">Expert IA en Contractació Pública</p>
+                        
+                        <div class="profile-badges">
+                            <span class="badge gold">🏆 Pilota d'Or</span>
+                            <span class="badge blue">📘 LCSP Expert</span>
+                            <span class="badge purple">✨ IA Avançada</span>
                         </div>
                     </div>
-                    
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="message bot-message">
-                            <div class="message-avatar">
-                                <span>LY</span>
-                            </div>
-                            <div class="message-content">
-                                <p>Hola! Sóc Lamine Yamal, el teu expert en contractació pública. Em proclamo com el <strong>Pilota d'Or de Contractació</strong> perquè conec a la perfecció la Llei 9/2017 LCSP i puc ajudar-te con:</p>
-                                <ul>
-                                    <li>🎯 Criteris d'adjudicació òptims per a qualsevol licitació</li>
-                                    <li>📋 Requisits de solvència proporcionals</li>
-                                    <li>⚖️ Interpretació de jurisprudència dels tribunals</li>
-                                    <li>💡 Idees innovadores per a objectes contractuals específics</li>
-                                    <li>🔍 Cerca de les millors opcions per a cada situació</li>
-                                </ul>
-                                <p>Què necessites saber sobre contractació pública?</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-suggestions">
-                        <button class="suggestion-btn" onclick="app.chatbot ? app.chatbot.sendMessage('Com defineixo criteris d\'adjudicació per a un contracte de serveis de consultoria?') : console.warn('Chatbot not initialized')">
-                            Criteris per consultoria
+
+                    <div class="quick-help-card">
+                        <h3 class="quick-help-title">Com puc ajudar-te?</h3>
+                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Explica\'m els Criteris d\'Adjudicació')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                            Criteris d'Adjudicació
                         </button>
-                        <button class="suggestion-btn" onclick="app.chatbot ? app.chatbot.sendMessage('Quins requisits de solvència són adequats per a un contracte d\'obres de 500.000€?') : console.warn('Chatbot not initialized')">
-                            Solvència per obres
+                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Quins són els Requisits de Solvència?')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            Requisits de Solvència
                         </button>
-                        <button class="suggestion-btn" onclick="app.chatbot ? app.chatbot.sendMessage('Com aplico el cost del cicle de vida en una licitació de vehicles?') : console.warn('Chatbot not initialized')">
-                            Cost cicle de vida
+                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Com funciona el Cost del Cicle de Vida?')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                            Cost Cicle de Vida
                         </button>
-                        <button class="suggestion-btn" onclick="app.chatbot ? app.chatbot.sendMessage('Quina jurisprudència existeix sobre criteris subjectius?') : console.warn('Chatbot not initialized')">
-                            Jurisprudència criteris
+                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Detalla\'m els Procediments de contractació')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            Procediments
                         </button>
                     </div>
-                    
-                    <div class="chat-input-container">
-                        <div class="chat-input-wrapper">
-                            <textarea 
-                                id="chat-input" 
-                                placeholder="Pregunta'm sobre contractació pública, criteris d'adjudicació, solvència..."
-                                rows="1"
-                            ></textarea>
-                            <button id="send-button" class="send-button" onclick="app.chatbot ? app.chatbot.sendMessage() : console.warn('Chatbot not initialized')">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M22 2L11 13"/>
-                                    <path d="M22 2l-7 20-4-9-9-4z"/>
-                                </svg>
-                            </button>
+                </aside>
+
+                <!-- Columna Dreta: Contenidor del Xat -->
+                <div class="chat-main-area">
+                    <div class="chat-container" data-aos="fade-up" data-aos-delay="100"> 
+                        <div class="chat-header">
+                            <div class="chat-avatar-small">
+                                <img src="/assets/lamine-avatar.png" alt="Lamine Yamal">
+                                <div class="avatar-status online"></div>
+                            </div>
+                            <div class="chat-info">
+                                <h3>Lamine Yamal</h3>
+                                <p class="status-text">En línia - Respon al moment</p>
+                            </div>
+                            <div class="chat-actions">
+                                <button class="btn-icon" onclick="app.chatbot ? app.chatbot.clearHistory() : console.warn('Chatbot not initialized')" title="Netejar conversa">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                </button>
+                                <!-- Es podrien afegir més botons d'acció aquí -->
+                            </div>
                         </div>
-                        <div class="chat-footer">
-                            <small>Lamine Yamal pot cometre errors. Verifica informació important amb fonts oficials.</small>
+                        
+                        <div class="chat-messages" id="chat-messages">
+                            <!-- Els missatges s'injectaran aquí amb JavaScript -->
+                        </div>
+                        
+                        <div class="chat-suggestions-bar" id="chat-suggestions">
+                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Com defineixo criteris d\'adjudicació?')">Criteris d'adjudicació</button>
+                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Quina és la solvència tècnica mínima?')">Solvència tècnica</button>
+                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Explica el Cost Cicle Vida')">Cost Cicle Vida</button>
+                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Quins procediments de licitació hi ha?')">Procediments</button>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <div class="chat-input-wrapper">
+                                <textarea 
+                                    id="chat-input" 
+                                    placeholder="Escriu la teva pregunta sobre contractació pública..."
+                                    rows="1"
+                                ></textarea>
+                                <button id="send-button" class="send-button" title="Enviar missatge">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                </button>
+                            </div>
+                            <div class="chat-footer">
+                                <small>💡 Prem Enter per enviar • Shift+Enter per nova línia</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -577,7 +584,6 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/content-loader.js"></script>
     <script src="/chatbot.js"></script>
-    <script src="/app.js"></script>
-    <script type="module" src="/assets/main-BS301V13.js"></script>
+    <script src="/app.js"></script>
 </body>
 </html> 
