@@ -6,7 +6,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "vite",
-    "build": "node build.js",
+    "build": "vite build && node post-build.js",
     "build:vite": "vite build",
     "preview": "vite preview",
     "deploy": "netlify deploy --prod",
