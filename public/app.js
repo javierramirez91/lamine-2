@@ -242,11 +242,10 @@ class App {
             this.populateCCVComponents();
             this.populateSolvencyDetails();
 
-            if (typeof Chatbot !== 'undefined') {
-                this.chatbot = new Chatbot(this.contentLoader);
-                await this.chatbot.init();
+            if (typeof Chatbot !== 'undefined' && typeof CONFIG_CHATBOT !== 'undefined') {
+                this.chatbot = new Chatbot(CONFIG_CHATBOT, this.contentLoader);
             } else {
-                console.warn("La classe Chatbot no està definida globalment. El chatbot no s'inicialitzarà.");
+                console.warn("La classe Chatbot o CONFIG_CHATBOT no estan definides globalment. El chatbot no s'inicialitzarà.");
             }
 
             this.setupEventListeners();
