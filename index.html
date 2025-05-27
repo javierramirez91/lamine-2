@@ -526,19 +526,19 @@
 
                     <div class="quick-help-card">
                         <h3 class="quick-help-title">Com puc ajudar-te?</h3>
-                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Explica\'m els Criteris d\'Adjudicació')">
+                        <button class="quick-help-btn" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Explica\'m els Criteris d\'Adjudicació') : console.warn('Chatbot no inicialitzat')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
                             Criteris d'Adjudicació
                         </button>
-                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Quins són els Requisits de Solvència?')">
+                        <button class="quick-help-btn" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Quins són els Requisits de Solvència?') : console.warn('Chatbot no inicialitzat')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                             Requisits de Solvència
                         </button>
-                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Com funciona el Cost del Cicle de Vida?')">
+                        <button class="quick-help-btn" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Com funciona el Cost del Cicle de Vida?') : console.warn('Chatbot no inicialitzat')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
                             Cost Cicle de Vida
                         </button>
-                        <button class="quick-help-btn" onclick="app.chatbot.sendMessage('Detalla\'m els Procediments de contractació')">
+                        <button class="quick-help-btn" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Detalla\'m els Procediments de contractació') : console.warn('Chatbot no inicialitzat')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                             Procediments
                         </button>
@@ -558,7 +558,7 @@
                                 <p class="status-text">En línia - Respon al moment</p>
                             </div>
                             <div class="chat-actions">
-                                <button class="btn-icon" onclick="app.chatbot ? app.chatbot.clearHistory() : console.warn('Chatbot not initialized')" title="Netejar conversa">
+                                <button class="btn-icon" onclick="window.app && window.app.chatbot ? window.app.chatbot.clearHistory() : console.warn('Chatbot no inicialitzat')" title="Netejar conversa">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
                                 </button>
                                 <!-- Es podrien afegir més botons d'acció aquí -->
@@ -570,10 +570,10 @@
                         </div>
                         
                         <div class="chat-suggestions-bar" id="chat-suggestions">
-                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Com defineixo criteris d\'adjudicació?')">Criteris d'adjudicació</button>
-                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Quina és la solvència tècnica mínima?')">Solvència tècnica</button>
-                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Explica el Cost Cicle Vida')">Cost Cicle Vida</button>
-                             <button class="suggestion-item" onclick="app.chatbot.sendMessage('Quins procediments de licitació hi ha?')">Procediments</button>
+                             <button class="suggestion-item" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Com defineixo criteris d\'adjudicació?') : console.warn('Chatbot no inicialitzat')">Criteris d'adjudicació</button>
+                             <button class="suggestion-item" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Quina és la solvència tècnica mínima?') : console.warn('Chatbot no inicialitzat')">Solvència tècnica</button>
+                             <button class="suggestion-item" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Explica el Cost Cicle Vida') : console.warn('Chatbot no inicialitzat')">Cost Cicle Vida</button>
+                             <button class="suggestion-item" onclick="window.app && window.app.chatbot ? window.app.chatbot.sendMessage('Quins procediments de licitació hi ha?') : console.warn('Chatbot no inicialitzat')">Procediments</button>
                         </div>
                         
                         <div class="chat-input-container">

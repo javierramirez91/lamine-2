@@ -76,8 +76,8 @@ class ContentLoader {
     }
 
     async loadLegalContent() {
-        // Aquesta funció podria carregar dades d'un JSON extern en el futur
-        // De moment, definim el contingut directament aquí, ampliant-lo amb la nova informació
+        // Defineix l'estructura base de legalContent
+        // PAS 1: Definir l'estructura base, deixant la crida a getSocialBenefitExamples per després
         this.legalContent = {
             lcspInfo: {
                 titol: "Marc Legal LCSP",
@@ -149,7 +149,6 @@ class ContentLoader {
                     calculExternalitats: "Mètode basat en criteris verificables objectivament, accessible, dades facilitables amb esforç raonable. Es poden usar mètodes comuns UE."
                 },
                 exemples: this.imagesData.memoria_tecnica_servei?.memoria_tecnica?.subcriteris?.find(sc => sc.descripcio.includes("art. 148 LCSP")) ? [
-                    // Incloure aquí exemples si es troben a les imatges o es defineixen manualment
                     { titol: "Adquisició d'Autobusos Urbans (Vida útil: 12 anys)", detall: "Criteri: Menor CCV. Components: Preu adquisició, consum combustible, manteniment preventiu, peces desgast, emissions CO2/NOx. Valoració: Suma de costos i puntuació inversament proporcional." },
                     { titol: "Subministrament i Instal·lació de Lluminàries LED (Vida útil: 15 anys)", detall: "Criteri mixt: 70% Preu Adquisició, 30% Cost Consum Energètic. Components CCV (parcial): Potència lluminària, hores funcionament. Valoració: Preu per regla de tres inversa, Consum energètic amb puntuació inversament proporcional al cost a 15 anys." }
                 ] : [
@@ -190,8 +189,8 @@ class ContentLoader {
                             { nom: "Metodologia o Pla de Treball", descripcio: "Adequació metodologia, claredat pla de treball, identificació fases/tasques, assignació recursos, control i seguiment, gestió riscos." },
                             { nom: "Organització, Qualificació i Experiència del Personal Adscrit", descripcio: "Estructura organitzativa, qualificació acadèmica/formació, experiència específica personal clau, dedicació horària, pla estabilitat/substitució. Diferent de solvència. Veure text 'L'experiència com a criteri d'adjudicació'.", infoAddicionalSource: "experiencia_com_a_criteri" },
                             { nom: "Característiques Mediambientals (Qualitatives)", descripcio: "Qualitat Pla Gestió Ambiental específic, propostes minimització residus innovadores, plans protecció biodiversitat. Vinculació estricta a l'objecte." },
-                            { nom: "Característiques Socials (Qualitatives)", descripcio: "Qualitat Pla Inserció Laboral, Pla Igualtat Gènere específic contracte, millora condicions laborals personal adscrit. Vinculació estricta a l'execució contracte.", exemplesText: this.getSocialBenefitExamples() },
-                            { nom: "Innovació de la Solució", descripcio: "Originalitat, valor afegit, viabilitat tècnica, maduresa innovació (TRL).", exemplesText: this.getInnovationExamples() },
+                            { nom: "Característiques Socials (Qualitatives)", descripcio: "Qualitat Pla Inserció Laboral, Pla Igualtat Gènere específic contracte, millora condicions laborals personal adscrit. Vinculació estricta a l'execució contracte.", exemplesTextPlaceholder: "social_benefits" },
+                            { nom: "Innovació de la Solució", descripcio: "Originalitat, valor afegit, viabilitat tècnica, maduresa innovació (TRL).", exemplesTextPlaceholder: "innovation" },
                             { nom: "Servei Postvenda i Assistència Tècnica (Qualitatius)", descripcio: "Qualitat Pla Suport i Manteniment, organització SAT, proactivitat, qualitat documentació suport, plans formació ús/manteniment.", subExemples: this.imagesData.memoria_tecnica_servei?.servei?.subcriteris || [] },
                             { nom: "Millores sobre els Requisits Mínims (Qualitatives)", descripcio: "Prestacions addicionals valorables qualitativament. No requisits encoberts, no modificar objecte, gratuïtes. Definir àmbits i paràmetres valoració." },
                             { nom: "Característiques Estètiques o Funcionals (Qualitatives)", descripcio: "Aparença visual, disseny, ergonomia, usabilitat. Comitè experts amb perfil adequat. Pliecs han de guiar subjectivitat." },
@@ -199,8 +198,8 @@ class ContentLoader {
                             { nom: "Condicions d'Entrega o Execució (Qualitatives)", descripcio: "Qualitat Pla Entrega/Execució, mesures integritat, protocols coordinació, minimització molèsties, seguretat i salut superiors a mínims." }
                         ],
                         textosClau: {
-                            criteris_qualitatius_general: `Els criteris qualitatius poden ser: • La qualitat, inclòs el valor tècnic, les característiques estètiques i funcionals, l'accessibilitat, el disseny, etc. • Les característiques socials... • Les característiques mediambientals... • L'organització, la qualificació i l'experiència del personal adscrit... • El servei postvenda, l'assistència tècnica i les condicions d'entrega... • Les millores... Els criteris qualitatius sempre s'han d'acompanyar de criteris relacionats amb els costos.`, // Extret de text proporcionat
-                            experiencia_com_a_criteri: `Tant la doctrina... com les resolucions... havien establert una diferència clara entre les característiques del licitador (solvència) i les de l'oferta (criteri d'adjudicació). Es rebutjava l'experiència com a criteri. Això evoluciona amb la STJUE C-601-13 (26/03/2015): l'experiència dels equips concrets proposats, al contrari que l'experiència general de l'empresa, està lligada a la qualitat professional i pot ser característica intrínseca de l'oferta. La Directiva 2014/24/UE (Cons. 94 i Art. 67.2.b) ho incorpora: organització, qualificació i experiència del personal encarregat si la qualitat del personal afecta significativament l'execució. L'Art. 145.2.2 LCSP ho transposa. Requisits: 1. Experiència per sobre del nivell mínim de solvència (TCCSP 48/2018). 2. Complir requisits Art. 145.5 LCSP (vinculació objecte, objectivitat, etc.). 3. Justificació en expedient que qualitat del personal afecta millor execució (Art. 116.4 LCSP, TCCSP 88/2019).` // Resum extret de text
+                            criteris_qualitatius_general: "Els criteris qualitatius poden ser: • La qualitat, inclòs el valor tècnic, les característiques estètiques i funcionals, l'accessibilitat, el disseny, etc. • Les característiques socials... • Les característiques mediambientals... • L'organització, la qualificació i l'experiència del personal adscrit... • El servei postvenda, l'assistència tècnica i les condicions d'entrega... • Les millores... Els criteris qualitatius sempre s'han d'acompanyar de criteris relacionats amb els costos.",
+                            experiencia_com_a_criteri: "Tant la doctrina... com les resolucions... havien establert una diferència clara entre les característiques del licitador (solvència) i les de l'oferta (criteri d'adjudicació). Es rebutjava l'experiència com a criteri. Això evoluciona amb la STJUE C-601-13 (26/03/2015): l'experiència dels equips concrets proposats, al contrari que l'experiència general de l'empresa, està lligada a la qualitat professional i pot ser característica intrínseca de l'oferta. La Directiva 2014/24/UE (Cons. 94 i Art. 67.2.b) ho incorpora: organització, qualificació i experiència del personal encarregat si la qualitat del personal afecta significativament l'execució. L'Art. 145.2.2 LCSP ho transposa. Requisits: 1. Experiència per sobre del nivell mínim de solvència (TCCSP 48/2018). 2. Complir requisits Art. 145.5 LCSP (vinculació objecte, objectivitat, etc.). 3. Justificació en expedient que qualitat del personal afecta millor execució (Art. 116.4 LCSP, TCCSP 88/2019)."
                         }
                     }
                 },
@@ -355,20 +354,33 @@ class ContentLoader {
 
     // Funcions auxiliars per extreure informació específica dels textos llargs
     getSocialBenefitExamples() {
-        // Extreure de this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats
-        const socialExample = this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats.find(ex => ex.ambit.includes("Beneficis socials"));
-        if (socialExample) {
-            return `${socialExample.exempleContracte}: ${socialExample.criteriDesc} ${socialExample.desglossament.join('; ')}`;
+        // Assegurar que this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat existeix
+        if (this.legalContent && 
+            this.legalContent.criterisAdjudicacio && 
+            this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat &&
+            this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats) {
+            
+            return this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats.filter(
+                exemple => exemple.ambit && exemple.ambit.toLowerCase().includes('beneficis socials')
+            );
         }
-        return "Exemples no trobats.";
+        console.warn('getSocialBenefitExamples: Dades necessàries no disponibles a exemplesPracticsQualitat.');
+        return [];
     }
 
     getInnovationExamples() {
-        const innovationExample = this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats.find(ex => ex.ambit.includes("Innovació tecnològica"));
-        if (innovationExample) {
-            return `${innovationExample.exempleContracte}: ${innovationExample.criteriDesc} ${innovationExample.desglossament.join('; ')}`;
+        // Similar a getSocialBenefitExamples, assegurar que les dades existeixen
+        if (this.legalContent &&
+            this.legalContent.criterisAdjudicacio &&
+            this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat &&
+            this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats) {
+
+            return this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat.exemplesDetallats.filter(
+                exemple => exemple.ambit && exemple.ambit.toLowerCase().includes('innovació tecnològica')
+            );
         }
-        return "Exemples no trobats.";
+        console.warn('getInnovationExamples: Dades necessàries no disponibles a exemplesPracticsQualitat.');
+        return [];
     }
 
     // Mètodes per accedir al contingut
