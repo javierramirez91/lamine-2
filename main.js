@@ -1,6 +1,3 @@
-// Importar estilos
-import './styles.css';
-
 // Log para verificar que main.js se está cargando
 console.log('main.js carregat correctament');
 
