@@ -765,6 +765,7 @@ document.addEventListener('DOMContentLoaded', () => {
     app.init().then(() => {
         console.log("App inicialitzada completament des de app.js.");
          // Inicialitzar AOS aquí si no es fa dins de App.init() o un lloc més específic
+        /* // Comentat ja que AOS s'ha eliminat temporalment per problemes de CSP
         if (typeof AOS !== 'undefined') {
             AOS.init({
                 duration: 800,
@@ -776,6 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             console.warn('AOS no està definit. No es pot inicialitzar.');
         }
+        */
     }).catch(err => {
         console.error("Error final en la inicialització de l'App des de app.js:", err);
     });
