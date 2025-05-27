@@ -3,6 +3,7 @@ class ContentLoader {
     constructor() {
         this.isLoaded = false;
         this.legalContent = {};
+        this.guiaCriterisContent = {}; // Nova propietat per a la guia
         this.imagesData = {
             criteris_automatic_subjectius: null, // Placeholder for first image data
             memoria_tecnica_servei: null,      // Placeholder for second image data
@@ -15,6 +16,7 @@ class ContentLoader {
             // Simular la càrrega de dades de les imatges (en un cas real, s'extrauria la info)
             this.loadImagesData(); 
             await this.loadLegalContent();
+            await this.loadGuiaCriterisAdjudicacio(); // Crida a la nova funció
             this.isLoaded = true;
             console.log('ContentLoader inicialitzat i contingut carregat.');
         } catch (error) {
@@ -75,9 +77,65 @@ class ContentLoader {
         ];
     }
 
+    async loadGuiaCriterisAdjudicacio() {
+        try {
+            const response = await fetch('../guia_criteris_adjudicacio.html');
+            if (!response.ok) {
+                throw new Error(`Error HTTP ${response.status} en carregar guia_criteris_adjudicacio.html`);
+            }
+            const htmlText = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+            
+            const title = doc.querySelector('title')?.textContent || 'Guia de Criteris dAdjudicació';
+            const sectionsArray = [];
+
+            const sections = doc.querySelectorAll('main section');
+            sections.forEach(section => {
+                const titleElement = section.querySelector('h2, h3, h4');
+                const sectionTitle = titleElement ? titleElement.textContent.replace(/^\d+\.?\s*/, '').trim() : 'Secció sense títol';
+                
+                const contentClone = section.cloneNode(true);
+                contentClone.querySelector('h2, h3, h4, h5, h6')?.remove();
+                
+                let sectionText = Array.from(contentClone.querySelectorAll('p, li, td, th, article > p, .criteri > p, .nota > p'))
+                    .map(el => el.textContent.trim())
+                    .filter(text => text.length > 0)
+                    .join('\n\n');
+                
+                if (!sectionText && contentClone.textContent) {
+                     sectionText = contentClone.textContent.trim();
+                }
+
+                if (section.id && sectionText) {
+                    sectionsArray.push({
+                        id: section.id,
+                        title: sectionTitle,
+                        content: sectionText.replace(/\s+/g, ' ').trim()
+                    });
+                }
+            });
+
+            this.guiaCriterisContent = {
+                title: title,
+                sections: sectionsArray,
+                error: false // Indicar que no hi ha error
+            };
+            console.log('Guia de criteris carregada i parsejada correctament.');
+
+        } catch (error) {
+            console.error('Error carregant la guia de criteris d\'adjudicació:', error.message);
+            this.guiaCriterisContent = { 
+                title: 'Error en la càrrega de la Guia de Criteris',
+                sections: [],
+                error: true,
+                errorMessage: error.message
+            };
+        }
+    }
+
     async loadLegalContent() {
         // Defineix l'estructura base de legalContent
-        // PAS 1: Definir l'estructura base, deixant la crida a getSocialBenefitExamples per després
         this.legalContent = {
             lcspInfo: {
                 titol: "Marc Legal LCSP",
@@ -187,7 +245,7 @@ class ContentLoader {
                         subCriterisTextGeneral: [
                             { nom: "Qualitat Tècnica de la Proposta / Memòria Tècnica", descripcio: "Coherència global, comprensió necessitats, adequació solucions, detall i rigor documentació. Veure exemples OCR per a desglossament específic.", subExemples: this.imagesData.memoria_tecnica_servei?.memoria_tecnica?.subcriteris || [] },
                             { nom: "Metodologia o Pla de Treball", descripcio: "Adequació metodologia, claredat pla de treball, identificació fases/tasques, assignació recursos, control i seguiment, gestió riscos." },
-                            { nom: "Organització, Qualificació i Experiència del Personal Adscrit", descripcio: "Estructura organitzativa, qualificació acadèmica/formació, experiència específica personal clau, dedicació horària, pla estabilitat/substitució. Diferent de solvència. Veure text 'L'experiència com a criteri d'adjudicació'.", infoAddicionalSource: "experiencia_com_a_criteri" },
+                            { nom: "Organització, Qualificació i Experiència del Personal Adscrit", descripcio: "Estructura organitzativa, qualificació acadèmica/formació, experiència específica personal clau, dedicació horària, pla estabilitat/substitució. Diferent de solvència. Veure text 'L\'experiència com a criteri d\'adjudicació'.", infoAddicionalSource: "experiencia_com_a_criteri" },
                             { nom: "Característiques Mediambientals (Qualitatives)", descripcio: "Qualitat Pla Gestió Ambiental específic, propostes minimització residus innovadores, plans protecció biodiversitat. Vinculació estricta a l'objecte." },
                             { nom: "Característiques Socials (Qualitatives)", descripcio: "Qualitat Pla Inserció Laboral, Pla Igualtat Gènere específic contracte, millora condicions laborals personal adscrit. Vinculació estricta a l'execució contracte.", exemplesTextPlaceholder: "social_benefits" },
                             { nom: "Innovació de la Solució", descripcio: "Originalitat, valor afegit, viabilitat tècnica, maduresa innovació (TRL).", exemplesTextPlaceholder: "innovation" },
@@ -199,7 +257,9 @@ class ContentLoader {
                         ],
                         textosClau: {
                             criteris_qualitatius_general: "Els criteris qualitatius poden ser: • La qualitat, inclòs el valor tècnic, les característiques estètiques i funcionals, l'accessibilitat, el disseny, etc. • Les característiques socials... • Les característiques mediambientals... • L'organització, la qualificació i l'experiència del personal adscrit... • El servei postvenda, l'assistència tècnica i les condicions d'entrega... • Les millores... Els criteris qualitatius sempre s'han d'acompanyar de criteris relacionats amb els costos.",
-                            experiencia_com_a_criteri: "Tant la doctrina... com les resolucions... havien establert una diferència clara entre les característiques del licitador (solvència) i les de l'oferta (criteri d'adjudicació). Es rebutjava l'experiència com a criteri. Això evoluciona amb la STJUE C-601-13 (26/03/2015): l'experiència dels equips concrets proposats, al contrari que l'experiència general de l'empresa, està lligada a la qualitat professional i pot ser característica intrínseca de l'oferta. La Directiva 2014/24/UE (Cons. 94 i Art. 67.2.b) ho incorpora: organització, qualificació i experiència del personal encarregat si la qualitat del personal afecta significativament l'execució. L'Art. 145.2.2 LCSP ho transposa. Requisits: 1. Experiència per sobre del nivell mínim de solvència (TCCSP 48/2018). 2. Complir requisits Art. 145.5 LCSP (vinculació objecte, objectivitat, etc.). 3. Justificació en expedient que qualitat del personal afecta millor execució (Art. 116.4 LCSP, TCCSP 88/2019)."
+                            experiencia_com_a_criteri: "L'experiència general de l'empresa es considera solvència. No obstant això, l'Art. 145.2.a LCSP permet valorar com a CRITERI D'ADJUDICACIÓ l'organització, qualificació i experiència del PERSONAL específicament ADSCRIT al contracte, sempre que la qualitat d'aquest personal pugui afectar significativament la MILLOR EXECUCIÓ del contracte. Això és clau per a serveis professionals o intel·lectuals. Cal un COMPROMÍS D'ADSCRIPCIÓ del personal ofertat.",
+                            social_benefits: this.getSocialBenefitExamples().join(' '), // Crida a la funció
+                            innovation: this.getInnovationExamples().join(' ') // Crida a la funció
                         }
                     }
                 },
@@ -535,7 +595,7 @@ class ContentLoader {
                 "Què va dir el TJUE sobre l'experiència del personal com a criteri?"
             );
         }
-        if (lowerContext.includes('mediambiental') || lowerMessage.includes('social') || lowerMessage.includes('sostenibilitat')) {
+        if (lowerContext.includes('mediambiental') || lowerContext.includes('social') || lowerContext.includes('sostenibilitat')) {
             suggestions.push(
                 "Exemples de criteris mediambientals qualitatius.",
                 "Com es pot valorar la inserció laboral com a criteri social?",
@@ -589,6 +649,63 @@ class ContentLoader {
 
     isContentLoaded() {
         return this.isLoaded;
+    }
+
+    getRelevantContentForChatbot(userQuery) {
+        let relevantContent = [];
+        const query = userQuery.toLowerCase();
+
+        // Afegir contingut de la LCSP si és rellevant
+        if (query.includes("lcsp") || query.includes("llei de contractes") || query.includes("article")) {
+            relevantContent.push(this.getLcspInfo());
+        }
+
+        // Afegir contingut del CCV si és rellevant
+        if (query.includes("cicle de vida") || query.includes("ccv") || query.includes("cost del cicle de vida")) {
+            relevantContent.push(this.getCostCicloVidaInfo());
+        }
+
+        // Afegir informació sobre criteris d'adjudicació
+        if (query.includes("criteri") || query.includes("adjudicació") || query.includes("valoració") || query.includes("puntuació")) {
+            relevantContent.push(this.getCriteriaInfo()); // Obté tota la info de criteris
+        }
+        
+        // Afegir informació sobre solvència
+        if (query.includes("solvència") || query.includes("solvencia") || query.includes("capacitat")) {
+            relevantContent.push(this.getSolvencyInfo());
+        }
+
+        // Afegir informació sobre bones pràctiques
+        if (query.includes("bones pràctiques") || query.includes("recomanacions") || query.includes("consells")) {
+            relevantContent.push(this.getBonesPractiques());
+        }
+
+        // Afegir contingut de la Guia de Criteris d'Adjudicació si està carregada i no hi ha error
+        if (this.guiaCriterisContent && !this.guiaCriterisContent.error && this.guiaCriterisContent.sections && this.guiaCriterisContent.sections.length > 0) {
+            if (query.includes("guia") || query.includes("criteris d'adjudicació") || relevantContent.length === 0) { // Afegir si es demana la guia o si no s'ha trobat res més
+                relevantContent.push({ 
+                    title: this.guiaCriterisContent.title,
+                    sections: this.guiaCriterisContent.sections 
+                });
+            }
+        } else if (this.guiaCriterisContent && this.guiaCriterisContent.error) {
+            relevantContent.push({ 
+                title: "Informació de la Guia de Criteris", 
+                content: `No s'ha pogut carregar la guia de criteris. Motiu: ${this.guiaCriterisContent.errorMessage || 'Error desconegut'}`
+            });
+        }
+
+        // Lògica de cerca més específica si no s'ha trobat contingut general rellevant
+        if (relevantContent.length === 0) {
+            const searchResults = this.searchContent(query);
+            if (searchResults.length > 0) {
+                relevantContent = searchResults; 
+            } else {
+                relevantContent.push({ generalFallback: "No he trobat informació específica sobre la teva consulta. Prova a reformular-la o pregunta per temes com 'LCSP', 'criteris de solvència', 'cost del cicle de vida', etc." });
+            }
+        }
+        
+        return relevantContent;
     }
 }
 

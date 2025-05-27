@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Completa sobre Criteris d'Adjudicació en la Contractació Pública</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px; 
+            margin: auto;
+            background: #fff;
+            padding: 25px; 
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+        }
+        h1, h2, h3, h4, h5 {
+            color: #2c3e50; 
+            margin-top: 1.5em; 
+            margin-bottom: 0.8em;
+        }
+        h1 {
+            border-bottom: 3px solid #3498db; 
+            padding-bottom: 15px;
+            font-size: 2.2em; 
+        }
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.5em;
+            color: #34495e; 
+        }
+        h4 {
+            font-size: 1.25em;
+            color: #7f8c8d; 
+        }
+        nav#toc { 
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+        nav#toc h2 {
+            margin-top: 0;
+            font-size: 1.4em; 
+            border-bottom: none;
+        }
+        nav#toc ul {
+            list-style-type: none;
+            padding-left: 0; 
+        }
+        nav#toc ul li {
+            margin-bottom: 8px;
+        }
+        nav#toc ul li a {
+            text-decoration: none;
+            color: #2980b9; 
+        }
+        nav#toc ul li a:hover {
+            text-decoration: underline;
+            color: #1c587a;
+        }
+        nav#toc ul ul { 
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        .criteri, .nota, article, section > p { 
+            margin-bottom: 1.2em;
+        }
+        .criteri {
+            padding: 15px;
+            background-color: #e9ecef;
+            border-left: 5px solid #007bff;
+            border-radius: 4px;
+        }
+        .nota {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff3cd;
+            border-left: 3px solid #ffeeba;
+            border-radius: 4px;
+        }
+        strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        em {
+            font-style: italic;
+        }
+        ul, ol {
+            margin-left: 20px;
+            padding-left: 10px; 
+        }
+        li {
+            margin-bottom: 0.5em; 
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.05);
+        }
+        th, td {
+            border: 1px solid #bdc3c7; 
+            padding: 10px; 
+            text-align: left;
+        }
+        th {
+            background-color: #3498db; 
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9f9; 
+        }
+        code { 
+            background-color: #e8e8e8;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Guia Completa sobre Criteris d'Adjudicació en la Contractació Pública</h1>
+        </header>
+
+        <nav id="toc">
+            <h2>Taula de Continguts</h2>
+            <ul>
+                <li><a href="#parte1_intro_marco_general">PART I: INTRODUCCIÓ I MARC GENERAL</a>
+                    <ul>
+                        <li><a href="#parte1_criterios_juicio_valor_intro">Criteris Subjectes a Judici de Valor (Introducció)</a></li>
+                        <li><a href="#parte1_solvencia_vs_criterio">Informació Addicional Clau: Solvència vs. Criteri d'Adjudicació</a></li>
+                    </ul>
+                </li>
+                <li><a href="#parte2_marco_legal_doctrinal">PART II: MARC LEGAL I DOCTRINAL</a>
+                    <ul>
+                        <li><a href="#parte2_lcsp">1. Llei 9/2017, de 8 de novembre, de Contractes del Sector Públic (LCSP)</a></li>
+                    </ul>
+                </li>
+                <li><a href="#parte3_criterios_automaticos">PART III: CRITERIS D'ADJUDICACIÓ AVALUABLES MITJANÇANT FÓRMULES (AUTOMÀTICS)</a>
+                    <ul>
+                        <li><a href="#parte3_ccv">4. El Cost del Cicle de Vida (CCV)</a></li>
+                        <li><a href="#parte3_termini_execucio">5. El Termini d'Execució o Lliurament</a></li>
+                        <li><a href="#parte3_garantia_addicional">6. El Període de Garantia Addicional</a></li>
+                        <li><a href="#parte3_caracteristiques_tecniques_quantificables">7. Característiques Tècniques Quantificables</a></li>
+                        <li><a href="#parte3_altres_prestacions_quantificables">8. Altres Prestacions Addicionals Quantificables</a></li>
+                    </ul>
+                </li>
+                <li><a href="#parte4_criterios_juicio_valor">PART IV: CRITERIS D'ADJUDICACIÓ SUBJECTES A JUDICI DE VALOR</a>
+                    <ul>
+                        <li><a href="#parte4_qualitat_proposta_tecnica">9. Qualitat de la Proposta Tècnica</a></li>
+                        <li><a href="#parte4_organitzacio_qualificacio_experiencia_personal">10. Organització, Qualificació i Experiència del Personal Adscrit al Contracte</a></li>
+                        <li><a href="#parte4_servei_postvenda_assistencia_tecnica">11. Servei Postvenda i Assistència Tècnica (component qualitatiu)</a></li>
+                        <li><a href="#parte4_caracteristiques_mediambientals_socials_qualitatiu">12. Característiques Mediambientals i Socials (component qualitatiu)</a></li>
+                        <li><a href="#parte4_innovacio_qualitatiu">13. Innovació (component qualitatiu)</a></li>
+                    </ul>
+                </li>
+                <li><a href="#parte5_procediment_bones_practiques">PART V: ASPECTES PROCEDIMENTALS I BONES PRÀCTIQUES</a>
+                    <ul>
+                        <li><a href="#parte5_procediment_avaluacio">14. Procediment d'Avaluació</a></li>
+                        <li><a href="#parte5_ofertes_anormalment_baixes">15. Ofertes Anormalment Baixes o Desproporcionades (Temeritat)</a></li>
+                        <li><a href="#parte5_bones_practiques_definicio_criteris">16. Bones Pràctiques en la Definició de Criteris</a></li>
+                        <li><a href="#parte5_errors_comuns_evitar">17. Errors Comuns a Evitar</a></li>
+                <li><a href="#parte1_intro_marco_general">PART I: INTRODUCCIÓ I MARC GENERAL</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="parte1_intro_marco_general">
+                <h2>PART I: INTRODUCCIÓ I MARC GENERAL</h2>
+                <p>Els criteris d'adjudicació són els pilars sobre els quals les entitats del sector públic seleccionen l'oferta més avantatjosa per satisfer les seves necessitats. Aquests criteris poden ser automàtics (avaluables mitjançant fórmules) o subjectes a judici de valor (requereixen una apreciació qualitativa).</p>
+                <article id="parte1_criterios_juicio_valor_intro">
+                    <h3>Criteris Subjectes a Judici de Valor (Introducció)</h3>
+                    <p>Requereixen una apreciació tècnica o qualitativa per un comitè d'experts. S'avaluen abans que els criteris automàtics per garantir l'objectivitat en la valoració d'aquests últims.</p>
+                </article>
+                <article id="parte1_solvencia_vs_criterio">
+                    <h3>Informació Addicional Clau: Solvència vs. Criteri d'Adjudicació</h3>
+                    <p>Tant la doctrina com les resolucions dels tribunals de contractació havien establert una diferència clara entre les característiques del licitador (que s'acrediten mitjançant la solvència) i les característiques de l'oferta (que es valoren com a criteri d'adjudicació). Tradicionalment, es rebutjava l'experiència general de l'empresa com a criteri d'adjudicació, considerant-la pròpia de la solvència. Aquesta concepció evoluciona, permetent-se valorar l'experiència del personal específicament adscrit al contracte com a criteri d'adjudicació si la seva qualitat pot afectar significativament la millor execució del contracte (STJUE C-... i LCSP Art. 145.2.a).</p>
+                </article>
+            </section>
+
+            <section id="parte2_marco_legal_doctrinal">
+                <h2>PART II: MARC LEGAL I DOCTRINAL</h2>
+                <article id="parte2_lcsp">
+                    <h3>1. Llei 9/2017, de 8 de novembre, de Contractes del Sector Públic (LCSP)</h3>
+                    <p>La LCSP regula els criteris d'adjudicació en diversos articles clau, permetent la inclusió de criteris subjectes a judici de valor per identificar l'oferta amb la millor relació qualitat-preu.</p>
+                    <h4>Article 145 LCSP - Criteris d'adjudicació del contracte:</h4>
+                    <ul>
+                        <li>Estableix que l'adjudicació dels contractes es realitzarà utilitzant una pluralitat de criteris d'adjudicació basats en el principi de la millor relació qualitat-preu (apartat 1).</li>
+                        <li>La millor relació qualitat-preu s'avaluarà, amb caràcter general, d'acord amb criteris econòmics i qualitatius (apartat 2).</li>
+                        <li>Els criteris qualitatius podran incloure, entre d'altres (apartat 2.a i b):
+                            <ul>
+                                <li>La qualitat, incloses les característiques tècniques i estètiques o funcionals.</li>
+                                <li>L'organització, qualificació i experiència del personal adscrit al contracte que l'hagi d'executar, sempre que la qualitat del personal adscrit pugui afectar de manera significativa la millor execució del contracte.</li>
+                                <li>El servei postvenda i l'assistència tècnica.</li>
+                                <li>Les condicions de lliurament o execució.</li>
+                                <li>Les característiques mediambientals o socials vinculades a l'objecte del contracte.</li>
+                                <li>La innovació.</li>
+                            </ul>
+                        </li>
+                        <li>Exigeix que els criteris estiguin vinculats a l'objecte del contracte, formulats de manera objectiva, amb ple respecte als principis d'igualtat, no discriminació, transparència i proporcionalitat, i no conferiran a l'òrgan de contractació una llibertat de decisió il·limitada (apartat 5.a).</li>
+                        <li>Han de garantir la possibilitat que les ofertes siguin avaluades en condicions de competència efectiva i anar acompanyats d'especificacions que permetin comprovar de manera efectiva la informació facilitada pels licitadors per valorar la seva adequació a aquests criteris (apartat 5.b i c).</li>
+                    </ul>
+                    <h4>Article 146 LCSP - Aplicació dels criteris d'adjudicació:</h4>
+                    <ul>
+                        <li>Detalla l'aplicació dels criteris, indicant que quan només s'utilitzi un criteri d'adjudicació, aquest haurà d'estar relacionat amb els costos, podent ser el preu o un criteri basat en la rendibilitat, com el cost del cicle de vida. Si s'utilitzen múltiples criteris, s'han de detallar en el plec, juntament amb la seva ponderació.</li>
+                        <li>Quan s'utilitzin criteris la quantificació dels quals depengui d'un judici de valor, aquests han de ser preponderants sobre els criteris avaluables mitjançant fórmules, i la seva ponderació no podrà ser superior al 50% del total, llevat d'excepcions justificades a l'expedient (apartat 3 de l'art. 146). No obstant això, la pràctica i algunes resolucions de tribunals de contractació han flexibilitzat aquesta regla si es justifica degudament, especialment en contractes de serveis de l'Annex IV o on el component intel·lectual sigui rellevant, on els criteris de qualitat hauran de representar almenys el 51%.</li>
+                    </ul>
+                    <h4>Article 147 LCSP - Criteris d'adjudicació relacionats amb aspectes socials o mediambientals.</h4>
+                    <h4>Article 148 LCSP - Càlcul del cost del cicle de vida. (Es detalla més endavant)</h4>
+                    <h4>Article 150.2 LCSP - Avaluació de les ofertes:</h4>
+                    <p>L'avaluació de les ofertes conforme als criteris quantificables mitjançant un judici de valor s'haurà de realitzar abans de l'avaluació dels criteris quantificables mitjançant la simple aplicació de fórmules. El resultat de l'avaluació dels criteris subjectes a judici de valor es documentarà en una acta o informe amb la suficient motivació.</p>
+                </article>
+            </section>
+
+            <section id="parte3_criterios_automaticos">
+                <h2>PART III: CRITERIS D'ADJUDICACIÓ AVALUABLES MITJANÇANT FÓRMULES (AUTOMÀTICS)</h2>
+                <p>Aquests criteris es poden valorar mitjançant l'aplicació directa d'una fórmula matemàtica o per comparació objectiva de xifres o certificacions, sense que hi intervingui un judici de valor subjectiu.</p>
+                <article id="parte3_ccv">
+                    <h3>4. El Cost del Cicle de Vida (CCV)</h3>
+                    <section id="ccv_descripcion_fundamento">
+                        <h4>4.1. Descripció i Fonament Legal (Art. 148 LCSP)</h4>
+                        <p>El cost del cicle de vida (CCV) és un criteri d'adjudicació que permet avaluar les ofertes no només en funció del preu d'adquisició, sinó considerant tots els costos rellevants que generarà el bé, servei o obra al llarg de la seva vida útil. Això inclou costos interns i, si s'escau, costos mediambientals externalitzats.</p>
+                        <p><strong>Fonament Legal:</strong></p>
+                        <ul>
+                            <li>Article 145.2.c) LCSP: Esmenta "el preu o els costos, que podran adoptar la forma d'un càlcul del cost del cicle de vida d'acord amb l'article 148".</li>
+                            <li>Article 148 LCSP: "Càlcul del cost del cicle de vida". Desenvolupa aquest concepte, indicant que pot comprendre:
+                                <ul>
+                                    <li>Costos sufragats per l'òrgan de contractació o per altres usuaris:
+                                        <ul>
+                                            <li>Costos relatius a l'adquisició.</li>
+                                            <li>Costos d'utilització (consum d'energia i altres recursos).</li>
+                                            <li>Costos de manteniment.</li>
+                                            <li>Costos de fi de vida (recollida, reciclatge).</li>
+                                        </ul>
+                                    </li>
+                                    <li>Costos imputats a externalitats mediambientals: Vinculades al producte, servei o obra durant el seu cicle de vida, sempre que el seu valor monetari pugui ser determinat i verificat (ex. emissions de gasos d'efecte hivernacle, altres emissions contaminants).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>L'ús del CCV és especialment rellevant en contractes on els costos d'utilització, manteniment o fi de vida són significatius (ex. adquisició de vehicles, equips informàtics, edificis eficients energèticament).</p>
+                    </section>
+                    <section id="ccv_componentes">
+                        <h4>4.2. Components del Cost del Cicle de Vida</h4>
+                        <p>Els plecs han d'especificar clarament quins components s'inclouran en el càlcul del CCV i com es valoraran.</p>
+                        <ul>
+                            <li><strong>Costos d'Adquisició:</strong> Preu de compra, costos d'instal·lació, transport, assegurances inicials.</li>
+                            <li><strong>Costos d'Utilització:</strong>
+                                <ul>
+                                    <li>Consum d'energia (electricitat, combustible).</li>
+                                    <li>Consum d'aigua.</li>
+                                    <li>Consum d'altres recursos (fungibles, consumibles).</li>
+                                    <li>Costos de formació del personal per al seu ús.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Costos de Manteniment:</strong>
+                                <ul>
+                                    <li>Manteniment preventiu programat.</li>
+                                    <li>Costos estimats de manteniment correctiu (reparacions, peces de recanvi).</li>
+                                    <li>Costos de personal tècnic.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Costos de Fi de Vida:</strong>
+                                <ul>
+                                    <li>Costos de desmuntatge o desinstal·lació.</li>
+                                    <li>Costos de transport a planta de tractament.</li>
+                                    <li>Costos de reciclatge, reutilització o eliminació (taxes).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Costos d'Externalitats Mediambientals Monetitzables:</strong>
+                                <ul>
+                                    <li>Cost de les emissions de CO2 (utilitzant valors de referència com els del mercat europeu de drets d'emissió).</li>
+                                    <li>Cost d'altres emissions (NOx, SOx, partícules) si existeixen metodologies robustes per a la seva monetització.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section id="ccv_metodologia">
+                        <h4>4.3. Metodologia de Càlcul i Valoració</h4>
+                        <p>(Continuació d'El Cost del Cicle de Vida)</p>
+                        <p>L'Article 148.3 LCSP estableix que quan els òrgans de contractació avaluïn els costos utilizando un mètode basat en el cost del cicle de vida, hauran d'indicar en els plecs:</p>
+                        <ol>
+                            <li>Les dades que han de facilitar els licitadors.</li>
+                            <li>El mètode que utilitzarà l'òrgan de contractació per determinar els costos del cicle de vida sobre la base d'aquestes dades.</li>
+                        </ol>
+                        <p>La metodologia ha de ser:</p>
+                        <ul>
+                            <li><strong>Objectiva i no discriminatòria:</strong> No ha d'afavorir indegudament certs productes, serveis o tecnologies.</li>
+                            <li><strong>Accessible a totes les parts interessades:</strong> Ha de ser comprensible i permetre als licitadors calcular el CCV de les seves ofertes.</li>
+                            <li><strong>Basada en dades verificables:</strong> Les dades utilitzades per al càlcul (ex. consums energètics, vida útil estimada) han de ser realistes i, en la mesura del possible, basades en estàndards o certificacions.</li>
+                        </ul>
+                        <p><strong>Formes de Valoració del CCV:</strong></p>
+                        <ul>
+                            <li>Com a criteri únic de cost: Si es justifica, el CCV total més baix pot ser l'únic criteri d'adjudicació (Art. 146.2.a LCSP).</li>
+                            <li>Com a criteri principal dins de la part econòmica: Se li assigna una ponderació (ex. 70% del bloc econòmic) i el preu d'adquisició la resta (ex. 30%). La puntuació s'atorga de forma inversament proporcional al CCV calculat.
+                                <ul>
+                                    <li><em>Fórmula Exemple (similar al preu):</em><br/> Puntuació_CCV_i = (CCV_Mínim_Calculat / CCV_Oferta_i) * Puntuació_Màxima_CCV</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p><strong>Mètode de Càlcul de Costos d'Externalitats Mediambientals (Art. 148.2 LCSP):</strong></p>
+                        <p>Si s'inclouen aquests costos, el mètode ha de complir condicions com:</p>
+                        <ul>
+                            <li>Basar-se en criteris verificables objectivament i no discriminatoris.</li>
+                            <li>Ser accessible a totes les parts interessades.</li>
+                            <li>Les dades requerides poden ser facilitades pels licitadors amb un esforç raonable.</li>
+                        </ul>
+                        <p>La LCSP esmenta que es poden utilitzar mètodes comuns establerts a nivell de la Unió Europea si existeixen (ex. per al càlcul de costos comuns de les emissions de gasos d'efecte hivernacle).</p>
+                    </section>
+                    <section id="ccv_ejemplos">
+                        <h4>4.4. Exemples Concrets i la seva Valoració</h4>
+                        <article class="criteri">
+                            <h5>Exemple 1: Adquisició d'Autobusos Urbans (Vida útil estimada: 12 anys)</h5>
+                            <p><strong>Criteri d'Adjudicació:</strong> Menor Cost del Cicle de Vida (100 punts).</p>
+                            <p><strong>Components del CCV a declarar pels licitadors (per autobús):</strong></p>
+                            <ol>
+                                <li>Preu d'Adquisició.</li>
+                                <li>Consum de combustible (litres/100 km o kWh/100 km per a elèctrics) – Es proporcionarà un quilometratge anual estàndard per al càlcul, ex. 60.000 km/any.</li>
+                                <li>Cost de manteniment preventiu programat per a 12 anys (segons pla del fabricant).</li>
+                                <li>Cost estimat de les principals peces de desgast i la seva substitució durant 12 anys.</li>
+                                <li>Cost de les emissions de CO2 i NOx (es facilitaran els preus per tona de CO2 i kg de NOx, i una metodologia per calcular les emissions anuals basada en el consum i tipus de motor).</li>
+                            </ol>
+                            <p><strong>Forma de Valoració:</strong></p>
+                            <ul>
+                                <li>L'òrgan de contractació calcularà el CCV total per a cada oferta sumant:<br/> CCV_Total = Preu_Adquisició + (Consum_Anual_Combustible * Preu_Combustible_Mitjà_Establert * 12 anys) + Cost_Manteniment_12_anys + Cost_Peces_12_anys + (Emissions_Anuals_CO2 * Preu_CO2 * 12 anys) + (Emissions_Anuals_NOx * Preu_NOx * 12 anys)</li>
+                                <li>L'oferta amb el menor CCV_Total obtindrà 100 punts. Les altres, una puntuació inversament proporcional:<br/> Puntuació_i = (CCV_Mínim / CCV_Oferta_i) * 100</li>
+                            </ul>
+                            <p><strong>Dades a facilitar per l'òrgan de contractació en el plec:</strong> Quilometratge anual de referència, preu mitjà estimat del combustible/electricitat per als propers anys (o una fórmula d'actualització), preus de referència per a la monetització d'emissions, vida útil considerada per al càlcul.</p>
+                        </article>
+                        <article class="criteri">
+                            <h5>Exemple 2: Subministrament i Instal·lació de Lluminàries LED per a Enllumenat Públic (Vida útil: 15 anys)</h5>
+                            <p><strong>Criteri d'Adjudicació:</strong> 70% Preu d'Adquisició, 30% Cost de Consum Energètic a 15 anys.</p>
+                            <p><strong>Components del CCV (parcial, només consum):</strong></p>
+                            <ol>
+                                <li>Potència de la lluminària (W).</li>
+                                <li>Nombre d'hores de funcionament anual (establert en plec, ex. 4.000 hores/any).</li>
+                            </ol>
+                            <p><strong>Forma de Valoració:</strong></p>
+                            <ul>
+                                <li>Subcriteri Preu Adquisició (70 punts): Valoració mitjançant regla de tres inversa sobre el preu total d'adquisició i instal·lació.</li>
+                                <li>Subcriteri Cost Consum Energètic (30 punts):<br/> Consum_Anual_kWh = (Potència_Lluminària_W / 1000) * Hores_Funcionament_Anual<br/> Cost_Energètic_15_anys = Consum_Anual_kWh * Preu_Mitjà_kWh_Establert * 15 anys<br/> Puntuació_Consum_i = (Cost_Energètic_Mínim / Cost_Energètic_Oferta_i) * 30</li>
+                            </ul>
+                            <p><strong>Dades a facilitar:</strong> Hores de funcionament, preu mitjà estimat del kWh (o fórmula).</p>
+                        </article>
+                    </section>
+                    <section id="ccv_jurisprudencia">
+                        <h4>4.5. Consideracions Jurisprudencials sobre el CCV</h4>
+                        <ul>
+                            <li><strong>Necessitat de Claredat i Transparència:</strong> La metodologia de càlcul del CCV i les dades requerides han de ser meridianament clares en els plecs. Qualsevol ambigüitat pot viciar el criteri. (Doctrina general aplicable, ex. Resolució TACRC 101/2019 sobre la necessitat de concreció dels criteris).</li>
+                            <li><strong>Justificació de la Metodologia:</strong> L'òrgan de contractació ha de poder justificar la raonabilitat de la metodologia triada i dels paràmetres utilitzats (ex. vida útil estimada, preus de referència de consums o emissions).</li>
+                            <li><strong>Verificabilitat de les Dades:</strong> S'ha de primar l'ús de dades certificables o fàcilment verificables (ex. consums energètics segons fitxes tècniques normalitzades, certificacions d'emissions). Si es demanen estimacions al licitador, han d'estar raonablement suportades.</li>
+                            <li><strong>No Discriminació:</strong> El mètode no ha d'estar dissenyat de forma que afavoreixi una tecnologia o proveïdor específic sense una justificació objectiva lligada a l'eficiència o a l'impacte ambiental.</li>
+                            <li><strong>Complexitat vs. Proporcionalitat:</strong> Si bé el CCV és una eina potent, la seva implementació pot ser complexa. L'òrgan de contractació ha de valorar si la complexitat afegida és proporcional al valor i naturalesa del contracte. Per a contractes menors, un enfocament més simple pot ser adequat.</li>
+                        </ul>
+                    </section>
+                </article>
+
+                <article id="parte3_termini_execucio">
+                    <h3>5. El Termini d'Execució o Lliurament</h3>
+                    <section id="termini_descripcio_aplicabilitat">
+                        <h4>5.1. Descripció i Aplicabilitat</h4>
+                        <p>La reducció del termini d'execució previst per a un contracte d'obres, serveis o el termini de lliurament d'un subministrament pot ser un criteri d'adjudicació automàtic. És especialment útil quan la rapidesa en la disposició del bé o servei és un factor important per a l'òrgan de contractació.</p>
+                        <p>Ha d'estar vinculat a l'objecte del contracte i ser realista. No es poden atorgar punts per reduccions de termini que siguin tècnicament inviables o que puguin comprometre la qualitat de l'execució.</p>
+                    </section>
+                    <section id="termini_formula_valoracio">
+                        <h4>5.2. Fórmula de Valoració (Exemple)</h4>
+                        <p>Se sol establir un termini màxim (el previst en el plec) i un termini mínim admès per a la reducció. Les ofertes que proposin un termini inferior al mínim no són necessàriament excloses, però la seva valoració es limita a aquest mínim.</p>
+                        <p><strong>Exemple de Fórmula:</strong></p>
+                        <p>Suposem:</p>
+                        <ul>
+                            <li>Termini Màxim (TMàx) = 60 dies</li>
+                            <li>Termini Mínim Admissible per a Puntuació (TMínPuntuable) = 40 dies</li>
+                            <li>Puntuació Màxima per aquest criteri (PMaxTermini) = 10 punts</li>
+                        </ul>
+                        <p><em>Puntuació_Termini_i = [ (TMàx - Termini_Oferta_i) / (TMàx - TMínPuntuable) ] * PMaxTermini</em></p>
+                        <ul>
+                            <li>Si Termini_Oferta_i > TMàx, la puntuació és 0.</li>
+                            <li>Si Termini_Oferta_i < TMínPuntuable, s'utilitza TMínPuntuable per al càlcul (Termini_Oferta_i = TMínPuntuable).</li>
+                            <li>Si Termini_Oferta_i està entre TMínPuntuable i TMàx, s'aplica la fórmula directament.</li>
+                        </ul>
+                        <p class="nota">Cal assegurar que la fórmula no doni més punts per menys reducció o que sigui proporcional a l'esforç real.</p>
+                    </section>
+                    <section id="termini_consideracions">
+                        <h4>5.3. Consideracions Específiques</h4>
+                        <ul>
+                            <li><strong>Penalitats per Incompliment:</strong> Els plecs han d'establir penalitats clares per l'incompliment del termini ofertat, ja que aquest ha estat valorat.</li>
+                            <li><strong>Justificació del Termini Mínim:</strong> L'establiment d'un termini mínim puntuable ha de ser justificat per evitar ofertes temeràries en termini que després no es puguin complir.</li>
+                            <li><strong>No confusions amb el termini de vigència:</strong> Cal diferenciar clarament el termini d'execució de la prestació (objecte de valoració) del termini de vigència o durada del contracte.</li>
+                        </ul>
+                    </section>
+                </article>
+
+                <article id="parte3_garantia_addicional">
+                    <h3>6. El Període de Garantia Addicional</h3>
+                    <section id="garantia_descripcio">
+                        <h4>6.1. Descripció</h4>
+                        <p>Consisteix a atorgar puntuació als licitadors que ofereixin un termini de garantia superior al mínim exigit en els plecs per al subministrament, obra o servei.</p>
+                        <p>El termini de garantia mínim legal o exigit en plecs no es puntua. Només es valora l'ampliació que ofereix el licitador per sobre d'aquest mínim.</p>
+                    </section>
+                    <section id="garantia_formula_valoracio">
+                        <h4>6.2. Fórmula de Valoració (Exemple)</h4>
+                        <p>Suposem:</p>
+                        <ul>
+                            <li>Garantia Mínima Exigida (GMín) = 2 anys</li>
+                            <li>Increment Màxim de Garantia Puntuable (IncMàxPuntuable) = 3 anys addicionals (és a dir, fins a 5 anys totals)</li>
+                            <li>Puntuació Màxima per aquest criteri (PMaxGarantia) = 15 punts</li>
+                        </ul>
+                        <p><em>Increment_Oferta_i = Garantia_Oferta_i - GMín</em></p>
+                        <p><em>Puntuació_Garantia_i = (Increment_Oferta_i / IncMàxPuntuable) * PMaxGarantia</em></p>
+                        <ul>
+                            <li>Si Garantia_Oferta_i <= GMín, la puntuació és 0.</li>
+                            <li>Si Increment_Oferta_i > IncMàxPuntuable, s'utilitza IncMàxPuntuable per al càlcul (Increment_Oferta_i = IncMàxPuntuable).</li>
+                        </ul>
+                    </section>
+                    <section id="garantia_aspectes_considerar">
+                        <h4>6.3. Aspectes a Considerar</h4>
+                        <ul>
+                            <li><strong>Exigibilitat de la Garantia Oferta:</strong> La garantia addicional oferta passa a ser una obligació contractual. S'han de preveure mecanismes per a la seva exigibilitat.</li>
+                            <li><strong>Proporcionalitat:</strong> La ponderació assignada ha de ser proporcional al valor que l'ampliació de garantia aporta a l'òrgan de contractació.</li>
+                            <li><strong>Definició del Contingut de la Garantia:</strong> El plec ha de definir clarament què cobreix la garantia (peces, mà d'obra, desplaçaments, temps de resposta, etc.) per assegurar que totes les ofertes de garantia addicional siguin homogènies en la seva cobertura.</li>
+                        </ul>
+                    </section>
+                </article>
+
+                <article id="parte3_caracteristiques_tecniques_quantificables">
+                    <h3>7. Característiques Tècniques Quantificables</h3>
+                    <section id="caract_tecn_descripcio">
+                        <h4>7.1. Descripció</h4>
+                        <p>Són aquelles especificacions o rendiments tècnics del producte o servei que, superant els mínims exigits, poden ser mesurats objectivament i valorats mitjançant una fórmula.</p>
+                        <p>Exemples:</p>
+                        <ul>
+                            <li>Major potència d'un equip.</li>
+                            <li>Menor nivell de soroll.</li>
+                            <li>Major eficiència energètica (si no es valora ja via CCV).</li>
+                            <li>Major capacitat d'emmagatzematge.</li>
+                            <li>Menor pes o dimensions si això suposa un avantatge objectiu.</li>
+                            <li>Nombre d'hores de formació addicionals ofertes.</li>
+                        </ul>
+                    </section>
+                    <section id="caract_tecn_exemples_formules">
+                        <h4>7.2. Exemples i Fórmules de Valoració</h4>
+                        <article class="criteri">
+                            <h5>Exemple: Rendiment d'un Equip d'Impressió (Pàgines per minut - PPM)</h5>
+                            <p>Suposem:</p>
+                            <ul>
+                                <li>Rendiment Mínim Exigit (RendMín) = 30 PPM</li>
+                                <li>Rendiment Màxim Puntuable (RendMàxPuntuable) = 50 PPM</li>
+                                <li>Puntuació Màxima (PMaxRendiment) = 8 punts</li>
+                            </ul>
+                            <p><em>Puntuació_Rendiment_i = [ (Rendiment_Oferta_i - RendMín) / (RendMàxPuntuable - RendMín) ] * PMaxRendiment</em></p>
+                            <ul>
+                                <li>Si Rendiment_Oferta_i <= RendMín, puntuació 0.</li>
+                                <li>Si Rendiment_Oferta_i > RendMàxPuntuable, s'utilitza RendMàxPuntuable per al càlcul.</li>
+                            </ul>
+                        </article>
+                        <article class="criteri">
+                            <h5>Exemple: Nombre de Cursos de Formació Addicionals (per a un contracte de software)</h5>
+                            <p>Suposem:</p>
+                            <ul>
+                                <li>Cursos Mínims Exigits = 1 curs bàsic (no puntuable).</li>
+                                <li>Nombre Màxim de Cursos Addicionals Puntuables (NMCAP) = 3 cursos.</li>
+                                <li>Puntuació per Curs Addicional (PCA) = 2 punts (Total PMax = 6 punts).</li>
+                            </ul>
+                            <p><em>Puntuació_Formació_i = Nombre_Cursos_Addicionals_Oferits_i * PCA</em></p>
+                            <ul>
+                                <li>Limitat a NMCAP (màxim 3 cursos puntuables).</li>
+                            </ul>
+                            <p class="nota">És crucial que els plecs defineixin amb precisió les característiques d'aquests cursos addicionals (durada, contingut mínim, perfil dels formadors) per assegurar la comparabilitat.</p>
+                        </article>
+                    </section>
+                </article>
+
+                <article id="parte3_altres_prestacions_quantificables">
+                    <h3>8. Altres Prestacions Addicionals Quantificables</h3>
+                    <section id="altres_prest_descripcio_exemples">
+                        <h4>8.1. Descripció i Exemples</h4>
+                        <p>Aquesta categoria pot englobar diverses millores o prestacions addicionals no cobertes anteriorment, sempre que siguin quantificables de forma objectiva i aportin valor afegit.</p>
+                        <p>Exemples:</p>
+                        <ul>
+                            <li>Percentatge de descompte addicional sobre tarifes per a serveis fora de contracte.</li>
+                            <li>Nombre de llicències addicionals d'un programari.</li>
+                            <li>Hores addicionals de suport tècnic.</li>
+                            <li>Millores en els nivells de servei (ANS/SLA) més enllà dels mínims exigits, si es poden quantificar (ex. menor temps de resposta garantit).</li>
+                            <li>Incorporació de personal amb certificacions específiques addicionals a les mínimes requerides (quantificant el nombre de persones o certificacions).</li>
+                        </ul>
+                        <p>La fórmula de valoració dependrà de la naturalesa específica de la prestació, però generalment seguirà un esquema de proporcionalitat directa o per trams, amb límits màxims puntuables.</p>
+                        <p class="nota">La clau és la definició clara i precisa en el plec de què es valorarà, com es mesurarà/acreditarà i quina fórmula s'aplicarà.</p>
+                    </section>
+                </article>
+            </section>
+
+            <section id="parte4_criterios_juicio_valor">
+                <h2>PART IV: CRITERIS D'ADJUDICACIÓ SUBJECTES A JUDICI DE VALOR</h2>
+                <p>Aquests criteris requereixen una valoració per part d'un comitè d'experts o un tècnic qualificat, ja que no es poden quantificar automàticament. La seva avaluació ha de ser motivada i documentada. S'avaluen abans que els criteris automàtics per evitar qualsevol influència del coneixement de la part econòmica o automàtica de les ofertes.</p>
+                
+                <article id="parte4_qualitat_proposta_tecnica">
+                    <h3>9. Qualitat de la Proposta Tècnica</h3>
+                    <section id="qualitat_descripcio_contingut">
+                        <h4>9.1. Descripció i Contingut Avaluable</h4>
+                        <p>És un dels criteris de judici de valor més comuns, especialment en contractes de serveis, consultoria, subministraments complexos o obres amb particularitats tècniques.</p>
+                        <p>Permet avaluar la comprensió per part del licitador de les necessitats de l'òrgan de contractació, la idoneïtat de la solució tècnica proposada, la metodologia de treball, el pla de gestió, els controls de qualitat, etc.</p>
+                        <p>El contingut avaluable ha d'estar clarament definit en els plecs, especificant què ha d'incloure la memòria tècnica i quins aspectes seran objecte de valoració. Per exemple:</p>
+                        <ul>
+                            <li>Metodologia de treball detallada i adaptada a l'objecte del contracte.</li>
+                            <li>Pla de treball, cronograma detallat i realista (diferent del mer termini ofertat).</li>
+                            <li>Identificació i anàlisi de riscos potencials i mesures correctores proposades.</li>
+                            <li>Qualitat i adequació dels materials o equips oferts (si no són objecte de valoració automàtica per característiques tècniques específiques).</li>
+                            <li>Pla de gestió de la qualitat del projecte/servei.</li>
+                            <li>Propostes de millora sobre les especificacions tècniques mínimes (si s'admeten i es detallen).</li>
+                            <li>Claredat, estructura i presentació de la documentació tècnica.</li>
+                        </ul>
+                    </section>
+                    <section id="qualitat_metodologia_avaluacio_llindars">
+                        <h4>9.2. Metodologia d'Avaluació i Ús de Llindars</h4>
+                        <p>L'avaluació la realitza un comitè d'experts (o personal tècnic designat) basant-se en els criteris i subcriteris establerts en el plec. Cada membre del comitè pot atorgar una puntuació individual, i la puntuació final pot ser la mitjana o una altra fórmula establerta.</p>
+                        <p><strong>Ús de Llindars (Umbrals):</strong></p>
+                        <ul>
+                            <li><strong>Llindar de Superació:</strong> És comú establir una puntuació mínima en la proposta tècnica (o en algun dels seus subcriteris clau) per sota de la qual l'oferta és exclosa o no passa a la fase d'avaluació econòmica. Això garanteix un nivell de qualitat mínim acceptable. Ex: "Les ofertes que no obtinguin un mínim de 30 punts sobre 50 en la valoració de la qualitat tècnica seran excloses."</li>
+                            <li><strong>Motivació Exhaustiva:</strong> La valoració de cada subcriteri ha d'estar degudament motivada, explicant les raons per les quals s'atorga una determinada puntuació a cada oferta. Això és crucial per a la transparència i per a possibles recursos.</li>
+                        </ul>
+                    </section>
+                    <section id="qualitat_exemples_subcriteris">
+                        <h4>9.3. Exemples de Subcriteris (per a un servei de consultoria)</h4>
+                        <ul>
+                            <li><strong>Comprensió de l'objecte del contracte i dels objectius perseguits (0-10 punts):</strong> S'avaluarà la claredat amb què el licitador demostra haver entès les necessitats i els resultats esperats.</li>
+                            <li><strong>Metodologia de treball proposada (0-20 punts):</strong> S'analitzarà l'adequació, coherència i detall de les fases, tasques, eines i tècniques proposades per assolir els objectius.</li>
+                            <li><strong>Pla de treball i cronograma (0-10 punts):</strong> Es valorarà el realisme, la detallada planificació temporal de les activitats i l'assignació de recursos.</li>
+                            <li><strong>Identificació de riscos i pla de contingència (0-5 punts):</strong> S'apreciarà la capacitat d'anticipar problemes i proposar solucions efectives.</li>
+                            <li><strong>Qualitat i claredat de la memòria tècnica (0-5 punts):</strong> Es valorarà l'estructura, redacció i presentació del document.</li>
+                        </ul>
+                        <p class="nota">Cada un d'aquests subcriteris hauria de tenir una descripció més detallada en el plec sobre què s'espera per obtenir diferents nivells de puntuació.</p>
+                    </section>
+                </article>
+
+                <article id="parte4_organitzacio_qualificacio_experiencia_personal">
+                    <h3>10. Organització, Qualificació i Experiència del Personal Adscrit al Contracte</h3>
+                    <section id="personal_fonament_legal_delimitacio">
+                        <h4>10.1. Fonament Legal i Delimitació (Art. 145.2.a LCSP)</h4>
+                        <p>L'article 145.2.a) de la LCSP permet valorar "l'organització, qualificació i experiència del personal adscrit al contracte que l'hagi d'executar, sempre que la qualitat del personal adscrit pugui afectar de manera significativa la millor execució del contracte".</p>
+                        <p><strong>Delimitació Important:</strong></p>
+                        <ul>
+                            <li><strong>No és solvència:</strong> Aquest criteri no valora l'experiència general de l'empresa ni els seus mitjans globals (això és propi de la solvència tècnica). Es refereix específicament a les persones concretes que s'adscriuran a l'execució del contracte.</li>
+                            <li><strong>Afectació significativa a l'execució:</strong> S'ha de justificar en el plec per què les característiques del personal proposat són determinants per a la correcta execució del contracte. És típic en serveis professionals, intel·lectuals, assistencials, de formació, etc.</li>
+                            <li><strong>Compromís d'Adscripció:</strong> Els licitadors han de comprometre's a adscriure el personal ofert, i qualsevol substitució posterior haurà de ser per personal de qualificació i experiència equivalents o superiors, prèvia autorització de l'òrgan de contractació.</li>
+                        </ul>
+                    </section>
+                    <section id="personal_aspectes_avaluables">
+                        <h4>10.2. Aspectes Avaluables</h4>
+                        <p>Els plecs han d'especificar quins perfils clau es valoraran (ex. cap de projecte, tècnics especialistes, consultors sèniors) i quins aspectes de cada perfil:</p>
+                        <ul>
+                            <li><strong>Qualificació:</strong> Titulacions acadèmiques oficials, certificacions professionals específiques relacionades amb l'objecte del contracte.</li>
+                            <li><strong>Experiència Professional General:</strong> Anys d'experiència en llocs o funcions similars.</li>
+                            <li><strong>Experiència Professional Específica:</strong> Experiència en projectes o serveis de naturalesa i complexitat similars a l'objecte del contracte. Es pot valorar l'experiència en determinats sectors, tecnologies o metodologies.</li>
+                            <li><strong>Organització de l'Equip:</strong> Com es coordinarà l'equip, distribució de rols i responsabilitats, dedicació horària al projecte (si és rellevant).</li>
+                            <li><strong>Formació Complementària:</strong> Cursos, màsters o postgraus rellevants per a l'execució del contracte.</li>
+                        </ul>
+                        <p>Es poden establir barems per a la valoració de cada aspecte (ex. X punts per any d'experiència específica, Y punts per titulació addicional rellevant).</p>
+                    </section>
+                    <section id="personal_exemples_valoracio">
+                        <h4>10.3. Exemples de Valoració (per a un Cap de Projecte en un contracte de desenvolupament de software)</h4>
+                        <p>Puntuació màxima per al perfil de Cap de Projecte: 15 punts</p>
+                        <ul>
+                            <li><strong>Titulació universitària superior en Informàtica o similar (obligatori, no puntua o dona una base):</strong> Si es requereix com a mínim, pot no puntuar o donar una base mínima de punts si se superen els requisits.</li>
+                            <li><strong>Màster o Postgrau en Gestió de Projectes o Tecnologies Específiques (fins a 3 punts):</strong> 1,5 punts per cada titulació addicional rellevant.</li>
+                            <li><strong>Certificacions Professionals (ex. PMP, Scrum Master) (fins a 4 punts):</strong> 2 punts per cada certificació rellevant aportada.</li>
+                            <li><strong>Experiència específica en gestió de projectes similars (més de 5 anys) (fins a 5 punts):</strong>
+                                <ul>
+                                    <li>De 5 a 7 anys: 2 punts</li>
+                                    <li>De 8 a 10 anys: 3,5 punts</li>
+                                    <li>Més de 10 anys: 5 punts</li>
+                                </ul>
+                            </li>
+                            <li><strong>Experiència en la tecnologia principal del projecte (més de 3 anys) (fins a 3 punts):</strong>
+                                <ul>
+                                    <li>De 3 a 5 anys: 1,5 punts</li>
+                                    <li>Més de 5 anys: 3 punts</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="nota">Els licitadors haurien de presentar currículums vitae (CVs) del personal proposat, juntament amb una declaració de compromís d'adscripció. La veracitat de la informació dels CVs és crucial.</p>
+                    </section>
+                </article>
+
+                <article id="parte4_servei_postvenda_assistencia_tecnica">
+                    <h3>11. Servei Postvenda i Assistència Tècnica (component qualitatiu)</h3>
+                    <section id="postvenda_descripcio">
+                        <h4>11.1. Descripció</h4>
+                        <p>Tot i que alguns aspectes del servei postvenda (com el nombre d'hores de suport o temps de resposta garantits) poden ser quantificables, hi ha una dimensió qualitativa important que es pot valorar mitjançant judici de valor.</p>
+                        <p>Això és rellevant en contractes de subministrament d'equips tecnològics, maquinària, programari, o serveis que requereixin un suport continuat.</p>
+                    </section>
+                    <section id="postvenda_exemples_qualitatius">
+                        <h4>11.2. Exemples d'Aspectes Qualitatius a Avaluar</h4>
+                        <ul>
+                            <li><strong>Qualitat del Pla de Suport Tècnic:</strong> Descripció dels procediments d'escalada d'incidències, protocols de diagnòstic, disponibilitat de personal tècnic qualificat, eines de gestió d'incidències proposades.</li>
+                            <li><strong>Pla de Formació per a Usuaris/Administradors:</strong> Qualitat del material didàctic, experiència dels formadors, metodologia pedagògica (si no es valora com a criteri separat).</li>
+                            <li><strong>Proposta de Gestió de Garanties i Reparacions:</strong> Claredat del procediment, infraestructura per a reparacions (tallers propis o concertats), disponibilitat de peces de recanvi.</li>
+                            <li><strong>Compromisos de Nivell de Servei (ANS/SLA) Qualitatius:</strong> Més enllà dels temps mesurables, es pot valorar la qualitat dels informes de seguiment, la proactivitat en la comunicació, la gestió de la satisfacció del client.</li>
+                            <li><strong>Pla d'Actualitzacions i Manteniment Evolutiu (per a programari):</strong> Qualitat de la planificació d'actualitzacions, gestió de versions, adaptació a canvis normatius o tecnològics.</li>
+                        </ul>
+                        <p class="nota">Com sempre, el plec ha de detallar què s'espera que el licitador presenti per a cada aspecte i com es valorarà qualitativament.</p>
+                    </section>
+                </article>
+
+                <article id="parte4_caracteristiques_mediambientals_socials_qualitatiu">
+                    <h3>12. Característiques Mediambientals i Socials (component qualitatiu)</h3>
+                    <section id="mediamb_social_vessant_qualitativa">
+                        <h4>12.1. Vessant Qualitativa (Art. 145.2 LCSP i Art. 147 LCSP)</h4>
+                        <p>Encara que alguns aspectes mediambientals (com les emissions) o socials (com la contractació de persones amb dificultats) es poden quantificar, molts altres tenen un fort component qualitatiu.</p>
+                        <p>L'article 145.2.b) LCSP permet valorar les "característiques mediambientals o socials vinculades a l'objecte del contracte". L'article 147 LCSP reforça la possibilitat d'incloure aquests criteris, sempre que estiguin vinculats a l'objecte del contracte i es descriguin de forma objectiva.</p>
+                        <p>Aquests criteris permeten a l'Administració promoure polítiques públiques a través de la contractació, seleccionant ofertes que no només siguin econòmicament avantatjoses, sinó també més sostenibles o socialment responsables.</p>
+                    </section>
+                    <section id="mediamb_social_exemples_qualitatius">
+                        <h4>12.2. Exemples d'Aspectes Qualitatius a Avaluar</h4>
+                        <p><strong>Mediambientals:</strong></p>
+                        <ul>
+                            <li><strong>Qualitat del Pla de Gestió Mediambiental del Contracte:</strong> Mesures concretes per minimitzar l'impacte durant l'execució (gestió de residus, ús eficient de recursos, prevenció de la contaminació).</li>
+                            <li><strong>Propostes per a la Reducció de l'Empremta de Carboni del Servei/Obra:</strong> Més enllà del calculable, es pot valorar la qualitat i ambició de les estratègies proposades.</li>
+                            <li><strong>Ús de Materials Reciclats/Reutilitzats/Sostenibles:</strong> Valoració qualitativa de la idoneïtat i el compromís amb l'economia circular en els materials proposats (si no és un requisit mínim o un criteri quantificable).</li>
+                            <li><strong>Qualitat de les Propostes de Compra Verda:</strong> Si el contracte implica la compra de béns, valorar la qualitat de l'estratègia per seleccionar productes amb menor impacte ambiental.</li>
+                        </ul>
+                        <p><strong>Socials:</strong></p>
+                        <ul>
+                            <li><strong>Qualitat del Pla d'Igualtat de Gènere Aplicat al Contracte:</strong> Mesures concretes per promoure la igualtat entre homes i dones en l'equip adscrit.</li>
+                            <li><strong>Pla de Conciliació de la Vida Laboral, Familiar i Personal per al personal adscrit.</strong></li>
+                            <li><strong>Qualitat de les Mesures per Promoure l'Accessibilitat Universal</strong> (en el disseny d'obres, serveis digitals, etc.).</li>
+                            <li><strong>Plans de Formació en Habilitats Socials o Ètica per al Personal</strong> que interactuarà amb ciutadans.</li>
+                            <li><strong>Qualitat de les propostes d'inserció laboral de persones en situació d'exclusió social vinculades a l'execució del contracte</strong> (valorant el pla d'acompanyament i formació, més enllà del simple nombre de contractacions).</li>
+                        </ul>
+                        <p class="nota">La vinculació amb l'objecte del contracte és fonamental. Per exemple, un pla d'igualtat de l'empresa en general no és valorable si no es concreta la seva aplicació a l'equip que executarà el contracte.</p>
+                    </section>
+                </article>
+
+                <article id="parte4_innovacio_qualitatiu">
+                    <h3>13. Innovació (component qualitatiu)</h3>
+                    <section id="innovacio_descripcio">
+                        <h4>13.1. Descripció</h4>
+                        <p>L'article 145.2.b) LCSP inclou "la innovació" com un possible criteri qualitatiu.</p>
+                        <p>Aquest criteri permet valorar les solucions o propostes que, complint els requisits mínims, aporten un component innovador que pot suposar una millora significativa en l'eficiència, qualitat, sostenibilitat o funcionalitat de la prestació contractual.</p>
+                        <p>És especialment rellevant en contractes de tecnologia, serveis de R+D+i, o quan es busquen solucions noves a problemes existents.</p>
+                    </section>
+                    <section id="innovacio_exemples_aspectes_avaluables">
+                        <h4>13.2. Exemples d'Aspectes Avaluables</h4>
+                        <ul>
+                            <li><strong>Grau de Novetat de la Solució Proposada:</strong> Valoració de l'originalitat i el caràcter disruptiu de la proposta en relació amb les pràctiques habituals del sector.</li>
+                            <li><strong>Potencial de Millora o Impacte de la Innovació:</strong> Com la innovació contribueix a millorar els resultats del contracte (estalvis, major eficiència, millor servei ciutadà).</li>
+                            <li><strong>Viabilitat i Maduresa de la Innovació:</strong> Anàlisi de la factibilitat tècnica i econòmica de la innovació proposada, i el seu nivell de desenvolupament (TRL - Technology Readiness Level, si aplica).</li>
+                            <li><strong>Metodologia per a la Implementació de la Innovació:</strong> Pla per gestionar la implementació de la solució innovadora, incloent la gestió del canvi si és necessari.</li>
+                            <li><strong>Propostes d'ús de Tecnologies Emergents</strong> (IA, Big Data, IoT, Blockchain) si aporten valor afegit a la solució i estan ben fonamentades.</li>
+                        </ul>
+                        <p class="nota">S'ha d'evitar que aquest criteri sigui una simple "carta blanca". El plec ha d'orientar sobre quins tipus d'innovació es busquen o es valoraran positivament, i com es mesurarà el seu valor afegit. La innovació per la innovació no és suficient; ha d'estar justificada i aportar beneficis concrets.</p>
+                    </section>
+                </article>
+            </section>
+
+            <section id="parte5_procediment_bones_practiques">
+                <h2>PART V: ASPECTES PROCEDIMENTALS I BONES PRÀCTIQUES</h2>
+                
+                <article id="parte5_procediment_avaluacio">
+                    <h3>14. Procediment d'Avaluació</h3>
+                    <section id="procediment_separacio_avaluacio">
+                        <h4>14.1. Separació de l'Avaluació Tècnica i Econòmica (Sobres)</h4>
+                        <p>Un principi fonamental és la separació de la documentació i avaluació dels criteris subjectes a judici de valor respecte dels criteris avaluables mitjançant fórmules (Art. 150.2 LCSP).</p>
+                        <p>Tradicionalment, això es materialitza amb la presentació de les ofertes en sobres separats:</p>
+                        <ul>
+                            <li><strong>Sobre "A" (o primer):</strong> Documentació administrativa (capacitat, solvència, etc.). La seva obertura és el primer acte públic.</li>
+                            <li><strong>Sobre "B" (o segon):</strong> Documentació relativa als criteris subjectes a judici de valor (ex. memòria tècnica, CV del personal). S'obre i s'avalua en un acte no públic pel comitè d'experts. És crucial que aquest sobre no contingui cap informació sobre els criteris automàtics (especialment el preu).</li>
+                            <li><strong>Sobre "C" (o tercer):</strong> Documentació relativa als criteris avaluables mitjançant fórmules (ex. oferta econòmica, reducció de termini, ampliació de garantia). S'obre en un acte públic un cop finalitzada i notificada la valoració del Sobre "B".</li>
+                        </ul>
+                        <p>Aquesta separació garanteix que el judici tècnic no estigui influenciat pel coneixement de l'oferta econòmica o altres elements quantificables, preservant l'objectivitat.</p>
+                    </section>
+                    <section id="procediment_comite_experts">
+                        <h4>14.2. Comitè d'Experts o Tècnics Qualificats</h4>
+                        <p>L'avaluació dels criteris subjectes a judici de valor ha de ser realitzada per un comitè d'experts o personal tècnic degudament qualificat, que pot ser intern o extern a l'entitat contractant (Art. 150.2 LCSP i Disposició Addicional Segona LCSP).</p>
+                        <p>En determinats contractes (serveis de l'Annex IV amb pressupost superior a certs llindars, o on el component de propietat intel·lectual sigui rellevant), la LCSP exigeix que el comitè estigui format per un mínim de tres membres, majoritàriament externs si es tracta de personal de l'entitat, o amb participació d'organismes tècnics especialitzats independents.</p>
+                        <p>Els membres del comitè han de tenir la formació i experiència adequades en la matèria objecte del contracte i han d'actuar amb independència i objectivitat, subjectes a les causes d'abstenció i recusació.</p>
+                    </section>
+                    <section id="procediment_actes_motivacio">
+                        <h4>14.3. Actes i Motivació</h4>
+                        <p>Totes les actuacions del procés d'avaluació han de quedar degudament documentades:</p>
+                        <ul>
+                            <li><strong>Actes d'Obertura:</strong> Es aixecarà acta de les obertures públiques dels sobres.</li>
+                            <li><strong>Informe de Valoració dels Criteris Subjectes a Judici de Valor:</strong> El comitè d'experts o els tècnics emetran un informe detallat on consti la puntuació atorgada a cada licitador en cada criteri i subcriteri, amb una motivació clara i suficient de les raons que justifiquen aquestes puntuacions. Aquest informe és fonamental i serà notificat als licitadors abans de l'obertura del sobre amb l'oferta econòmica.</li>
+                            <li><strong>Informe de Valoració dels Criteris Automàtics:</strong> Es documentarà l'aplicació de les fórmules i els resultats obtinguts.</li>
+                            <li><strong>Proposta d'Adjudicació:</strong> La mesa de contractació (o l'òrgan competent) formularà la proposta d'adjudicació a favor del licitador que hagi obtingut la major puntuació total, un cop verificada la documentació prèvia a l'adjudicació.</li>
+                            <li><strong>Resolució d'Adjudicació:</strong> L'òrgan de contractació dictarà la resolució d'adjudicació, que haurà de ser motivada.</li>
+                        </ul>
+                        <p>La motivació és un requisit essencial per garantir la transparència, permetre als licitadors conèixer les raons de la decisió i, si s'escau, fonamentar un recurs.</p>
+                    </section>
+                </article>
+
+                <article id="parte5_ofertes_anormalment_baixes">
+                    <h3>15. Ofertes Anormalment Baixes o Desproporcionades (Temeritat)</h3>
+                    <section id="temeritat_identificacio_procediment">
+                        <h4>15.1. Identificació i Procediment (Art. 149 LCSP)</h4>
+                        <p>Quan una oferta sembli anormalment baixa o desproporcionada en relació amb la prestació, l'òrgan de contractació (generalment la mesa) ha d'iniciar un procediment contradictori per verificar si l'oferta pot ser complerta.</p>
+                        <p>Els plecs han d'establir els paràmetres objectius que permetran identificar les ofertes en presumpció de temeritat. Per exemple:</p>
+                        <ul>
+                            <li>Un percentatge de baixa respecte al pressupost base de licitació.</li>
+                            <li>Una desviació respecte a la mitjana de les ofertes vàlides.</li>
+                            <li>Combinacions d'aquests o altres paràmetres.</li>
+                        </ul>
+                        <p>Si una oferta incorre en aquests paràmetres, es requereix al licitador que justifiqui detalladament la viabilitat de la seva oferta.</p>
+                    </section>
+                    <section id="temeritat_justificacio_licitador">
+                        <h4>15.2. Justificació per part del Licitador</h4>
+                        <p>El licitador haurà de presentar informació sobre (Art. 149.4 LCSP):</p>
+                        <ul>
+                            <li>L'estalvi que permeti el procediment de fabricació, prestació del servei o mètode de construcció.</li>
+                            <li>Les solucions tècniques adoptades o les condicions excepcionalment favorables de què disposi.</li>
+                            <li>L'originalitat de l'oferta.</li>
+                            <li>El respecte de les obligacions en matèria mediambiental, social o laboral (inclosos els costos salarials segons conveni).</li>
+                            <li>La possible obtenció d'ajudes d'Estat.</li>
+                        </ul>
+                        <p>La mesa de contractació, previ assessorament tècnic, avaluarà les justificacions. Si considera que l'oferta no pot ser complerta o vulnera la normativa (especialment la laboral o mediambiental), la rebutjarà. La decisió ha de ser motivada.</p>
+                        <p class="nota">És crucial que l'anàlisi de la temeritat no es basi només en el preu, sinó en la viabilitat global de l'oferta, incloent la qualitat i el compliment de les condicions del contracte.</p>
+                    </section>
+                </article>
+
+                <article id="parte5_bones_practiques_definicio_criteris">
+                    <h3>16. Bones Pràctiques en la Definició de Criteris</h3>
+                    <section id="bones_pract_claredat_objectivitat">
+                        <h4>16.1. Claredat i Objectivitat</h4>
+                        <p>Els criteris han de ser redactats de forma clara, precisa i inequívoca, sense donar lloc a interpretacions divergents. Els licitadors han de poder entendre exactament què es valorarà i com.</p>
+                        <p>Per als criteris subjectes a judici de valor, s'han de detallar els aspectes concrets que seran avaluats i, si és possible, els indicadors o mètriques que s'utilitzaran (encara que la valoració final sigui qualitativa).</p>
+                    </section>
+                    <section id="bones_pract_vinculacio_objecte">
+                        <h4>16.2. Vinculació amb l'Objecte del Contracte</h4>
+                        <p>Tots els criteris d'adjudicació han d'estar directament vinculats a l'objecte del contracte (Art. 145.5.a LCSP). No es poden valorar aspectes de l'empresa que siguin propis de la solvència (ex. facturació general, nombre d'empleats totals) ni característiques que no aportin valor a la prestació específica que es contracta.</p>
+                    </section>
+                    <section id="bones_pract_ponderacio_equilibrada">
+                        <h4>16.3. Ponderació Equilibrada</h4>
+                        <p>La ponderació assignada a cada criteri ha de reflectir la importància relativa que l'òrgan de contractació atorga a cada aspecte per a la satisfacció de les seves necessitats.</p>
+                        <p>S'ha d'evitar una concentració excessiva de punts en criteris poc rellevants o una ponderació insuficient en aspectes clau. La LCSP estableix límits a la ponderació dels judicis de valor (generalment no més del 50%, amb excepcions per a serveis intel·lectuals, Art. 146.3).</p>
+                    </section>
+                    <section id="bones_pract_no_discriminacio_transparencia">
+                        <h4>16.4. No Discriminació i Transparència</h4>
+                        <p>Els criteris no han de ser discriminatoris ni afavorir determinats licitadors o solucions tècniques de forma injustificada. Han de permetre una concurrència efectiva.</p>
+                        <p>La transparència implica que tota la informació sobre els criteris, la seva ponderació i la forma d'avaluació estigui disponible als plecs des de l'inici.</p>
+                    </section>
+                    <section id="bones_pract_evitar_sobreespecificacio">
+                        <h4>16.5. Evitar la "Sobreespecificació" o Criteris Irrellevants</h4>
+                        <p>Incloure un excés de criteris, o criteris que no aporten un valor real a la decisió (o que ja estan coberts per les especificacions tècniques mínimes), pot complicar innecessàriament l'avaluació i desviar l'atenció del que és veritablement important.</p>
+                        <p>Cal buscar un equilibri entre obtenir la informació necessària per seleccionar la millor oferta i no imposar càrregues desproporcionades als licitadors.</p>
+                    </section>
+                </article>
+
+                <article id="parte5_errors_comuns_evitar">
+                    <h3>17. Errors Comuns a Evitar</h3>
+                    <ul>
+                        <li><strong>Confondre criteris de solvència amb criteris d'adjudicació:</strong> Un error clàssic és valorar l'experiència general de l'empresa com a criteri d'adjudicació.</li>
+                        <li><strong>Criteris formulats de manera vaga o ambigua:</strong> Ex. "Qualitat general de l'oferta" sense més detall.</li>
+                        <li><strong>Atorgar discrecionalitat il·limitada a l'òrgan de contractació:</strong> Els criteris no poden ser tan oberts que permetin una decisió arbitrària.</li>
+                        <li><strong>Incloure criteris que no estan vinculats a l'objecte del contracte.</strong></li>
+                        <li><strong>Ponderacions desequilibrades o que no reflecteixen la importància real dels aspectes valorats.</strong></li>
+                        <li><strong>No definir correctament els llindars de puntuació o de superació per als judicis de valor.</strong></li>
+                        <li><strong>Error en les fórmules matemàtiques per als criteris automàtics</strong> (fórmules que no són proporcionals, que permeten puntuacions negatives, etc.).</li>
+                        <li><strong>No motivar suficientment les valoracions dels criteris subjectes a judici de valor.</strong></li>
+                        <li><strong>Obertura dels sobres en l'ordre incorrecte</strong>, contaminant la valoració tècnica amb el coneixement de l'oferta econòmica.</li>
+                        <li><strong>Establir paràmetres de temeritat inadequats o no aplicar correctament el procediment de justificació.</strong></li>
+                    </ul>
+                </article>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Guia de Contractació Pública. Tots els drets reservats.</p>
+        </footer>
+    </div>
+</body>
+</html> 
