@@ -206,10 +206,13 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
         const messageElement = document.createElement('div');
         messageElement.className = `message ${sender}-message`;
         
-        const timestamp = new Date().toLocaleTimeString('ca-ES', { 
+        const currentTimestamp = new Date(); // Guardar l'objecte Date
+        const timeString = currentTimestamp.toLocaleTimeString('ca-ES', { 
             hour: '2-digit', 
             minute: '2-digit' 
         });
+
+        const messageText = content || '';
 
         if (sender === 'bot') {
             messageElement.innerHTML = `
@@ -220,9 +223,9 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
                 <div class="message-content">
                     <div class="message-header">
                         <span class="message-author">Lamine Yamal</span>
-                        <span class="message-time">${timestamp}</span>
+                        <span class="message-time">${timeString}</span>
                     </div>
-                    <div class="message-text">${this.formatMessage(content)}</div>
+                    <div class="message-text">${this.formatMessage(messageText)}</div>
                 </div>
             `;
         } else {
@@ -230,9 +233,9 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
                 <div class="message-content">
                     <div class="message-header">
                         <span class="message-author">Tu</span>
-                        <span class="message-time">${timestamp}</span>
+                        <span class="message-time">${timeString}</span>
                     </div>
-                    <div class="message-text">${this.escapeHtml(content)}</div>
+                    <div class="message-text">${this.escapeHtml(messageText)}</div>
                 </div>
             `;
         }
@@ -244,7 +247,7 @@ Pregunteu-me qualsevol dubte sobre contractació pública. Estic preparat per of
         this.conversationHistory.push({
             content,
             sender,
-            timestamp: new Date().toISOString()
+            timestamp: currentTimestamp.toISOString() // Guardar en format ISO
         });
     }
 
@@ -630,17 +633,38 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper.`;
         }
     }
 
-    addMessageToDOM(content, sender, timestamp) {
+    addMessageToDOM(content, sender, timestampDate) { // timestampDate ha de ser un objecte Date
         const chatMessages = document.getElementById('chat-messages');
         if (!chatMessages) return;
 
         const messageElement = document.createElement('div');
         messageElement.className = `message ${sender}-message`;
         
-        const timeString = timestamp.toLocaleTimeString('ca-ES', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-        });
+        let timeString = ' '; // Default a un espai en blanc
+        if (timestampDate instanceof Date && !isNaN(timestampDate)) {
+            try {
+                timeString = timestampDate.toLocaleTimeString('ca-ES', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+            } catch (e) {
+                console.warn("Error formatejant timestamp en addMessageToDOM:", e, timestampDate);
+            }
+        } else if (typeof timestampDate === 'string') { // Intentar parsejar si és string
+            try {
+                const parsedDate = new Date(timestampDate);
+                if (parsedDate instanceof Date && !isNaN(parsedDate)) {
+                    timeString = parsedDate.toLocaleTimeString('ca-ES', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                }
+            } catch (e) {
+                console.warn("Error parsejant timestamp string en addMessageToDOM:", e, timestampDate);
+            }
+        }
+
+        const messageText = content || ''; // Assegurar que content no és null/undefined
 
         if (sender === 'bot') {
             messageElement.innerHTML = `
@@ -653,7 +677,7 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper.`;
                         <span class="message-author">Lamine Yamal</span>
                         <span class="message-time">${timeString}</span>
                     </div>
-                    <div class="message-text">${this.formatMessage(content)}</div>
+                    <div class="message-text">${this.formatMessage(messageText)}</div>
                 </div>
             `;
         } else {
@@ -663,7 +687,7 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper.`;
                         <span class="message-author">Tu</span>
                         <span class="message-time">${timeString}</span>
                     </div>
-                    <div class="message-text">${this.escapeHtml(content)}</div>
+                    <div class="message-text">${this.escapeHtml(messageText)}</div>
                 </div>
             `;
         }
@@ -685,3 +709,4 @@ Respon sempre com en Lamine Yamal, mantenint el teu caràcter expert i proper.`;
 
 // Exportar per a ús global
 window.Chatbot = Chatbot;
+
