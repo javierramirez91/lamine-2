@@ -20,6 +20,10 @@ class Chatbot {
         this.helpButtons = document.querySelectorAll('.chat-help-btn');
         this.suggestionButtons = document.querySelectorAll('.suggestion-btn');
         this.contentLoader = contentLoader; 
+        this.personality = { // Inicialització de la personalitat
+            name: "Lamine Yamal",
+            avatar: "LY"
+        };
 
         if (this.sendButton) {
             this.sendButton.addEventListener('click', () => this.sendMessage());
@@ -125,7 +129,7 @@ Estic llest per xutar i marcar un golàs per tu! ⚽️`;
 
         if (sender === 'bot') {
             // Avatar per al bot (LY)
-            const avatarInitial = this.personality.name.substring(0, 2).toUpperCase();
+            const avatarInitial = this.personality.name ? this.personality.name.substring(0, 2).toUpperCase() : "AI";
             messageElement.innerHTML = `
                 <div class="message-avatar bot-avatar">
                     <span>${avatarInitial}</span>

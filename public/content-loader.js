@@ -258,8 +258,8 @@ class ContentLoader {
                         textosClau: {
                             criteris_qualitatius_general: "Els criteris qualitatius poden ser: • La qualitat, inclòs el valor tècnic, les característiques estètiques i funcionals, l'accessibilitat, el disseny, etc. • Les característiques socials... • Les característiques mediambientals... • L'organització, la qualificació i l'experiència del personal adscrit... • El servei postvenda, l'assistència tècnica i les condicions d'entrega... • Les millores... Els criteris qualitatius sempre s'han d'acompanyar de criteris relacionats amb els costos.",
                             experiencia_com_a_criteri: "L'experiència general de l'empresa es considera solvència. No obstant això, l'Art. 145.2.a LCSP permet valorar com a CRITERI D'ADJUDICACIÓ l'organització, qualificació i experiència del PERSONAL específicament ADSCRIT al contracte, sempre que la qualitat d'aquest personal pugui afectar significativament la MILLOR EXECUCIÓ del contracte. Això és clau per a serveis professionals o intel·lectuals. Cal un COMPROMÍS D'ADSCRIPCIÓ del personal ofertat.",
-                            social_benefits: this.getSocialBenefitExamples().join(' '), // Crida a la funció
-                            innovation: this.getInnovationExamples().join(' ') // Crida a la funció
+                            social_benefits: "", 
+                            innovation: "" 
                         }
                     }
                 },
@@ -404,6 +404,13 @@ class ContentLoader {
                 ]
             }
         };
+
+        // Ara que this.legalContent.criterisAdjudicacio.exemplesPracticsQualitat està definit,
+        // podem popular els textosClau que en depenen.
+        if (this.legalContent.criterisAdjudicacio && this.legalContent.criterisAdjudicacio.tipus && this.legalContent.criterisAdjudicacio.tipus.subjectius) {
+            this.legalContent.criterisAdjudicacio.tipus.subjectius.textosClau.social_benefits = this.getSocialBenefitExamples().map(e => `${e.ambit}: ${e.criteriDesc} ${e.desglossament.join('; ')}`).join(' ');
+            this.legalContent.criterisAdjudicacio.tipus.subjectius.textosClau.innovation = this.getInnovationExamples().map(e => `${e.ambit}: ${e.criteriDesc} ${e.desglossament.join('; ')}`).join(' ');
+        }
 
         // Simular càrrega asíncrona (en un cas real, podria ser una crida fetch a un JSON)
         return new Promise(resolve => setTimeout(() => {
