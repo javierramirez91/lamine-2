@@ -234,8 +234,7 @@ class App {
 
             NavigationManager.init();
             SmoothScroll.init();
-            // AnimationManager.init(); // Aquesta línia ja hauria d'estar comentada o eliminada.
-                                    // La inicialització d'AOS es fa a main.js.
+            // AnimationManager.init(); // Comentat per evitar possibles conflictes, AOS s'inicialitza a DOMContentLoaded
 
             this.populateSubjectiveCriteria();
             this.populatePracticalExamples();
@@ -773,11 +772,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 once: true,
                 offset: 100
             });
+            console.log('AOS inicialitzat des de app.js DOMContentLoaded');
+        } else {
+            console.warn('AOS no està definit. No es pot inicialitzar.');
         }
     }).catch(err => {
         console.error("Error final en la inicialització de l'App des de app.js:", err);
     });
-    window.app = app; 
+
+    // S'exposa l'objecte app globalment si és necessari per a funcions onclick des de l'HTML
+    window.app = app;
 });
 
 // Si altres classes definides en app.js (ThemeManager, etc.) necessiten ser globals,
