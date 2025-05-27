@@ -760,18 +760,25 @@ if (typeof App !== 'undefined') {
     window.App = App;
 }
 
-/* ELIMINAT AQUEST BLOC PERQUÈ main.js ARA S'ENCARREGA DE LA INICIALITZACIÓ
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM carregat, inicialitzant aplicació des de app.js (REDUNDANT)...');
+    console.log('DOM carregat, inicialitzant aplicació des de app.js...');
     const app = new App();
     app.init().then(() => {
-        console.log("App inicialitzada completament des de app.js (REDUNDANT).");
+        console.log("App inicialitzada completament des de app.js.");
+         // Inicialitzar AOS aquí si no es fa dins de App.init() o un lloc més específic
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 100
+            });
+        }
     }).catch(err => {
-        console.error("Error final en la inicialització de l'App des de app.js (REDUNDANT):", err);
+        console.error("Error final en la inicialització de l'App des de app.js:", err);
     });
     window.app = app; 
 });
-*/
 
 // Si altres classes definides en app.js (ThemeManager, etc.) necessiten ser globals,
 // també s'haurien d'exportar aquí:
